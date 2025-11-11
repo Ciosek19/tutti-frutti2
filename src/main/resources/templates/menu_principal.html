@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Tutti Frutti</title>
+</head>
+<body>
+    <h1>Bienvenido a Tutti Frutti</h1>
+    <h2 th:text="${session.usuario}"></h2>
+    
+    <form method="post" action="/menu/solitario">
+        <button type="submit">Solitario</button>
+    </form>
+    
+    <form method="post" action="/multijugador">
+        <button type="submit">Multijugador</button>
+    </form>
+    
+    <div th:if="${error}" style="color:red;">
+        <span th:text="${error}"></span>
+    </div>
+</body>
+</html>

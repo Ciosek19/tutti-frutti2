@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Seleccione su dificultad</h1>
+    <h2 th:text="${session.usuario}"></h2>
+    <form method="post" action="/solitario/dificultad">
+      <button type="submit" name="dificultad" value="FACIL">Fácil</button>
+      <button type="submit" name="dificultad" value="MEDIO">Medio</button>
+      <button type="submit" name="dificultad" value="DIFICIL">Difícil</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Tutti Frutti</title>
+</head>
+<body>
+    <h1>Bienvenido a Tutti Frutti</h1>
+    <div th:if="${session.usuario}">
+        <h2>Usuario: <span th:text="${session.usuario}"></span></h2>
+        <p>Ya estás logueado. <a th:href="@{/menu}">Ir al menú</a></p>
+    </div>
+    <form action="/" method="post">
+        <input type="text" name="nombre" placeholder="Nombre de usuario" required>
+        <button type="submit">Ingresar</button>
+        
+        <div th:if="${error}" style="color: red">
+            <span th:text="${error}"></span>
+        </div>
+    </form>
+</body>
+</html>
