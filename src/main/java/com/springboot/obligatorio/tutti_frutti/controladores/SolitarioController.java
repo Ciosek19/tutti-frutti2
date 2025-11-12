@@ -1,5 +1,7 @@
 package com.springboot.obligatorio.tutti_frutti.controladores;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.springboot.obligatorio.tutti_frutti.modelos.dtos.ValidacionesDTO;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Jugador;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Partida;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.PartidaSolitario;
@@ -54,19 +58,22 @@ public class SolitarioController {
         // La cargamos en el modelo (Model model)
         model.addAttribute("partida", partida);
         
-        // Agregamos el temporizador (HTML + Thymeleaf + JavaScript)
+        // Agregamos el temporizador (HTML + Thymeleaf + JavaScript) (Hecho)
         // Mostramos la vista de la partida con los datos del modelo
         return "partida";
     }
 
-    @PostMapping("/validar")
-    public String validarRespuestas() {
+    @PostMapping("solitario/validar")
+    public String validarRespuestas(@RequestParam Map<String,String> respuestas, String letra, HttpSession session, Model model) {
         // Obtener las respuestas de la partida por parametro
-        // Validar las respuestas con la logica del juego
+        // Sacar la letra de las respuestas
+        respuestas.remove("letra");
+        // Validar las respuestas con la IA
+        ValidacionesDTO resultado = servicioIA.validarRespuestas(respuestas, letra);
         // Cargar el resultado en el modelo.
+        model.addAttribute("resultado", resultado);
         // Mostrar el resultado de la partida (ganada/perdida) en la vista resultadoSolitario.html
-        return "redirect:/solitario/resultado";
+        return "solitarioResultados";
     }
-    
-    
+
 }

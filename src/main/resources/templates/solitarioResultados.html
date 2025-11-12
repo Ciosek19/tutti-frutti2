@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Tutti Frutti</title>
+</head>
+<body>
+    <h1>RESULTADOS</h1>
+    
+    <!-- Si hay error -->
+    <div th:if="${error}">
+        <h2>ERROR:</h2>
+        <p th:text="${error}"></p>
+        <a th:href="@{/juego/solitario/}">Volver</a>
+    </div>
+    
+    <!-- Si hay resultados -->
+    <div th:if="${resultado != null}">
+        
+        <!-- Puntaje total -->
+        <h2>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h2>
+        
+        <p>Letra usada: <strong th:text="${letra}"></strong></p>
+        
+        <p>Respuestas válidas: <span th:text="${resultado.respuestasValidas}"></span></p>
+        <p>Respuestas inválidas: <span th:text="${resultado.respuestasInvalidas}"></span></p>
+        
+        <hr>
+        
+        <h3>DETALLE:</h3>
+        
+        <!-- Por cada validación, mostrar los detalles -->
+        <ul>
+            <li th:each="v : ${resultado.validaciones}">
+                <strong th:text="${v.categoria}"></strong>: 
+                <span th:text="${v.respuestaUsuario}"></span>
+                - 
+                <span th:if="${v.esValida}">✓ VÁLIDA</span>
+                <span th:unless="${v.esValida}">✗ INVÁLIDA</span>
+                - 
+                <span th:text="${v.puntos} + ' puntos'"></span>
+                <br>
+                <!-- Mostrar razón solo si existe y no está vacía -->
+                <span th:if="${v.razon != null and !v.razon.isEmpty()}">
+                    Razón: <em th:text="${v.razon}"></em>
+                </span>
+            </li>
+        </ul>
+        
+        <hr>
+        
+        <!-- Botones -->
+        <a th:href="@{/solitario}">NUEVA PARTIDA</a>
+        <a th:href="@{/menu}">IR AL MENU</a>
+    </div>
+</body>
+</html>
