@@ -1,13 +1,19 @@
 package com.springboot.obligatorio.tutti_frutti.controladores;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -49,12 +55,12 @@ public class SalaController {
             @RequestParam String codigoSala,
             HttpSession session) {
 
-        String nombreJugador = (String)session.getAttribute("nombreJugador");
-        System.out.println("SalaController.salirDeSala() -> nombreJugador: "+nombreJugador);
+        String nombreJugador = (String) session.getAttribute("nombreJugador");
+        System.out.println("SalaController.salirDeSala() -> nombreJugador: " + nombreJugador);
         if (nombreJugador == null) {
             return "redirect:/";
         }
-        System.out.println("SalaController.salirDeSala() -> valor codigoSala = "+codigoSala);
+        System.out.println("SalaController.salirDeSala() -> valor codigoSala = " + codigoSala);
         salaServicio.salirDeSala(codigoSala, nombreJugador);
 
         Jugador jugadorActualizado = jugadorRepositorio.findById(nombreJugador)
@@ -69,5 +75,49 @@ public class SalaController {
         }
         return "redirect:/lobby";
     }
+
+    @MessageMapping("/configurar-categorias")
+    public void configurarCategorias(@Payload Map<String, Object> datos) {
+        String codigoSala = (String) datos.get("codigoSala");
+        int cantidadCategorias = ((Number) datos.get("cantidadCategorias")).intValue();
+        
+        Sala sala = salaServicio.buscarPorCodigo(codigoSala);
+        sala.setCantidadCategorias(cantidadCategorias);
+        Sala salaBD = salaServicio.guardarSala(sala);
+        messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, salaBD);
+    }
+
+    @MessageMapping("/configurar-max-jugadores")
+    public void configurarMaxJugadores(@Payload Map<String, Object> datos) {
+        String codigoSala = (String) datos.get("codigoSala");
+        int maxJugadores = ((Number) datos.get("maxJugadores")).intValue();
+        
+        Sala sala = salaServicio.buscarPorCodigo(codigoSala);
+        if (sala.getJugadores().size() > maxJugadores) {
+            return;
+        }
+        sala.setMaxJugadores(maxJugadores);
+        Sala salaBD = salaServicio.guardarSala(sala);
+        List<Sala> salas = salaServicio.obtenerSalas();
+        messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, salaBD);
+        messagingTemplate.convertAndSend("/topic/lobby", salas);
+    }
+
+    /*
+     * @PostMapping("/sala/empezar-partida")
+     * public String empezarPartida(
+     * 
+     * @RequestParam String codigoSala,
+     * HttpSession session) {
+     * 
+     * return "redirect:/sala/partida";
+     * }
+     * 
+     * @GetMapping("/sala/partida")
+     * public String mostrarPartida(@RequestParam String param) {
+     * return new String();
+     * }
+     * 
+     */
 
 }

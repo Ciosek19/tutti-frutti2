@@ -1,12 +1,9 @@
 package com.springboot.obligatorio.tutti_frutti.controladores;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.springboot.obligatorio.tutti_frutti.repositorios.IJugadorRepositorio;
 
 import jakarta.servlet.http.HttpSession;
 

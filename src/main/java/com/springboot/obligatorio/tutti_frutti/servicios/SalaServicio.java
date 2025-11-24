@@ -111,4 +111,8 @@ public class SalaServicio {
         return null;
     }
 
+    public Sala guardarSala(Sala sala) {
+        return salaRepositorio.save(sala);
+    }
+
 }

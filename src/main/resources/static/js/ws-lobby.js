@@ -37,10 +37,14 @@ function mostrarSalas(salas) {
     salas.forEach((sala) => {
       const divSala = document.createElement("div");
       const divContenido = document.createElement("div");
+      
+      // Verificar si la sala está llena
+      const salaLlena = sala.cantidadJugadores >= sala.maxJugadores;
+      
       divContenido.innerHTML = `
         <strong>Codigo: ${sala.codigo}</strong><br>
         <span>${sala.nombre}</span><br>
-        <small>Jugadores: ${sala.cantidadJugadores}</small><br>
+        <small>Jugadores: ${sala.cantidadJugadores}/${sala.maxJugadores}</small><br>
         <small>Creador: ${sala.creador}</small><br>
         <div>
           <strong>Lista de jugadores:</strong>
@@ -49,7 +53,9 @@ function mostrarSalas(salas) {
           </ul>
         </div>
         <form action="/sala/${sala.codigo}" method="POST">
-          <button type="submit">UNIRSE</button>
+          <button type="submit" ${salaLlena ? 'disabled' : ''}>
+            ${salaLlena ? 'SALA LLENA' : 'UNIRSE'}
+          </button>
         </form>
       `;
 

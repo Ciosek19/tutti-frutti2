@@ -18,6 +18,8 @@
     <h3>Jugadores:</h3>
     <div id="jugadores"></div>
 
+    <div id="configuracion"></div>
+
     <div id="btnEmpezarPartida"></div>
 
     <script th:inline="javascript">
@@ -26,7 +28,9 @@
         nombre: /*[[${sala.nombre}]]*/ '',
         creador: /*[[${sala.creador}]]*/ '',
         nombreJugador: /*[[${nombreJugador}]]*/ '',
-        jugadores: /*[[${sala.jugadores}]]*/ []
+        jugadores: /*[[${sala.jugadores}]]*/ [],
+        cantidadCategorias: /*[[${sala.cantidadCategorias != null ? sala.cantidadCategorias : 5}]]*/ 5,
+        maxJugadores: /*[[${sala.maxJugadores != null ? sala.maxJugadores : 4}]]*/ 4
       };
     </script>
     

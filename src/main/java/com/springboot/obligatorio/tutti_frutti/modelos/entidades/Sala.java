@@ -23,6 +23,9 @@ public class Sala {
 
     @Column(nullable = false)
     private int maxJugadores;
+    
+    @Column(nullable = false)
+    private int cantidadCategorias;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -36,6 +39,7 @@ public class Sala {
         this.nombre = nombre;
         this.creador = creador;
         this.maxJugadores = 6;
+        this.cantidadCategorias = 5;
         this.estado = EstadoSala.ESPERANDO;
     }
 
@@ -50,6 +54,18 @@ public class Sala {
     public void removerJugador(Jugador jugador) {
         this.jugadores.remove(jugador);
         jugador.setSala(null);
+    }
+
+
+    public int getCantidadCategorias() {
+        return this.cantidadCategorias;
+    }
+
+    public void setCantidadCategorias(int cantidadCategorias) {
+        this.cantidadCategorias = cantidadCategorias;
+    }
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 
     public List<Jugador> getJugadores() {
