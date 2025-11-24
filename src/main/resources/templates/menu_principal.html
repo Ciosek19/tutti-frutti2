@@ -9,11 +9,11 @@
     <h1>Bienvenido a Tutti Frutti</h1>
     <h2 th:text="${session.usuario}"></h2>
     
-    <form method="post" action="/menu/solitario">
+    <form method="post" th:action="@{/menu/solitario}">
         <button type="submit">Solitario</button>
     </form>
     
-    <form method="post" action="/multijugador">
+    <form method="post" th:action="@{/menu/multijugador}">
         <button type="submit">Multijugador</button>
     </form>
     

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sala de Juego</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  </head>
+  <body>
+    <h1 th:text="|SALA: ${sala.nombre} / ${sala.codigo}|"></h1>
+
+    <form id="formVolver" action="/sala/salir-sala" method="POST">
+      <input type="hidden" name="codigoSala" th:value="${sala.codigo}">
+      <button type="submit" id="btnVolver">Volver</button>
+    </form>
+
+    <h3>Jugadores:</h3>
+    <div id="jugadores"></div>
+
+    <div id="btnEmpezarPartida"></div>
+
+    <script th:inline="javascript">
+      const salaData = {
+        codigo: /*[[${sala.codigo}]]*/ '',
+        nombre: /*[[${sala.nombre}]]*/ '',
+        creador: /*[[${sala.creador}]]*/ '',
+        nombreJugador: /*[[${nombreJugador}]]*/ '',
+        jugadores: /*[[${sala.jugadores}]]*/ []
+      };
+    </script>
+    
+    <script th:src="@{/js/ws-sala.js}"></script>
+  </body>
+</html>

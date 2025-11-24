@@ -6,20 +6,32 @@
     <title>Resultados - Tutti Frutti</title>
 </head>
 <body>
-    <h1>RESULTADOS</h1>
     
     <!-- Si hay error -->
     <div th:if="${error}">
-        <h2>ERROR:</h2>
-        <p th:text="${error}"></p>
+        <h1>ERROR</h1>
+        <h2 th:text="${error}"></h2>
         <a th:href="@{/juego/solitario/}">Volver</a>
     </div>
     
     <!-- Si hay resultados -->
     <div th:if="${resultado != null}">
         
-        <!-- Puntaje total -->
-        <h2>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h2>
+        <!-- PANTALLA DE VICTORIA (todas las respuestas válidas) -->
+        <div th:if="${resultado.respuestasInvalidas == 0}">
+            <h1>🎉 ¡VICTORIA! 🎉</h1>
+            <h2>¡PERFECTO! Todas tus respuestas son correctas</h2>
+            <h3>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h3>
+        </div>
+        
+        <!-- PANTALLA DE DERROTA (al menos una respuesta inválida) -->
+        <div th:if="${resultado.respuestasInvalidas > 0}">
+            <h1>❌ DERROTA ❌</h1>
+            <h2>Tienes respuestas incorrectas</h2>
+            <h3>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h3>
+        </div>
+        
+        <hr>
         
         <p>Letra usada: <strong th:text="${letra}"></strong></p>
         
@@ -34,14 +46,11 @@
         <ul>
             <li th:each="v : ${resultado.validaciones}">
                 <strong th:text="${v.categoria}"></strong>: 
-                <span th:text="${v.respuestaUsuario}"></span>
-                - 
-                <span th:if="${v.esValida}">✓ VÁLIDA</span>
-                <span th:unless="${v.esValida}">✗ INVÁLIDA</span>
-                - 
-                <span th:text="${v.puntos} + ' puntos'"></span>
-                <br>
-                <!-- Mostrar razón solo si existe y no está vacía -->
+                <input type="text" th:value="${v.respuestaUsuario}" readonly>
+                
+                <span th:if="${v.esValida}">✓ </span>
+                <span th:unless="${v.esValida}">✗</span>
+                
                 <span th:if="${v.razon != null and !v.razon.isEmpty()}">
                     Razón: <em th:text="${v.razon}"></em>
                 </span>

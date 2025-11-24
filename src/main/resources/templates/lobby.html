@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit">Cerrar Sesión</button>
+    </form>
+    <div id="titulo">
+      <h1
+        th:text="|Bienvenido ${nombreJugador} a Tutti Frutti Multijugador|"
+      ></h1>
+    </div>
+    <form th:action="@{/sala/crear-sala}" method="post">
+    <input type="text" name="nombre" placeholder="Nombre de la sala" required>
+    <button type="submit">Crear sala</button>
+</form>
+
+    <h2>Salas:</h2>
+    <div id="listaSalas"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+    <script th:src="@{/js/ws-lobby.js}"></script>
+  </body>
+</html>

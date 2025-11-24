@@ -5,10 +5,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.springboot.obligatorio.tutti_frutti.servicios.ServicioIA;
+import com.springboot.obligatorio.tutti_frutti.servicios.IAServicio;
 
 @Service
-public class ServicioIAGemini extends ServicioIA {
+public class ServicioIAGemini extends IAServicio {
 
     public ServicioIAGemini(@Value("${gemini.api.key}") String apiKey, @Value("${gemini.api.url}") String apiUrl) {
         super(apiKey, apiUrl);

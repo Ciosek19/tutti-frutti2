@@ -8,12 +8,12 @@ import com.springboot.obligatorio.tutti_frutti.utilidades.ConstructorPrompt;
 import com.springboot.obligatorio.tutti_frutti.utilidades.Mapeador;
 
 
-public abstract class ServicioIA {
+public abstract class IAServicio {
 
     protected String API_KEY;
     protected String API_URL;
 
-    protected ServicioIA(String apiKey, String apiUrl) {
+    protected IAServicio(String apiKey, String apiUrl) {
         this.API_KEY = apiKey;
         this.API_URL = apiUrl;
     }

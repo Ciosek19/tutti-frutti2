@@ -7,17 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.springboot.obligatorio.tutti_frutti.modelos.dtos.ValidacionesDTO;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Jugador;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Partida;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.PartidaSolitario;
 import com.springboot.obligatorio.tutti_frutti.modelos.enums.Dificultad;
-import com.springboot.obligatorio.tutti_frutti.servicios.ServicioIA;
+import com.springboot.obligatorio.tutti_frutti.servicios.IAServicio;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,7 +24,7 @@ import jakarta.servlet.http.HttpSession;
 public class SolitarioController {
 
     @Autowired
-    private ServicioIA servicioIA;
+    private IAServicio servicioIA;
 
     @GetMapping("/solitario")
     public String dificultad() {
@@ -76,4 +74,5 @@ public class SolitarioController {
         return "solitarioResultados";
     }
 
+    
 }
