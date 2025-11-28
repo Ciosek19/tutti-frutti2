@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esperando Resultados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .info {
+            font-size: 1.2em;
+            margin: 20px 0;
+            color: #555;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status {
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+    <script th:inline="javascript">
+        const partidaId = /*[[${partidaId}]]*/ 0;
+        const totalJugadores = /*[[${totalJugadores}]]*/ 0;
+        let respuestasRecibidas = /*[[${respuestasRecibidas}]]*/ 0;
+
+        function verificarEstado() {
+            fetch('/partida/' + partidaId + '/estado')
+                .then(response => response.json())
+                .then(data => {
+                    respuestasRecibidas = data.respuestasRecibidas;
+                    document.getElementById('respuestasRecibidas').textContent = respuestasRecibidas;
+
+                    if (data.finalizada || respuestasRecibidas >= totalJugadores) {
+                        window.location.href = '/partida/' + partidaId + '/resultados';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error verificando estado:', error);
+                });
+        }
+
+        setInterval(verificarEstado, 2000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>⏳ Esperando Resultados</h1>
+
+        <div class="info">
+            Tu respuesta ha sido registrada correctamente.
+        </div>
+
+        <div class="spinner"></div>
+
+        <div class="status">
+            <p>Esperando que todos los jugadores terminen...</p>
+            <p>
+                <strong>Respuestas recibidas:</strong>
+                <span id="respuestasRecibidas" th:text="${respuestasRecibidas}"></span> /
+                <span th:text="${totalJugadores}"></span>
+            </p>
+        </div>
+
+        <p style="color: #999; font-size: 0.9em; margin-top: 30px;">
+            Serás redirigido automáticamente cuando todos hayan terminado.
+        </p>
+    </div>
+</body>
+</html>

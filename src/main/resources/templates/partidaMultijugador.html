@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tutti Frutti - Partida Multijugador</title>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  </head>
+  <body>
+    <div id="cuenta-regresiva-inicial">
+      <h1 id="numero-cuenta">3</h1>
+    </div>
+
+    <div id="contenido-juego" style="display: none">
+      <h1>TUTTI FRUTTI - MULTIJUGADOR</h1>
+
+      <div th:if="${partida != null}">
+        <div id="temporizador">
+          Tiempo restante: <span id="tiempo">--</span> segundos
+        </div>
+        <h2>Tu letra es: <span th:text="${partida.letra}"></span></h2>
+
+        <form
+          id="formularioPartida"
+          th:action="@{/partida/{id}/enviar-respuestas(id=${partida.id})}"
+          method="POST"
+        >
+          <input type="hidden" name="letra" th:value="${partida.letra}" />
+          <input type="hidden" name="partidaId" th:value="${partida.id}" />
+
+          <div th:each="categoria : ${partida.categorias}">
+            <label th:text="${categoria} + ':'"></label>
+            <input
+              type="text"
+              th:name="${categoria}"
+              th:placeholder="${partida.letra}"
+              class="input-categoria"
+            />
+            <br /><br />
+          </div>
+
+          <button type="button" id="btnTuttiFrutti">TUTTI FRUTTI</button>
+        </form>
+      </div>
+
+      <div th:if="${partida == null}">
+        <p>
+          No se pudo cargar la partida.
+          <a href="/lobby">Volver al lobby</a>
+        </p>
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      let tiempoRestante = /*[[${partida.duracion}]]*/ 60;
+      const partidaId = /*[[${partida.id}]]*/ 0;
+      const nombreJugador = /*[[${nombreJugador}]]*/ "";
+
+      const temporizadorElemento = document.getElementById("tiempo");
+      const formulario = document.getElementById("formularioPartida");
+      const cuentaRegresiva = document.getElementById(
+        "cuenta-regresiva-inicial"
+      );
+      const numeroCuenta = document.getElementById("numero-cuenta");
+      const contenidoJuego = document.getElementById("contenido-juego");
+      const btnTuttiFrutti = document.getElementById("btnTuttiFrutti");
+      const inputsCategorias = document.querySelectorAll(".input-categoria");
+
+      let intervaloPartida = null;
+      let stompClient = null;
+      let juegoTerminado = false;
+
+      // Función para verificar si todos los campos tienen valor
+      function verificarCamposCompletos() {
+        let todosCompletos = true;
+        inputsCategorias.forEach((input) => {
+          if (input.value.trim() === "") {
+            todosCompletos = false;
+          }
+        });
+
+        // Habilitar o deshabilitar el botón según el estado de los campos
+        btnTuttiFrutti.disabled = !todosCompletos;
+      }
+
+      // Agregar listeners a todos los inputs para verificar en tiempo real
+      inputsCategorias.forEach((input) => {
+        input.addEventListener("input", verificarCamposCompletos);
+      });
+
+      function conectarWebSocket() {
+        const socket = new WebSocket("ws://localhost:8080/ws");
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect(
+          {},
+          function (frame) {
+            console.log("Conectado a WebSocket desde partida");
+
+            stompClient.subscribe(
+              "/topic/partida/" + partidaId,
+              function (mensaje) {
+                const data = JSON.parse(mensaje.body);
+
+                if (data.accion === "TERMINAR_PARTIDA") {
+                  terminarPartida();
+                }
+              }
+            );
+          },
+          function (error) {
+            console.error("Error de conexión WebSocket:", error);
+          }
+        );
+      }
+
+      async function iniciarJuego() {
+        conectarWebSocket();
+        await iniciarCuentaRegresiva();
+        ocultarCuentaRegresiva();
+        mostrarJuego();
+        iniciarTemporizadorPartida();
+      }
+
+      function iniciarCuentaRegresiva() {
+        return new Promise((resuelve) => {
+          let contador = 3;
+          const intervaloCuentaInicial = setInterval(() => {
+            if (contador > 0) {
+              numeroCuenta.textContent = contador;
+              contador--;
+            } else {
+              numeroCuenta.textContent = "¡YA!";
+              clearInterval(intervaloCuentaInicial);
+              resuelve();
+            }
+          }, 1000);
+        });
+      }
+
+      function ocultarCuentaRegresiva() {
+        cuentaRegresiva.style.display = "none";
+      }
+
+      function mostrarJuego() {
+        contenidoJuego.style.display = "block";
+
+        // Deshabilitar el botón al inicio
+        btnTuttiFrutti.disabled = true;
+
+        if (inputsCategorias.length > 0) {
+          inputsCategorias[0].focus();
+        }
+      }
+
+      function iniciarTemporizadorPartida() {
+        actualizarTemporizador();
+        intervaloPartida = setInterval(actualizarTemporizador, 1000);
+      }
+
+      function actualizarTemporizador() {
+        temporizadorElemento.textContent = tiempoRestante;
+
+        if (tiempoRestante <= 0) {
+          terminarPartida();
+          return;
+        }
+
+        tiempoRestante--;
+      }
+
+      function detenerTemporizador() {
+        if (intervaloPartida) {
+          clearInterval(intervaloPartida);
+          intervaloPartida = null;
+        }
+      }
+
+      function terminarPartida() {
+        if (juegoTerminado) return;
+        juegoTerminado = true;
+
+        detenerTemporizador();
+        btnTuttiFrutti.disabled = true;
+
+        inputsCategorias.forEach((input) => {
+          input.readOnly = true;
+          input.style.backgroundColor = "#f0f0f0"; // Feedback visual
+        });
+
+        formulario.submit();
+      }
+
+      btnTuttiFrutti.addEventListener("click", function () {
+        if (stompClient && stompClient.connected) {
+          stompClient.send("/app/tutti-frutti/" + partidaId, {}, "{}");
+        }
+        terminarPartida();
+      });
+
+      window.addEventListener("load", () => {
+        iniciarJuego();
+      });
+      /*]]>*/
+    </script>
+  </body>
+</html>

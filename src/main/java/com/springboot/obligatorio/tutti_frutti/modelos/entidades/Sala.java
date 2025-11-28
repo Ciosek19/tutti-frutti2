@@ -18,28 +18,36 @@ public class Sala {
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
-    private String creador;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "creador_id", nullable = false)
+    private Jugador creador;
 
     @Column(nullable = false)
     private int maxJugadores;
-    
+
     @Column(nullable = false)
     private int cantidadCategorias;
+
+    @Column(nullable = false)
+    private int duracion;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoSala estado;
 
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "sala", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JsonManagedReference("jugador-sala")
     private List<Jugador> jugadores = new ArrayList<>();
 
-    public Sala(String nombre, String creador) {
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PartidaMultijugador> partidas = new ArrayList<>();
+    
+    public Sala(String nombre, Jugador creador) {
         this.nombre = nombre;
         this.creador = creador;
         this.maxJugadores = 6;
         this.cantidadCategorias = 5;
+        this.duracion = 60;
         this.estado = EstadoSala.ESPERANDO;
     }
 
@@ -92,13 +100,14 @@ public class Sala {
         this.nombre = nombre;
     }
 
-    public String getCreador() {
+    public Jugador getCreador() {
         return this.creador;
     }
 
-    public void setCreador(String creador) {
+    public void setCreador(Jugador creador) {
         this.creador = creador;
     }
+    
 
     public int getMaxJugadores() {
         return this.maxJugadores;
@@ -114,5 +123,13 @@ public class Sala {
 
     public void setEstado(EstadoSala estado) {
         this.estado = estado;
+    }
+
+    public int getDuracion() {
+        return this.duracion;
+    }
+
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
     }
 }

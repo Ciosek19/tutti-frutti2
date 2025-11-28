@@ -36,12 +36,18 @@ function conectarWebSocket() {
 }
 
 function actualizarSala(sala) {
-  alert("Actualizando sala " + salaData.codigo);
-  
-  salaData.creador = sala.creador;
+  console.log("Actualizando sala " + salaData.codigo);
+
+  if (sala.accion === 'INICIAR_PARTIDA') {
+    window.location.href = '/partida/' + sala.partidaId;
+    return;
+  }
+
+  salaData.creador = sala.creador ? sala.creador.nombre : sala.creador;
   salaData.cantidadCategorias = sala.cantidadCategorias || 5;
   salaData.maxJugadores = sala.maxJugadores || 4;
-  
+  salaData.duracion = sala.duracion || 60;
+
   mostrarJugadores(sala.jugadores);
   mostrarBotonEmpezarPartida(sala.jugadores.length);
   mostrarConfiguracion();
@@ -85,26 +91,38 @@ function mostrarConfiguracion() {
       <div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px;">
         <div style="margin-bottom: 15px;">
           <label for="cantidadCategorias">Cantidad de categorías (2-15):</label><br>
-          <input 
-            type="number" 
-            id="cantidadCategorias" 
-            min="2" 
-            max="15" 
+          <input
+            type="number"
+            id="cantidadCategorias"
+            min="2"
+            max="15"
             value="${salaData.cantidadCategorias}"
             style="width: 100px; padding: 5px; margin-top: 5px;">
           <button onclick="actualizarCantidadCategorias()" style="margin-left: 10px;">Actualizar</button>
         </div>
-        
-        <div>
+
+        <div style="margin-bottom: 15px;">
           <label for="maxJugadores">Máximo de jugadores (2-6):</label><br>
-          <input 
-            type="number" 
-            id="maxJugadores" 
-            min="2" 
-            max="6" 
+          <input
+            type="number"
+            id="maxJugadores"
+            min="2"
+            max="6"
             value="${salaData.maxJugadores}"
             style="width: 100px; padding: 5px; margin-top: 5px;">
           <button onclick="actualizarMaxJugadores()" style="margin-left: 10px;">Actualizar</button>
+        </div>
+
+        <div>
+          <label for="duracion">Duración (30-120 segundos):</label><br>
+          <input
+            type="number"
+            id="duracion"
+            min="30"
+            max="120"
+            value="${salaData.duracion}"
+            style="width: 100px; padding: 5px; margin-top: 5px;">
+          <button onclick="actualizarDuracion()" style="margin-left: 10px;">Actualizar</button>
         </div>
       </div>
     `;
@@ -115,6 +133,7 @@ function mostrarConfiguracion() {
       <div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px;">
         <p><strong>Categorías:</strong> ${salaData.cantidadCategorias}</p>
         <p><strong>Máximo jugadores:</strong> ${salaData.maxJugadores}</p>
+        <p><strong>Duración:</strong> ${salaData.duracion} segundos</p>
       </div>
     `;
   }
@@ -136,7 +155,6 @@ function actualizarCantidadCategorias() {
   };
   
   stompClient.send("/app/configurar-categorias", {}, JSON.stringify(datos));
-  alert(`Categorías actualizadas a ${cantidad}`);
 }
 
 function actualizarMaxJugadores() {
@@ -161,22 +179,41 @@ function actualizarMaxJugadores() {
   };
   
   stompClient.send("/app/configurar-max-jugadores", {}, JSON.stringify(datos));
-  alert(`Máximo de jugadores actualizado a ${cantidad}`);
+}
+
+function actualizarDuracion() {
+  const input = document.getElementById("duracion");
+  const duracion = parseInt(input.value);
+
+  if (duracion < 30 || duracion > 120) {
+    alert("La duración debe estar entre 30 y 120 segundos");
+    input.value = salaData.duracion;
+    return;
+  }
+
+  const datos = {
+    codigoSala: salaData.codigo,
+    duracion: duracion
+  };
+
+  stompClient.send("/app/configurar-duracion", {}, JSON.stringify(datos));
 }
 
 function mostrarBotonEmpezarPartida(cantidadJugadores) {
   const divEmpezarPartida = document.getElementById("btnEmpezarPartida");
-  
+
   if (!divEmpezarPartida) {
     console.error("No se encontró el elemento btnEmpezarPartida");
     return;
   }
-  
+
   divEmpezarPartida.innerHTML = "";
-  
-  if (salaData.nombreJugador === salaData.creador) {
+
+  const creadorNombre = typeof salaData.creador === 'object' ? salaData.creador.nombre : salaData.creador;
+
+  if (salaData.nombreJugador === creadorNombre) {
     const estaDeshabilitado = cantidadJugadores < 2;
-    
+
     divEmpezarPartida.innerHTML = `
       <form action="/sala/empezar-partida" method="POST">
         <input type="hidden" name="codigoSala" value="${salaData.codigo}">
@@ -187,16 +224,11 @@ function mostrarBotonEmpezarPartida(cantidadJugadores) {
         </button>
       </form>
     `;
-    
-    if (estaDeshabilitado) {
-      alert("Se necesitan al menos 2 jugadores para empezar la partida.");
-    } else {
-      alert("Eres el creador de la sala, puedes empezar la partida.");
-    }
   }
 }
 
 function VolverAlLobby() {
-  stompClient.unsubscribe();
-  alert("Desuscrito de " + salaData.codigo);
+  if (stompClient && stompClient.connected) {
+    stompClient.disconnect();
+  }
 }

@@ -13,7 +13,7 @@ function conectarWebSocket() {
   stompClient.connect(
     {},
     function (frame) {
-      alert("Estas conectado con websockets desde lobby!");
+      console.log("Conectado con websockets desde lobby!");
 
       stompClient.subscribe("/topic/lobby", function (mensaje) {
         const salas = JSON.parse(mensaje.body);
@@ -30,22 +30,27 @@ function conectarWebSocket() {
 
 function mostrarSalas(salas) {
   const listaSalas = document.getElementById("listaSalas");
-  alert("Mostrando salas...");
+  console.log("Mostrando salas...");
   listaSalas.innerHTML = "";
 
   if (salas && salas.length > 0) {
     salas.forEach((sala) => {
       const divSala = document.createElement("div");
       const divContenido = document.createElement("div");
-      
-      // Verificar si la sala está llena
+
       const salaLlena = sala.cantidadJugadores >= sala.maxJugadores;
-      
+      const salaJugando = sala.estado === 'JUGANDO';
+      const deshabilitado = salaLlena || salaJugando;
+      let textoBoton = 'UNIRSE';
+      if (salaJugando) textoBoton = 'EN PARTIDA';
+      else if (salaLlena) textoBoton = 'SALA LLENA';
+
       divContenido.innerHTML = `
         <strong>Codigo: ${sala.codigo}</strong><br>
         <span>${sala.nombre}</span><br>
         <small>Jugadores: ${sala.cantidadJugadores}/${sala.maxJugadores}</small><br>
-        <small>Creador: ${sala.creador}</small><br>
+        <small>Creador: ${sala.creador.nombre}</small><br>
+        <small>Estado: ${sala.estado}</small><br>
         <div>
           <strong>Lista de jugadores:</strong>
           <ul>
@@ -53,8 +58,8 @@ function mostrarSalas(salas) {
           </ul>
         </div>
         <form action="/sala/${sala.codigo}" method="POST">
-          <button type="submit" ${salaLlena ? 'disabled' : ''}>
-            ${salaLlena ? 'SALA LLENA' : 'UNIRSE'}
+          <button type="submit" ${deshabilitado ? 'disabled' : ''}>
+            ${textoBoton}
           </button>
         </form>
       `;

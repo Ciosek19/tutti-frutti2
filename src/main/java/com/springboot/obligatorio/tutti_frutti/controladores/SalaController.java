@@ -7,19 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Jugador;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Sala;
-import com.springboot.obligatorio.tutti_frutti.repositorios.IJugadorRepositorio;
+import com.springboot.obligatorio.tutti_frutti.servicios.JugadorServicio;
 import com.springboot.obligatorio.tutti_frutti.servicios.SalaServicio;
 
 @Controller
@@ -29,7 +27,7 @@ public class SalaController {
     private SalaServicio salaServicio;
 
     @Autowired
-    private IJugadorRepositorio jugadorRepositorio;
+    private JugadorServicio jugadorServicio;
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
@@ -54,25 +52,25 @@ public class SalaController {
     public String salirDeSala(
             @RequestParam String codigoSala,
             HttpSession session) {
-
-        String nombreJugador = (String) session.getAttribute("nombreJugador");
-        System.out.println("SalaController.salirDeSala() -> nombreJugador: " + nombreJugador);
-        if (nombreJugador == null) {
+        String idJugador = (String) session.getAttribute("idJugador");
+        Jugador jugador = jugadorServicio.obtenerJugador(idJugador);
+        if (jugador == null) {
             return "redirect:/";
         }
+
+        System.out.println("SalaController.salirDeSala() -> Jugador: " + jugador.getNombre());
         System.out.println("SalaController.salirDeSala() -> valor codigoSala = " + codigoSala);
-        salaServicio.salirDeSala(codigoSala, nombreJugador);
 
-        Jugador jugadorActualizado = jugadorRepositorio.findById(nombreJugador)
-                .orElse(new Jugador(nombreJugador));
-        jugadorRepositorio.save(jugadorActualizado);
-
-        session.setAttribute("jugador", jugadorActualizado);
+        salaServicio.salirDeSala(codigoSala, jugador.getId());
 
         Sala sala = salaServicio.buscarPorCodigo(codigoSala);
         if (sala != null) {
             messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, sala);
         }
+
+        List<Sala> salas = salaServicio.obtenerSalas();
+        messagingTemplate.convertAndSend("/topic/lobby", salas);
+
         return "redirect:/lobby";
     }
 
@@ -91,7 +89,7 @@ public class SalaController {
     public void configurarMaxJugadores(@Payload Map<String, Object> datos) {
         String codigoSala = (String) datos.get("codigoSala");
         int maxJugadores = ((Number) datos.get("maxJugadores")).intValue();
-        
+
         Sala sala = salaServicio.buscarPorCodigo(codigoSala);
         if (sala.getJugadores().size() > maxJugadores) {
             return;
@@ -103,21 +101,15 @@ public class SalaController {
         messagingTemplate.convertAndSend("/topic/lobby", salas);
     }
 
-    /*
-     * @PostMapping("/sala/empezar-partida")
-     * public String empezarPartida(
-     * 
-     * @RequestParam String codigoSala,
-     * HttpSession session) {
-     * 
-     * return "redirect:/sala/partida";
-     * }
-     * 
-     * @GetMapping("/sala/partida")
-     * public String mostrarPartida(@RequestParam String param) {
-     * return new String();
-     * }
-     * 
-     */
+    @MessageMapping("/configurar-duracion")
+    public void configurarDuracion(@Payload Map<String, Object> datos) {
+        String codigoSala = (String) datos.get("codigoSala");
+        int duracion = ((Number) datos.get("duracion")).intValue();
+
+        Sala sala = salaServicio.buscarPorCodigo(codigoSala);
+        sala.setDuracion(duracion);
+        Sala salaBD = salaServicio.guardarSala(sala);
+        messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, salaBD);
+    }
 
 }
