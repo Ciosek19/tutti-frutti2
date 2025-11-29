@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Jugador;
 import com.springboot.obligatorio.tutti_frutti.modelos.entidades.Sala;
+import com.springboot.obligatorio.tutti_frutti.repositorios.ISalaRepositorio;
 import com.springboot.obligatorio.tutti_frutti.servicios.JugadorServicio;
 import com.springboot.obligatorio.tutti_frutti.servicios.SalaServicio;
 
@@ -34,13 +35,13 @@ public class LobbyController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    // 1. Obtener salas
+    @Autowired
+    private ISalaRepositorio salaRepositorio;
+
     @MessageMapping("/obtener-salas")
     @SendTo("/topic/lobby")
     public List<Sala> obtenerSalas() {
-        System.out.println("obtenerSalas() -> Obteniendo salas desde BD");
         List<Sala> salas = salaServicio.obtenerSalas();
-        System.out.println("obtenerSalas() -> Devolviendo " + salas.size() + " salas");
         return salas;
     }
 
@@ -56,7 +57,6 @@ public class LobbyController {
         return "lobby";
     }
 
-    // 2. Crear salas
     @PostMapping("/sala/crear-sala")
     public String crearSala(@RequestParam String nombre, RedirectAttributes redirectAttributes, HttpSession session) {
         String idJugador = (String) session.getAttribute("idJugador");
@@ -68,13 +68,14 @@ public class LobbyController {
         List<Sala> salas = salaServicio.obtenerSalas();
         messagingTemplate.convertAndSend("/topic/lobby", salas);
 
+        messagingTemplate.convertAndSend("/topic/sala/" + sala.getCodigo(), sala);
+
         redirectAttributes.addFlashAttribute("sala", sala);
         redirectAttributes.addFlashAttribute("nombreJugador", jugador.getNombre());
 
-        return unirseSala(sala.getCodigo(), session, redirectAttributes);
+        return "redirect:/lobby/sala/" + sala.getCodigo();
     }
 
-    // 3. Unirse a sala
     @PostMapping("/sala/{codigo}")
     public String unirseSala(
             @PathVariable String codigo,
@@ -126,7 +127,31 @@ public class LobbyController {
 
     @PostMapping("/logout")
     public String logout(HttpSession session) {
-        jugadorServicio.eliminarJugador((String) session.getAttribute("idJugador"));
+        String idJugador = (String) session.getAttribute("idJugador");
+        Jugador jugador = jugadorServicio.obtenerJugador(idJugador);
+
+        if (jugador != null) {
+            if (jugador.getSala() != null) {
+                String codigoSala = jugador.getSala().getCodigo();
+                salaServicio.salirDeSala(codigoSala, idJugador);
+
+                Sala sala = salaServicio.buscarPorCodigo(codigoSala);
+                if (sala != null) {
+                    messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, sala);
+                }
+            }
+
+            List<Sala> salasComoCreador = salaRepositorio.findByCreador(jugador);
+            for (Sala sala : salasComoCreador) {
+                salaRepositorio.delete(sala);
+            }
+
+            List<Sala> salas = salaServicio.obtenerSalas();
+            messagingTemplate.convertAndSend("/topic/lobby", salas);
+
+            jugadorServicio.eliminarJugador(idJugador);
+        }
+
         session.invalidate();
         return "redirect:/";
     }

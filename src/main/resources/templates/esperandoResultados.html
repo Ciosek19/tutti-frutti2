@@ -53,6 +53,9 @@
         const partidaId = /*[[${partidaId}]]*/ 0;
         const totalJugadores = /*[[${totalJugadores}]]*/ 0;
         let respuestasRecibidas = /*[[${respuestasRecibidas}]]*/ 0;
+        let tiempoEsperaRestante = 30; // 30 segundos de timeout
+        let intervaloVerificacion = null;
+        let intervaloTimeout = null;
 
         function verificarEstado() {
             fetch('/partida/' + partidaId + '/estado')
@@ -61,7 +64,9 @@
                     respuestasRecibidas = data.respuestasRecibidas;
                     document.getElementById('respuestasRecibidas').textContent = respuestasRecibidas;
 
-                    if (data.finalizada || respuestasRecibidas >= totalJugadores) {
+                    if (data.finalizada) {
+                        clearInterval(intervaloVerificacion);
+                        clearInterval(intervaloTimeout);
                         window.location.href = '/partida/' + partidaId + '/resultados';
                     }
                 })
@@ -70,7 +75,29 @@
                 });
         }
 
-        setInterval(verificarEstado, 2000);
+        function actualizarTimeout() {
+            tiempoEsperaRestante--;
+            const timeoutElement = document.getElementById('timeout');
+            if (timeoutElement) {
+                timeoutElement.textContent = tiempoEsperaRestante;
+            }
+
+            if (tiempoEsperaRestante <= 0) {
+                clearInterval(intervaloVerificacion);
+                clearInterval(intervaloTimeout);
+                fetch('/partida/' + partidaId + '/forzar-evaluacion', { method: 'POST' })
+                    .then(() => {
+                        window.location.href = '/partida/' + partidaId + '/resultados';
+                    })
+                    .catch(error => {
+                        console.error('Error forzando evaluación:', error);
+                        window.location.href = '/partida/' + partidaId + '/resultados';
+                    });
+            }
+        }
+
+        intervaloVerificacion = setInterval(verificarEstado, 2000);
+        intervaloTimeout = setInterval(actualizarTimeout, 1000);
     </script>
 </head>
 <body>
@@ -90,10 +117,13 @@
                 <span id="respuestasRecibidas" th:text="${respuestasRecibidas}"></span> /
                 <span th:text="${totalJugadores}"></span>
             </p>
+            <p style="color: #999; font-size: 0.9em; margin-top: 15px;">
+                Evaluación automática en <span id="timeout">30</span> segundos...
+            </p>
         </div>
 
         <p style="color: #999; font-size: 0.9em; margin-top: 30px;">
-            Serás redirigido automáticamente cuando todos hayan terminado.
+            Serás redirigido automáticamente cuando todos hayan terminado o se cumpla el tiempo de espera.
         </p>
     </div>
 </body>

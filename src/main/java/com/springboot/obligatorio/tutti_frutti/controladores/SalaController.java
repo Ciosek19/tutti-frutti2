@@ -36,16 +36,12 @@ public class SalaController {
     public void actualizarSala(@DestinationVariable String codigo) {
         System.out.println("Actualizando sala: " + codigo);
 
-        // Buscar la sala
         Sala sala = salaServicio.buscarPorCodigo(codigo);
 
         if (sala == null) {
-            System.err.println("Sala no encontrada: " + codigo);
             return;
         }
-        // Enviar manualmente al topic específico
         messagingTemplate.convertAndSend("/topic/sala/" + codigo, sala);
-        System.out.println("Sala enviada a /topic/sala/" + codigo);
     }
 
     @PostMapping("/sala/salir-sala")
@@ -57,9 +53,6 @@ public class SalaController {
         if (jugador == null) {
             return "redirect:/";
         }
-
-        System.out.println("SalaController.salirDeSala() -> Jugador: " + jugador.getNombre());
-        System.out.println("SalaController.salirDeSala() -> valor codigoSala = " + codigoSala);
 
         salaServicio.salirDeSala(codigoSala, jugador.getId());
 

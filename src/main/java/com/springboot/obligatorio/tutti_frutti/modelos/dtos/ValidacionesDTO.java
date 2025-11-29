@@ -19,7 +19,6 @@ public class ValidacionesDTO {
     
     public ValidacionesDTO() {}
     
-    // Getters y Setters
     public List<ValidacionItemDTO> getValidaciones() {
         return validaciones;
     }

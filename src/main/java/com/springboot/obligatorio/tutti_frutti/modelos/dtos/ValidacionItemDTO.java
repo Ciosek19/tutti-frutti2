@@ -21,7 +21,6 @@ public class ValidacionItemDTO {
     
     public ValidacionItemDTO() {}
     
-    // Getters y Setters
     public String getCategoria() {
         return categoria;
     }

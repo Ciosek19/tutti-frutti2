@@ -7,24 +7,20 @@
 </head>
 <body>
     
-    <!-- Si hay error -->
     <div th:if="${error}">
         <h1>ERROR</h1>
         <h2 th:text="${error}"></h2>
         <a th:href="@{/juego/solitario/}">Volver</a>
     </div>
     
-    <!-- Si hay resultados -->
     <div th:if="${resultado != null}">
         
-        <!-- PANTALLA DE VICTORIA (todas las respuestas válidas) -->
         <div th:if="${resultado.respuestasInvalidas == 0}">
             <h1>🎉 ¡VICTORIA! 🎉</h1>
             <h2>¡PERFECTO! Todas tus respuestas son correctas</h2>
             <h3>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h3>
         </div>
         
-        <!-- PANTALLA DE DERROTA (al menos una respuesta inválida) -->
         <div th:if="${resultado.respuestasInvalidas > 0}">
             <h1>❌ DERROTA ❌</h1>
             <h2>Tienes respuestas incorrectas</h2>
@@ -42,7 +38,6 @@
         
         <h3>DETALLE:</h3>
         
-        <!-- Por cada validación, mostrar los detalles -->
         <ul>
             <li th:each="v : ${resultado.validaciones}">
                 <strong th:text="${v.categoria}"></strong>: 
@@ -59,7 +54,6 @@
         
         <hr>
         
-        <!-- Botones -->
         <a th:href="@{/solitario}">NUEVA PARTIDA</a>
         <a th:href="@{/menu}">IR AL MENU</a>
     </div>

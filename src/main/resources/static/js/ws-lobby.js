@@ -13,7 +13,7 @@ function conectarWebSocket() {
   stompClient.connect(
     {},
     function (frame) {
-      console.log("Conectado con websockets desde lobby!");
+      console.log("Conectado con websockets desde lobby");
 
       stompClient.subscribe("/topic/lobby", function (mensaje) {
         const salas = JSON.parse(mensaje.body);

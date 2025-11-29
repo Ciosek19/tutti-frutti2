@@ -6,6 +6,10 @@
     <title>Document</title>
   </head>
   <body>
+    <form th:action="@{/menu}" method="get" style="display: inline;">
+      <button type="submit">Volver al Menú</button>
+    </form>
+
     <h1>Seleccione su dificultad</h1>
     <h2 th:text="${session.usuario}"></h2>
     <form method="post" action="/solitario/dificultad">

@@ -8,15 +8,19 @@
 <body>
     <h1>Bienvenido a Tutti Frutti</h1>
     <h2 th:text="'Jugador: ' + ${nombreJugador}"></h2>
-    
+
     <form method="post" th:action="@{/menu/solitario}">
         <button type="submit">Solitario</button>
     </form>
-    
+
     <form method="post" th:action="@{/menu/multijugador}">
         <button type="submit">Multijugador</button>
     </form>
-    
+
+    <form th:action="@{/logout}" method="post" style="margin-top: 20px;">
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+
     <div th:if="${error}" style="color:red;">
         <span th:text="${error}"></span>
     </div>

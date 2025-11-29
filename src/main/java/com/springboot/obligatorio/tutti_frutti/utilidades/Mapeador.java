@@ -20,7 +20,7 @@ public final class Mapeador {
 
         } catch (Exception e) {
             throw new RuntimeException(
-                    "Error parseando validación.\n" +
+                    "Error parseando validacion.\n" +
                             "Texto recibido: [" + textoRespuesta + "]\n" +
                             "Error: " + e.getMessage(),
                     e);

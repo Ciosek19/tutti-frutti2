@@ -17,7 +17,6 @@ public final class ConfiguracionJuego {
         'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V'
     );
     
-    // Métodos útiles
     public static String getLetraAleatoria() {
         Random random = new Random();
         return String.valueOf(LETRAS.get(random.nextInt(LETRAS.size())));

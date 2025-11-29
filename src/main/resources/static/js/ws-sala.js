@@ -1,12 +1,13 @@
 let stompClient = null;
 
 addEventListener("DOMContentLoaded", () => {
+  mostrarJugadores(salaData.jugadores);
+  mostrarBotonEmpezarPartida(salaData.jugadores.length);
+  mostrarConfiguracion();
+
   conectarWebSocket();
   const btnVolver = document.getElementById("formVolver");
   btnVolver.addEventListener("submit", VolverAlLobby);
-  
-  mostrarBotonEmpezarPartida(salaData.jugadores.length);
-  mostrarConfiguracion();
 });
 
 function conectarWebSocket() {
@@ -16,7 +17,6 @@ function conectarWebSocket() {
   stompClient.connect(
     {},
     function (frame) {
-      console.log("Conectado a WebSocket desde sala:", frame);
 
       stompClient.subscribe(
         "/topic/sala/" + salaData.codigo,
@@ -29,21 +29,19 @@ function conectarWebSocket() {
       stompClient.send("/app/actualizar-sala/" + salaData.codigo, {}, "{}");
     },
     function (error) {
-      console.error("Error de conexión WebSocket:", error);
       alert("Error al conectar con el servidor");
     }
   );
 }
 
 function actualizarSala(sala) {
-  console.log("Actualizando sala " + salaData.codigo);
-
   if (sala.accion === 'INICIAR_PARTIDA') {
     window.location.href = '/partida/' + sala.partidaId;
     return;
   }
 
   salaData.creador = sala.creador ? sala.creador.nombre : sala.creador;
+  salaData.jugadores = sala.jugadores || [];
   salaData.cantidadCategorias = sala.cantidadCategorias || 5;
   salaData.maxJugadores = sala.maxJugadores || 4;
   salaData.duracion = sala.duracion || 60;
@@ -54,7 +52,6 @@ function actualizarSala(sala) {
 }
 
 function mostrarJugadores(jugadores) {
-  console.log("Mostrando jugadores:", jugadores);
   const contenedorJugadores = document.getElementById("jugadores");
   contenedorJugadores.innerHTML = "";
 
@@ -78,7 +75,6 @@ function mostrarConfiguracion() {
   const divConfiguracion = document.getElementById("configuracion");
   
   if (!divConfiguracion) {
-    console.error("No se encontró el elemento configuracion");
     return;
   }
   
@@ -127,7 +123,6 @@ function mostrarConfiguracion() {
       </div>
     `;
   } else {
-    // Mostrar configuración actual para jugadores no creadores
     divConfiguracion.innerHTML = `
       <h3>Configuración de la Partida</h3>
       <div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px;">
@@ -162,13 +157,13 @@ function actualizarMaxJugadores() {
   const cantidad = parseInt(input.value);
   
   if (cantidad < 2 || cantidad > 6) {
-    alert("El máximo de jugadores debe estar entre 2 y 6");
+    alert("El maximo de jugadores debe estar entre 2 y 6");
     input.value = salaData.maxJugadores;
     return;
   }
   
   if (cantidad < salaData.jugadores.length) {
-    alert(`No puedes reducir el máximo a ${cantidad} porque ya hay ${salaData.jugadores.length} jugadores en la sala`);
+    alert(`No puedes reducir el maximo a ${cantidad} porque ya hay ${salaData.jugadores.length} jugadores en la sala`);
     input.value = salaData.maxJugadores;
     return;
   }
@@ -186,7 +181,7 @@ function actualizarDuracion() {
   const duracion = parseInt(input.value);
 
   if (duracion < 30 || duracion > 120) {
-    alert("La duración debe estar entre 30 y 120 segundos");
+    alert("La duracion debe estar entre 30 y 120 segundos");
     input.value = salaData.duracion;
     return;
   }
@@ -203,7 +198,6 @@ function mostrarBotonEmpezarPartida(cantidadJugadores) {
   const divEmpezarPartida = document.getElementById("btnEmpezarPartida");
 
   if (!divEmpezarPartida) {
-    console.error("No se encontró el elemento btnEmpezarPartida");
     return;
   }
 
@@ -220,7 +214,7 @@ function mostrarBotonEmpezarPartida(cantidadJugadores) {
         <input type="hidden" name="cantidadCategorias" value="${salaData.cantidadCategorias}">
         <input type="hidden" name="maxJugadores" value="${salaData.maxJugadores}">
         <button type="submit" ${estaDeshabilitado ? 'disabled' : ''}>
-          Empezar partida ${estaDeshabilitado ? '(mínimo 2 jugadores)' : ''}
+          Empezar partida ${estaDeshabilitado ? '(minimo 2 jugadores)' : ''}
         </button>
       </form>
     `;

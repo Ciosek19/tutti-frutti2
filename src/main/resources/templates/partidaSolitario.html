@@ -12,6 +12,8 @@
     <div id="contenido-juego" style="display: none">
       <h1>TUTTI FRUTTI</h1>
 
+      <button type="button" id="btnSalir" onclick="confirmarSalida()">Salir al Menú</button>
+
       <div th:if="${partida != null}">
         <div id="temporizador">
           Tiempo restante: <span id="tiempo">--</span> segundos
@@ -60,6 +62,24 @@
 
       let intervaloPartida = null;
 
+      // Función para verificar si todos los campos tienen valor
+      function verificarCamposCompletos() {
+        let todosCompletos = true;
+        inputsCategorias.forEach((input) => {
+          if (input.value.trim() === "") {
+            todosCompletos = false;
+          }
+        });
+
+        // Habilitar o deshabilitar el botón según el estado de los campos
+        btnEnviar.disabled = !todosCompletos;
+      }
+
+      // Agregar listeners a todos los inputs para verificar en tiempo real
+      inputsCategorias.forEach((input) => {
+        input.addEventListener("input", verificarCamposCompletos);
+      });
+
       async function iniciarJuego() {
         await iniciarCuentaRegresiva();
         ocultarCuentaRegresiva();
@@ -89,6 +109,9 @@
 
       function mostrarJuego() {
         contenidoJuego.style.display = "block";
+
+        // Deshabilitar el botón al inicio
+        btnEnviar.disabled = true;
 
         if (inputsCategorias.length > 0) {
           inputsCategorias[0].focus();
@@ -123,6 +146,14 @@
       formulario.addEventListener("submit", function (e) {
         detenerTemporizador();
       });
+
+      function confirmarSalida() {
+        const confirmacion = confirm("¿Estás seguro de que quieres salir? Perderás el progreso de esta partida.");
+        if (confirmacion) {
+          detenerTemporizador();
+          window.location.href = "/menu";
+        }
+      }
 
       window.addEventListener("load", () => {
         iniciarJuego();

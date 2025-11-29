@@ -59,7 +59,7 @@ public class SolitarioController {
         PartidaSolitario partida = (PartidaSolitario)session.getAttribute("partidaActual");
         model.addAttribute("partida", partida);
         
-        return "partida";
+        return "partidaSolitario";
     }
 
     @PostMapping("solitario/validar")

@@ -13,6 +13,8 @@
     <div id="contenido-juego" style="display: none">
       <h1>TUTTI FRUTTI - MULTIJUGADOR</h1>
 
+      <button type="button" id="btnSalir" onclick="confirmarSalida()">Salir al Menú</button>
+
       <div th:if="${partida != null}">
         <div id="temporizador">
           Tiempo restante: <span id="tiempo">--</span> segundos
@@ -197,6 +199,22 @@
         }
         terminarPartida();
       });
+
+      function confirmarSalida() {
+        const confirmacion = confirm("¿Estás seguro de que quieres salir? Perderás el progreso de esta partida y no aparecerás en los resultados.");
+        if (confirmacion) {
+          detenerTemporizador();
+          if (stompClient && stompClient.connected) {
+            stompClient.disconnect();
+          }
+          // Crear formulario y enviarlo por POST
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = '/partida/' + partidaId + '/ir-menu';
+          document.body.appendChild(form);
+          form.submit();
+        }
+      }
 
       window.addEventListener("load", () => {
         iniciarJuego();

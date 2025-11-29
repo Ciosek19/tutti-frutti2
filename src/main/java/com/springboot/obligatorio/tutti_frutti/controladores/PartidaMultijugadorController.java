@@ -30,7 +30,7 @@ import com.springboot.obligatorio.tutti_frutti.servicios.JugadorServicio;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
-public class MultijugadorController {
+public class PartidaMultijugadorController {
 
     @Autowired
     private ISalaRepositorio salaRepositorio;
@@ -127,17 +127,10 @@ public class MultijugadorController {
         respuestasMap.remove("letra");
         respuestasMap.remove("partidaId");
 
-        System.out.println("=== GUARDANDO RESPUESTAS ===");
-        System.out.println("Jugador: " + jugador.getNombre());
-        System.out.println("Partida ID: " + partidaId);
-        System.out.println("Respuestas recibidas:");
-        respuestasMap.forEach((k, v) -> System.out.println("  - " + k + ": " + v));
-
         Respuesta respuesta = respuestaRepositorio.findByPartidaAndJugador(partida, jugador)
                 .orElse(null);
 
         if (respuesta != null) {
-            System.out.println("Respuesta existente encontrada, eliminando...");
             respuestaRepositorio.delete(respuesta);
             respuestaRepositorio.flush();
         }
@@ -149,20 +142,14 @@ public class MultijugadorController {
             String respuestaTexto = entry.getValue();
             RespuestaIndividual respuestaInd = new RespuestaIndividual(categoria, respuestaTexto);
             respuesta.agregarRespuestaIndividual(respuestaInd);
-            System.out.println("Agregando respuesta individual: " + categoria + " -> " + respuestaTexto);
         }
 
-        Respuesta respuestaGuardada = respuestaRepositorio.save(respuesta);
-        System.out.println("Respuesta guardada en BD con ID: " + respuestaGuardada.getId());
-        System.out.println("Total respuestas individuales guardadas: " + respuestaGuardada.getRespuestasIndividuales().size());
+        respuestaRepositorio.save(respuesta);
 
         List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
         int totalJugadores = partida.getSala().getJugadores().size();
 
-        System.out.println("Respuestas recibidas: " + todasRespuestas.size() + "/" + totalJugadores);
-
         if (todasRespuestas.size() >= totalJugadores && !partida.getFinalizada()) {
-            System.out.println("Todas las respuestas recibidas, iniciando evaluación...");
             evaluacionServicio.evaluarPartida(partidaId);
             return "redirect:/partida/" + partidaId + "/resultados";
         }
@@ -179,14 +166,19 @@ public class MultijugadorController {
         }
         PartidaMultijugador partida = partidaRepositorio.findById(partidaId).orElse(null);
 
-        if (partida == null || !partida.getSala().getJugadores().contains(jugador)) {
+        if (partida == null) {
+            return "redirect:/lobby";
+        }
+
+        Respuesta respuestaJugador = respuestaRepositorio.findByPartidaAndJugador(partida, jugador).orElse(null);
+        if (respuestaJugador == null) {
             return "redirect:/lobby";
         }
 
         List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
         int totalJugadores = partida.getSala().getJugadores().size();
 
-        if (partida.getFinalizada() || todasRespuestas.size() >= totalJugadores) {
+        if (partida.getFinalizada()) {
             return "redirect:/partida/" + partidaId + "/resultados";
         }
 
@@ -215,6 +207,33 @@ public class MultijugadorController {
         );
     }
 
+    @PostMapping("/partida/{partidaId}/forzar-evaluacion")
+    @ResponseBody
+    public Map<String, Object> forzarEvaluacion(@PathVariable Long partidaId) {
+        PartidaMultijugador partida = partidaRepositorio.findById(partidaId).orElse(null);
+
+        if (partida == null) {
+            return Map.of("error", "Partida no encontrada");
+        }
+
+        if (partida.getFinalizada()) {
+            return Map.of("mensaje", "Partida ya finalizada");
+        }
+
+        List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
+
+        if (todasRespuestas.isEmpty()) {
+            return Map.of("error", "No hay respuestas para evaluar");
+        }
+
+        evaluacionServicio.evaluarPartida(partidaId);
+
+        return Map.of(
+            "mensaje", "Evaluación forzada exitosamente",
+            "respuestasEvaluadas", todasRespuestas.size()
+        );
+    }
+
     @GetMapping("/partida/{partidaId}/debug")
     @ResponseBody
     public Map<String, Object> debugPartida(@PathVariable Long partidaId) {
@@ -225,27 +244,6 @@ public class MultijugadorController {
         }
 
         List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
-
-        System.out.println("\n=== DEBUG PARTIDA " + partidaId + " ===");
-        System.out.println("Letra: " + partida.getLetra());
-        System.out.println("Finalizada: " + partida.getFinalizada());
-        System.out.println("Total respuestas: " + todasRespuestas.size());
-
-        for (Respuesta resp : todasRespuestas) {
-            System.out.println("\n- Jugador: " + resp.getJugador().getNombre());
-            System.out.println("  ID Respuesta: " + resp.getId());
-            System.out.println("  Validada: " + resp.getValidada());
-            System.out.println("  Puntaje: " + resp.getPuntajeTotal());
-            System.out.println("  Respuestas individuales: " + resp.getRespuestasIndividuales().size());
-
-            for (RespuestaIndividual ri : resp.getRespuestasIndividuales()) {
-                System.out.println("    * " + ri.getCategoria() + ": " + ri.getRespuesta());
-                System.out.println("      Válida: " + ri.getEsValida() + ", Puntos: " + ri.getPuntos());
-                if (ri.getRazon() != null && !ri.getRazon().isEmpty()) {
-                    System.out.println("      Razón: " + ri.getRazon());
-                }
-            }
-        }
 
         return Map.of(
             "partidaId", partidaId,
@@ -265,21 +263,23 @@ public class MultijugadorController {
         }
         PartidaMultijugador partida = partidaRepositorio.findById(partidaId).orElse(null);
 
-        if (partida == null || !partida.getSala().getJugadores().contains(jugador)) {
+        if (partida == null) {
             return "redirect:/lobby";
         }
 
         List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
-        int totalJugadores = partida.getSala().getJugadores().size();
 
-        if (todasRespuestas.size() >= totalJugadores && !partida.getFinalizada()) {
-            System.out.println("Jugador llegó a resultados antes de evaluación, iniciando evaluación...");
+        if (todasRespuestas.isEmpty() && !partida.getFinalizada()) {
+            return "redirect:/partida/" + partidaId + "/esperando-resultados";
+        }
+
+        if (!todasRespuestas.isEmpty() && !partida.getFinalizada()) {
             evaluacionServicio.evaluarPartida(partidaId);
             partida = partidaRepositorio.findById(partidaId).orElse(partida);
             todasRespuestas = respuestaRepositorio.findByPartida(partida);
         }
 
-        if (!partida.getFinalizada() || todasRespuestas.isEmpty()) {
+        if (!partida.getFinalizada()) {
             return "redirect:/partida/" + partidaId + "/esperando-resultados";
         }
 
@@ -326,20 +326,17 @@ public class MultijugadorController {
                 sala.removerJugador(jugador);
 
                 if (sala.getJugadores().isEmpty()) {
-                    System.out.println("Sala " + codigoSala + " quedó vacía");
                     salaRepositorio.save(sala);
                 } else {
                     if (sala.getCreador().equals(jugador)) {
                         Jugador nuevoCreador = sala.getJugadores().get(0);
                         sala.setCreador(nuevoCreador);
-                        System.out.println("Nuevo creador de sala: " + nuevoCreador.getNombre());
                     }
                     salaRepositorio.save(sala);
                     messagingTemplate.convertAndSend("/topic/sala/" + codigoSala, sala);
                 }
 
                 messagingTemplate.convertAndSend("/topic/lobby", salaRepositorio.findAll());
-                System.out.println("Jugador " + jugador.getNombre() + " salió de sala " + codigoSala + " hacia menú");
             }
         }
 
