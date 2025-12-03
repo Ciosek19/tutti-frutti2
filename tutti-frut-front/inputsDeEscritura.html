@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inputs Neobrutalist - Variantes Corregidas</title>
+<style>
+:root {
+  --color-primary: #d20473;
+  --color-secondary: #3204d9;
+  --color-accent: #04bf9d;
+  --color-success: #067302;
+  --color-warning: #d2d904;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --bg: #04bf9d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ==================== INPUT BASE ==================== */
+.neo-input-container {
+  position: relative;
+  font-family: monospace;
+  width: 100%;
+}
+
+.neo-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: 4px solid var(--color-black);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.neo-input-label {
+  position: absolute;
+  left: -3px;
+  top: -35px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  padding: 5px 10px;
+  transform: rotate(-1deg);
+  z-index: 1;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 3px solid var(--color-black);
+}
+
+.neo-input::placeholder {
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.neo-input:focus::placeholder {
+  color: transparent;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+/* ==================== VARIANTE PRIMARY ==================== */
+.neo-input-primary {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-primary);
+}
+
+.neo-input-primary:focus {
+  animation: focus-pulse-primary 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-primary);
+}
+
+.neo-input-primary:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+@keyframes focus-pulse-primary {
+  0%, 100% { border-color: var(--color-black); }
+  50% { border-color: var(--color-primary); }
+}
+
+/* ==================== VARIANTE SECONDARY ==================== */
+.neo-input-secondary {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-secondary);
+}
+
+.neo-input-secondary:focus {
+  animation: focus-pulse-secondary 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-secondary);
+}
+
+.neo-input-secondary:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+@keyframes focus-pulse-secondary {
+  0%, 100% { border-color: var(--color-black); }
+  50% { border-color: var(--color-secondary); }
+}
+
+/* ==================== VARIANTE ACCENT ==================== */
+.neo-input-accent {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-accent);
+}
+
+.neo-input-accent:focus {
+  animation: focus-pulse-accent 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-accent);
+}
+
+.neo-input-accent:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+@keyframes focus-pulse-accent {
+  0%, 100% { border-color: var(--color-black); }
+  50% { border-color: var(--color-accent); }
+}
+
+/* ==================== VARIANTE SUCCESS ==================== */
+.neo-input-success {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-success);
+}
+
+.neo-input-success:focus {
+  animation: focus-pulse-success 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-success);
+}
+
+.neo-input-success:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+@keyframes focus-pulse-success {
+  0%, 100% { border-color: var(--color-black); }
+  50% { border-color: var(--color-success); }
+}
+
+/* ==================== VARIANTE WARNING ==================== */
+.neo-input-warning {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-warning);
+}
+
+.neo-input-warning:focus {
+  animation: focus-pulse-warning 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-warning);
+}
+
+.neo-input-warning:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-warning);
+  color: var(--color-black);
+}
+
+@keyframes focus-pulse-warning {
+  0%, 100% { border-color: var(--color-black); }
+  50% { border-color: var(--color-warning); }
+}
+
+/* ==================== TEXTAREA VARIANTES ==================== */
+.neo-textarea {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: 4px solid var(--color-black);
+  border-radius: 0;
+  outline: none;
+  font-family: monospace;
+  resize: vertical;
+  min-height: 120px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.neo-textarea::placeholder {
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.neo-textarea:focus::placeholder {
+  color: transparent;
+}
+
+.neo-textarea-primary {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-primary);
+}
+
+.neo-textarea-primary:focus {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.neo-textarea-primary:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.neo-textarea-secondary {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-secondary);
+}
+
+.neo-textarea-secondary:focus {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.neo-textarea-secondary:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.neo-textarea-accent {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-accent);
+}
+
+.neo-textarea-accent:focus {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.neo-textarea-accent:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.neo-textarea-success {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-success);
+}
+
+.neo-textarea-success:focus {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-success);
+  border-color: var(--color-success);
+}
+
+.neo-textarea-success:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.neo-textarea-warning {
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-warning);
+}
+
+.neo-textarea-warning:focus {
+  animation: glitch 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  box-shadow: 5px 5px 0 var(--color-black), 10px 10px 0 var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.neo-textarea-warning:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--color-warning);
+  color: var(--color-black);
+}
+
+/* ==================== UTILIDADES ==================== */
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.flex-gap {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+body {
+  padding: 40px;
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: Montserrat, sans-serif;
+}
+
+h2 {
+  color: var(--color-white);
+  text-shadow: 3px 3px 0 var(--color-black);
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: var(--color-warning);
+  text-shadow: 4px 4px 0 var(--color-black);
+  font-size: 42px;
+}
+</style>
+</head>
+<body>
+
+<h1>INPUTS DE ESCRITURA - VARIANTES</h1>
+
+<!-- ==================== INPUTS CON DIFERENTES SOMBREADOS ==================== -->
+<h2>🎨 Inputs con Diferentes Sombreados</h2>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="ESCRIBE AQUÍ"
+      class="neo-input neo-input-primary"
+      type="text"
+    />
+    <label class="neo-input-label">PRIMARY</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="ESCRIBE AQUÍ"
+      class="neo-input neo-input-secondary"
+      type="text"
+    />
+    <label class="neo-input-label">SECONDARY</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="ESCRIBE AQUÍ"
+      class="neo-input neo-input-accent"
+      type="text"
+    />
+    <label class="neo-input-label">ACCENT</label>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="ESCRIBE AQUÍ"
+      class="neo-input neo-input-success"
+      type="text"
+    />
+    <label class="neo-input-label">SUCCESS</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="ESCRIBE AQUÍ"
+      class="neo-input neo-input-warning"
+      type="text"
+    />
+    <label class="neo-input-label">WARNING</label>
+  </div>
+</div>
+
+<!-- ==================== DIFERENTES TIPOS DE INPUT ==================== -->
+<h2>📝 Diferentes Tipos de Input</h2>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 300px;">
+    <input
+      placeholder="tu@email.com"
+      class="neo-input neo-input-primary"
+      type="email"
+    />
+    <label class="neo-input-label">EMAIL</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 250px;">
+    <input
+      placeholder="********"
+      class="neo-input neo-input-secondary"
+      type="password"
+    />
+    <label class="neo-input-label">PASSWORD</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 200px;">
+    <input
+      placeholder="123"
+      class="neo-input neo-input-accent"
+      type="number"
+    />
+    <label class="neo-input-label">NÚMERO</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 250px;">
+    <input
+      placeholder="+34 600 000 000"
+      class="neo-input neo-input-success"
+      type="tel"
+    />
+    <label class="neo-input-label">TELÉFONO</label>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 250px;">
+    <input
+      placeholder="dd/mm/yyyy"
+      class="neo-input neo-input-warning"
+      type="date"
+    />
+    <label class="neo-input-label">FECHA</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 200px;">
+    <input
+      placeholder="00:00"
+      class="neo-input neo-input-primary"
+      type="time"
+    />
+    <label class="neo-input-label">HORA</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 300px;">
+    <input
+      placeholder="https://ejemplo.com"
+      class="neo-input neo-input-secondary"
+      type="url"
+    />
+    <label class="neo-input-label">URL</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 250px;">
+    <input
+      placeholder="Buscar..."
+      class="neo-input neo-input-accent"
+      type="search"
+    />
+    <label class="neo-input-label">BÚSQUEDA</label>
+  </div>
+</div>
+
+<!-- ==================== TEXTAREAS ==================== -->
+<h2>📄 Áreas de Texto</h2>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 400px;">
+    <textarea
+      placeholder="ESCRIBE UN MENSAJE AQUÍ..."
+      class="neo-textarea neo-textarea-primary"
+    ></textarea>
+    <label class="neo-input-label">MENSAJE PRIMARY</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 400px;">
+    <textarea
+      placeholder="ESCRIBE UN MENSAJE AQUÍ..."
+      class="neo-textarea neo-textarea-secondary"
+    ></textarea>
+    <label class="neo-input-label">MENSAJE SECONDARY</label>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 400px;">
+    <textarea
+      placeholder="ESCRIBE UN MENSAJE AQUÍ..."
+      class="neo-textarea neo-textarea-accent"
+    ></textarea>
+    <label class="neo-input-label">MENSAJE ACCENT</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 400px;">
+    <textarea
+      placeholder="ESCRIBE UN MENSAJE AQUÍ..."
+      class="neo-textarea neo-textarea-success"
+    ></textarea>
+    <label class="neo-input-label">MENSAJE SUCCESS</label>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 400px;">
+    <textarea
+      placeholder="ESCRIBE UN MENSAJE AQUÍ..."
+      class="neo-textarea neo-textarea-warning"
+    ></textarea>
+    <label class="neo-input-label">MENSAJE WARNING</label>
+  </div>
+</div>
+
+<!-- ==================== INPUTS EN DIFERENTES TAMAÑOS ==================== -->
+<h2>📏 Diferentes Tamaños</h2>
+
+<div class="flex-gap mb-40">
+  <div class="neo-input-container" style="width: 200px;">
+    <input
+      placeholder="PEQUEÑO"
+      class="neo-input neo-input-primary"
+      type="text"
+      style="font-size: 14px; padding: 10px;"
+    />
+    <label class="neo-input-label">SMALL</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 350px;">
+    <input
+      placeholder="MEDIANO"
+      class="neo-input neo-input-secondary"
+      type="text"
+    />
+    <label class="neo-input-label">MEDIUM</label>
+  </div>
+
+  <div class="neo-input-container" style="width: 500px;">
+    <input
+      placeholder="GRANDE"
+      class="neo-input neo-input-accent"
+      type="text"
+      style="font-size: 22px; padding: 20px;"
+    />
+    <label class="neo-input-label">LARGE</label>
+  </div>
+</div>
+
+</body>
+</html>

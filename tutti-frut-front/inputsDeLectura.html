@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inputs de Lectura - Rojo, Amarillo, Verde</title>
+<style>
+:root {
+  --color-red: #d20473;
+  --color-yellow: #d2d904;
+  --color-green: #067302;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --bg: #04bf9d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ==================== INPUTS DE LECTURA BASE ==================== */
+.neo-input-read {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 4px solid var(--color-black);
+  font-family: monospace;
+  cursor: default;
+  user-select: text;
+}
+
+/* ==================== CON HOVER ==================== */
+.neo-input-read-red {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  box-shadow: 5px 5px 0 var(--color-black);
+  transition: all 0.3s ease;
+}
+
+.neo-input-read-red:hover {
+  box-shadow: 3px 3px 0 var(--color-black);
+  translate: 2px 2px;
+}
+
+.neo-input-read-yellow {
+  background-color: var(--color-yellow);
+  color: var(--color-black);
+  box-shadow: 5px 5px 0 var(--color-black);
+  transition: all 0.3s ease;
+}
+
+.neo-input-read-yellow:hover {
+  box-shadow: 3px 3px 0 var(--color-black);
+  translate: 2px 2px;
+}
+
+.neo-input-read-green {
+  background-color: var(--color-green);
+  color: var(--color-white);
+  box-shadow: 5px 5px 0 var(--color-black);
+  transition: all 0.3s ease;
+}
+
+.neo-input-read-green:hover {
+  box-shadow: 3px 3px 0 var(--color-black);
+  translate: 2px 2px;
+}
+
+/* ==================== SIN HOVER ==================== */
+.neo-input-read-red-static {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  box-shadow: 5px 5px 0 var(--color-black);
+}
+
+.neo-input-read-yellow-static {
+  background-color: var(--color-yellow);
+  color: var(--color-black);
+  box-shadow: 5px 5px 0 var(--color-black);
+}
+
+.neo-input-read-green-static {
+  background-color: var(--color-green);
+  color: var(--color-white);
+  box-shadow: 5px 5px 0 var(--color-black);
+}
+
+/* ==================== UTILIDADES ==================== */
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.flex-gap {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+body {
+  padding: 40px;
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: Montserrat, sans-serif;
+}
+
+h2 {
+  color: var(--color-white);
+  text-shadow: 3px 3px 0 var(--color-black);
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: var(--color-yellow);
+  text-shadow: 4px 4px 0 var(--color-black);
+  font-size: 42px;
+}
+
+h3 {
+  color: var(--color-white);
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>INPUTS DE LECTURA</h1>
+
+<!-- ==================== CON HOVER ==================== -->
+<h2>✨ Con Hover (Transición activa)</h2>
+
+<div class="flex-gap mb-40">
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-red">ESTADO: CRÍTICO</div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-yellow">ESTADO: ADVERTENCIA</div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-green">ESTADO: CORRECTO</div>
+  </div>
+</div>
+
+<h3>Ejemplos de uso con hover:</h3>
+
+<div class="flex-gap mb-40">
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-red">Error: 404</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-yellow">Alerta: Espera</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-green">OK: Completado</div>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-red">CONEXIÓN PERDIDA</div>
+  </div>
+
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-yellow">PROCESANDO...</div>
+  </div>
+
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-green">CONECTADO</div>
+  </div>
+</div>
+
+<!-- ==================== SIN HOVER ==================== -->
+<h2>📌 Sin Hover (Estáticos)</h2>
+
+<div class="flex-gap mb-40">
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-red-static">ESTADO: CRÍTICO</div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-yellow-static">ESTADO: ADVERTENCIA</div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-green-static">ESTADO: CORRECTO</div>
+  </div>
+</div>
+
+<h3>Ejemplos de uso sin hover:</h3>
+
+<div class="flex-gap mb-40">
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-red-static">Error: 404</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-yellow-static">Alerta: Espera</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-green-static">OK: Completado</div>
+  </div>
+</div>
+
+<div class="flex-gap mb-40">
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-red-static">DESCONECTADO</div>
+  </div>
+
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-yellow-static">EN ESPERA</div>
+  </div>
+
+  <div style="width: 350px;">
+    <div class="neo-input-read neo-input-read-green-static">ACTIVO</div>
+  </div>
+</div>
+
+<!-- ==================== DIFERENTES TAMAÑOS ==================== -->
+<h2>📏 Diferentes Tamaños (Con Hover)</h2>
+
+<div class="flex-gap mb-40">
+  <div style="width: 150px;">
+    <div class="neo-input-read neo-input-read-red" style="font-size: 14px; padding: 10px;">
+      Pequeño
+    </div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-yellow">
+      Mediano
+    </div>
+  </div>
+
+  <div style="width: 500px;">
+    <div class="neo-input-read neo-input-read-green" style="font-size: 24px; padding: 20px;">
+      Grande
+    </div>
+  </div>
+</div>
+
+<h2>📏 Diferentes Tamaños (Sin Hover)</h2>
+
+<div class="flex-gap mb-40">
+  <div style="width: 150px;">
+    <div class="neo-input-read neo-input-read-red-static" style="font-size: 14px; padding: 10px;">
+      Pequeño
+    </div>
+  </div>
+
+  <div style="width: 300px;">
+    <div class="neo-input-read neo-input-read-yellow-static">
+      Mediano
+    </div>
+  </div>
+
+  <div style="width: 500px;">
+    <div class="neo-input-read neo-input-read-green-static" style="font-size: 24px; padding: 20px;">
+      Grande
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CASOS DE USO ==================== -->
+<h2>💼 Casos de Uso Prácticos</h2>
+
+<h3>Con Hover - Interactivos:</h3>
+<div class="flex-gap mb-40">
+  <div style="width: 200px;">
+    <div class="neo-input-read neo-input-read-green">✓ Activo</div>
+  </div>
+
+  <div style="width: 200px;">
+    <div class="neo-input-read neo-input-read-yellow">⚠ Pendiente</div>
+  </div>
+
+  <div style="width: 200px;">
+    <div class="neo-input-read neo-input-read-red">✗ Inactivo</div>
+  </div>
+</div>
+
+<h3>Sin Hover - Solo Información:</h3>
+<div class="flex-gap mb-40">
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-red-static">Temperatura: ALTA</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-yellow-static">Batería: MEDIA</div>
+  </div>
+
+  <div style="width: 250px;">
+    <div class="neo-input-read neo-input-read-green-static">Sistema: OK</div>
+  </div>
+</div>
+
+</body>
+</html>

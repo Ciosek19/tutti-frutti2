@@ -103,6 +103,7 @@ public final class ConstructorPrompt {
 
         prompt.append("=== PUNTUACIÓN ===\n");
         prompt.append("• Válida: 10 puntos\n");
+        prompt.append("• Repetida: 5 puntos\n");
         prompt.append("• Inválida: 0 puntos\n\n");
 
         prompt.append("=== FORMATO DE RESPUESTA REQUERIDO ===\n");
