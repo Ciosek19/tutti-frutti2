@@ -1,0 +1,79 @@
+<!-- =============================================================================
+     ARCHIVO: demo-sala-tarjeta.html
+     ============================================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo - Sala</title>
+<link rel="stylesheet" href="../colores.css">
+<link rel="stylesheet" href="sala-tarjeta.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--color-accent);
+    margin: 0;
+    padding: 2rem;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr 2fr;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .grid-container {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="neo-room-container" style="max-width: 1200px; width: 100%;">
+    <div class="neo-room-title">Batalla Épica 01</div>
+    
+    <div class="neo-room-content grid-container">
+      <div class="neo-room-item-wrapper">
+        <div class="neo-room-item-label">Creador</div>
+        <div class="neo-room-creator">
+          <div class="neo-room-avatar">🎮</div>
+          <div class="neo-room-creator-name">BluePlayer1</div>
+        </div>
+      </div>
+      
+      <div class="neo-room-item-wrapper">
+        <div class="neo-room-item-label">Categorías</div>
+        <div>5</div>
+      </div>
+      
+      <div class="neo-room-item-wrapper">
+        <div class="neo-room-item-label">Duración</div>
+        <div>30</div>
+      </div>
+      
+      <div class="neo-room-item-wrapper">
+        <div class="neo-room-item-label">Jugadores</div>
+        <div>2/4</div>
+      </div>
+      
+      <div class="neo-room-item-wrapper">
+        <div class="neo-room-item-label">Estado</div>
+        <div>En espera</div>
+      </div>
+      
+      <div>
+        <button class="neo-room-button">Unirse</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

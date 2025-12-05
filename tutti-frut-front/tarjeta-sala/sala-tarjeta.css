@@ -1,0 +1,244 @@
+/* =============================================================================
+   ARCHIVO: sala-tarjeta.css
+   DESCRIPCIÓN: Tarjeta de sala para listados de partidas
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+  --color-gray: #888888
+*/
+
+/* ==================== CONFIGURACIÓN DE LA SALA ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR LA SALA */
+:root {
+  /* Colores de fondo de la sala */
+  --room-bg-color: var(--color-secondary);        /* Fondo de la sala (azul) */
+  --room-bg-full: var(--color-gray);              /* Fondo cuando está llena */
+  
+  /* Colores de texto de la sala */
+  --room-text-color: var(--color-white);          /* Color de texto principal */
+  --room-text-full: rgba(255, 255, 255, 0.7);    /* Color de texto cuando está llena */
+  --room-font-size: 1.238rem;                     /* Tamaño de fuente de la sala */
+  
+  /* Labels de columnas */
+  --room-label-text: var(--color-black);          /* Color de texto de labels */
+  --room-label-font-size: 0.875rem;               /* Tamaño de fuente de labels */
+  --room-label-font-size-sm: 0.75rem;             /* Tamaño de fuente móvil */
+  --room-label-font-weight: 700;                  /* Peso de fuente de labels */
+  --room-label-margin-bottom: 0.5rem;             /* Margen inferior del label */
+  
+  /* Colores del botón de la sala */
+  --room-btn-bg: var(--color-warning);            /* Fondo del botón (amarillo) */
+  --room-btn-bg-hover: var(--color-success);      /* Fondo del botón en hover (verde) */
+  --room-btn-bg-active: var(--color-primary);     /* Fondo del botón al presionar */
+  --room-btn-text: var(--color-black);            /* Color de texto del botón */
+  --room-btn-text-hover: var(--color-white);      /* Color de texto del botón en hover */
+  --room-btn-font-size: 1rem;                     /* Tamaño de fuente del botón */
+  
+  /* Botón deshabilitado */
+  --room-btn-disabled-bg: var(--color-gray);      /* Fondo del botón deshabilitado */
+  --room-btn-disabled-text: rgba(255, 255, 255, 0.7); /* Texto del botón deshabilitado */
+  
+  /* Título de la sala */
+  --room-title-bg: var(--color-white);            /* Fondo del título */
+  --room-title-text: var(--color-black);          /* Color de texto del título */
+  --room-title-font-size: 1.125rem;               /* Tamaño de fuente del título */
+  --room-title-padding: 0.75rem 1.25rem;          /* Padding del título */
+  --room-title-min-height: 2.125rem;              /* Altura mínima del título */
+  
+  /* Bordes y sombras */
+  --room-border-width: 0.25rem;                   /* Grosor del borde */
+  --room-border-color: var(--color-black);        /* Color del borde */
+  --room-shadow-offset: 0.5rem;                   /* Desplazamiento de sombra */
+  --room-shadow-offset-hover: 0.375rem;           /* Desplazamiento en hover */
+  
+  /* Contenido */
+  --room-content-padding: 1.25rem 0.625rem;       /* Padding del contenido */
+  --room-content-min-height: 6.25rem;             /* Altura mínima del contenido */
+  
+  /* Botón */
+  --room-btn-padding: 0.75rem 1.25rem;            /* Padding del botón */
+  --room-btn-min-width: auto;                 /* Ancho mínimo del botón */
+  --room-btn-height: 3.75rem;                     /* Altura del botón */
+  
+  /* Avatar */
+  --room-avatar-size: 2.813rem;                   /* Tamaño del avatar */
+  --room-avatar-font-size: 1.5rem;                /* Tamaño de fuente del avatar */
+  --room-avatar-border-width: 0.188rem;           /* Grosor del borde del avatar */
+  
+  /* Transición */
+  --room-transition-speed: 0.3s;                  /* Velocidad de transición */
+}
+
+/* ==================== CONTENEDOR DE SALA DISPONIBLE ==================== */
+.neo-room-container {
+  margin-bottom: 1.25rem;
+  border: var(--room-border-width) solid var(--room-border-color);
+  box-shadow: var(--room-shadow-offset) var(--room-shadow-offset) 0 var(--room-border-color);
+  translate: calc(var(--room-shadow-offset) * -0.5) calc(var(--room-shadow-offset) * -0.5);
+  transition: all var(--room-transition-speed) ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.neo-room-container:hover {
+  translate: calc(var(--room-shadow-offset) * -0.25) calc(var(--room-shadow-offset) * -0.25);
+  box-shadow: var(--room-shadow-offset-hover) var(--room-shadow-offset-hover) 0 var(--room-border-color);
+}
+
+/* ==================== CONTENEDOR DE SALA LLENA ==================== */
+.neo-room-container-full {
+  margin-bottom: 1.25rem;
+  border: var(--room-border-width) solid var(--room-border-color);
+  box-shadow: none;
+  translate: 0 0;
+  opacity: 0.6;
+}
+
+/* ==================== TÍTULO DE SALA ==================== */
+.neo-room-title {
+  font-size: var(--room-title-font-size);
+  font-weight: 900;
+  background: var(--room-title-bg);
+  color: var(--room-title-text);
+  padding: var(--room-title-padding);
+  border-bottom: var(--room-border-width) solid var(--room-border-color);
+  text-transform: uppercase;
+  min-height: var(--room-title-min-height);
+  display: flex;
+  align-items: center;
+}
+
+/* ==================== CONTENEDOR CON LABELS ==================== */
+.neo-room-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.neo-room-item-label {
+  color: var(--room-label-text);
+  font-size: var(--room-label-font-size);
+  font-weight: var(--room-label-font-weight);
+  text-transform: uppercase;
+  margin-bottom: var(--room-label-margin-bottom);
+  background: transparent;
+  text-align: center;
+}
+
+/* ==================== CONTENIDO DE LA SALA ==================== */
+.neo-room-content {
+  background: var(--room-bg-color);
+  color: var(--room-text-color);
+  padding: var(--room-content-padding);
+  font-weight: 700;
+  font-size: var(--room-font-size);
+  min-height: var(--room-content-min-height);
+}
+
+/* Sala llena - fondo gris */
+.neo-room-content-full {
+  background: var(--room-bg-full);
+  color: var(--room-text-full);
+}
+
+/* ==================== BOTÓN DE LA SALA (UNIRSE) ==================== */
+.neo-room-button {
+  padding: var(--room-btn-padding);
+  border: var(--room-border-width) solid var(--room-border-color);
+  box-shadow: 0.25rem 0.25rem 0 var(--room-border-color);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  font-size: var(--room-btn-font-size);
+  background: var(--room-btn-bg);
+  color: var(--room-btn-text);
+  transition: all var(--room-transition-speed) ease;
+  cursor: pointer;
+  text-transform: uppercase;
+  translate: -0.125rem -0.125rem;
+  width: 100%;
+  min-width: var(--room-btn-min-width);
+  height: var(--room-btn-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neo-room-button:hover {
+  translate: 0 0;
+  box-shadow: 0.125rem 0.125rem 0 var(--room-border-color);
+  background: var(--room-btn-bg-hover);
+  color: var(--room-btn-text-hover);
+}
+
+.neo-room-button:active {
+  translate: 0.125rem 0.125rem;
+  box-shadow: 0 0 0 var(--room-border-color);
+  background: var(--room-btn-bg-active);
+}
+
+/* ==================== BOTÓN DESHABILITADO (SALA LLENA) ==================== */
+.neo-room-button-disabled {
+  padding: var(--room-btn-padding);
+  border: var(--room-border-width) solid var(--room-border-color);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  font-size: var(--room-btn-font-size);
+  background: var(--room-btn-disabled-bg);
+  color: var(--room-btn-disabled-text);
+  cursor: not-allowed;
+  text-transform: uppercase;
+  width: 100%;
+  min-width: var(--room-btn-min-width);
+  height: var(--room-btn-height);
+  box-shadow: none;
+  translate: 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== AVATAR DEL CREADOR ==================== */
+.neo-room-creator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.neo-room-avatar {
+  width: var(--room-avatar-size);
+  height: var(--room-avatar-size);
+  border-radius: 50%;
+  border: var(--room-avatar-border-width) solid var(--room-border-color);
+  background: var(--room-border-color);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--room-avatar-font-size);
+  flex-shrink: 0;
+}
+
+.neo-room-creator-name {
+  font-weight: 900;
+  font-size: var(--room-font-size);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+  .neo-room-item-wrapper {
+    align-items: flex-start;
+  }
+  
+  .neo-room-item-label {
+    font-size: var(--room-label-font-size-sm);
+    text-align: left;
+  }
+}

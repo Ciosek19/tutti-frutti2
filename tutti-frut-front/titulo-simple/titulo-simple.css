@@ -1,0 +1,96 @@
+/* =============================================================================
+   ARCHIVO: titulo-simple.css
+   DESCRIPCIÓN: Título simple configurable
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+*/
+
+/* ==================== CONFIGURACIÓN DEL TÍTULO ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR EL TÍTULO */
+:root {
+  /* Color del título */
+  --title-color: var(--color-secondary);          /* Color de texto principal */
+  
+  /* Tamaños de fuente */
+  --title-font-size: 5rem;                        /* Tamaño de fuente principal */
+  --title-font-size-md: 4rem;                     /* Tamaño en tablets */
+  --title-font-size-sm: 3rem;                     /* Tamaño en móviles */
+  --title-font-size-xs: 2.2rem;                   /* Tamaño en móviles pequeños */
+  
+  /* Espaciado */
+  --title-letter-spacing: 0.3rem;                 /* Espaciado entre letras */
+  --title-letter-spacing-md: 0.2rem;              /* Espaciado en tablets */
+  --title-letter-spacing-sm: 0.15rem;             /* Espaciado en móviles */
+  --title-padding-bottom: 1.5rem;                 /* Espaciado inferior */
+  --title-padding-bottom-sm: 1.2rem;              /* Espaciado inferior móvil */
+  
+  /* Sombra de texto */
+  --title-shadow-color: var(--color-black);       /* Color de sombra */
+  --title-shadow-offset: 0.25rem;                 /* Desplazamiento de sombra */
+}
+
+/* ==================== ESTILOS DEL TÍTULO SIMPLE ==================== */
+.neo-title-simple {
+  /* Tipografía */
+  font-size: var(--title-font-size);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: var(--title-letter-spacing);
+  text-transform: uppercase;
+  line-height: 1.2;
+  
+  /* Color y efectos */
+  color: var(--title-color);
+  text-shadow: 
+    var(--title-shadow-offset) var(--title-shadow-offset) 0 var(--title-shadow-color),
+    calc(var(--title-shadow-offset) * 2) calc(var(--title-shadow-offset) * 2) 0 rgba(0, 0, 0, 0.8);
+  
+  /* Espaciado */
+  padding-bottom: var(--title-padding-bottom);
+  margin: 0;
+  
+  /* Layout */
+  position: relative;
+  display: inline-block;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1200px) {
+  .neo-title-simple {
+    font-size: var(--title-font-size-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .neo-title-simple {
+    font-size: var(--title-font-size-sm);
+    letter-spacing: var(--title-letter-spacing-md);
+  }
+  
+  .neo-title-simple::after {
+    width: var(--title-line-width-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .neo-title-simple {
+    font-size: var(--title-font-size-xs);
+    letter-spacing: var(--title-letter-spacing-sm);
+    padding-bottom: var(--title-padding-bottom-sm);
+  }
+  
+  .neo-title-simple::after {
+    width: var(--title-line-width-xs);
+    height: var(--title-line-height-xs);
+  }
+}

@@ -1,0 +1,178 @@
+/* =============================================================================
+   ARCHIVO: cronometro.css
+   DESCRIPCIÓN: Cronómetro circular con cambio de color según tiempo
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+*/
+
+/* ==================== CONFIGURACIÓN DEL CRONÓMETRO ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR EL CRONÓMETRO */
+:root {
+  /* Tamaño del cronómetro */
+  --timer-size: 300px;                            /* Tamaño del círculo */
+  --timer-size-md: 250px;                         /* Tamaño en tablets */
+  --timer-size-sm: 200px;                         /* Tamaño en móviles */
+  --timer-size-xs: 150px;                         /* Tamaño en móviles pequeños */
+  
+  /* Tamaño de la fuente del número */
+  --timer-font-size: 6rem;                        /* Tamaño del número */
+  --timer-font-size-md: 5rem;                     /* Tamaño en tablets */
+  --timer-font-size-sm: 4rem;                     /* Tamaño en móviles */
+  --timer-font-size-xs: 3rem;                     /* Tamaño en móviles pequeños */
+  
+  /* Colores según el tiempo restante */
+  --timer-color-start: var(--color-success);      /* Color al inicio (verde) */
+  --timer-color-middle: var(--color-warning);     /* Color a la mitad (amarillo) */
+  --timer-color-end: var(--color-primary);        /* Color al final (rojo/rosa) */
+  
+  /* Grosor del círculo */
+  --timer-border-width: 15px;                     /* Grosor del borde animado */
+  
+  /* Fondo del círculo */
+  --timer-bg: var(--color-white);                 /* Fondo del círculo */
+  --timer-bg-border: var(--color-black);          /* Borde del círculo */
+  --timer-bg-border-width: 5px;                   /* Grosor del borde exterior */
+  --timer-bg-inner-color: #e0e0e0;                /* Color del círculo interior */
+  
+  /* Sombra */
+  --timer-shadow-offset: 8px;                     /* Desplazamiento de sombra */
+  --timer-text-shadow-offset: 3px;                /* Desplazamiento sombra del texto */
+  
+  /* Transición */
+  --timer-transition-speed: 0.5s;                 /* Velocidad de transición de color */
+  
+  /* Animación de pulso crítico */
+  --timer-pulse-speed: 0.5s;                      /* Velocidad del pulso */
+  --timer-pulse-scale: 1.05;                      /* Escala del pulso */
+}
+
+/* ==================== CONTENEDOR DEL CRONÓMETRO ==================== */
+.neo-timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* ==================== CÍRCULO DEL CRONÓMETRO ==================== */
+.neo-timer-circle {
+  width: var(--timer-size);
+  height: var(--timer-size);
+  border-radius: 50%;
+  background: var(--timer-bg);
+  border: var(--timer-bg-border-width) solid var(--timer-bg-border);
+  box-shadow: 
+    var(--timer-shadow-offset) var(--timer-shadow-offset) 0 var(--timer-bg-border),
+    inset 0 0 0 var(--timer-border-width) var(--timer-bg-inner-color);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==================== NÚMERO DEL CRONÓMETRO ==================== */
+.neo-timer-number {
+  font-size: var(--timer-font-size);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--timer-bg-border);
+  z-index: 2;
+  position: relative;
+  text-shadow: var(--timer-text-shadow-offset) var(--timer-text-shadow-offset) 0 rgba(0, 0, 0, 0.2);
+  transition: color var(--timer-transition-speed) ease;
+}
+
+/* ==================== BORDE ANIMADO (SVG) ==================== */
+.neo-timer-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  z-index: 1;
+}
+
+.neo-timer-progress {
+  fill: none;
+  stroke-width: var(--timer-border-width);
+  stroke-linecap: round;
+  transition: stroke var(--timer-transition-speed) ease;
+  stroke-dasharray: 942; /* Circunferencia aproximada: 2 * π * 150 */
+  stroke-dashoffset: 0;
+}
+
+/* ==================== ESTADOS DE COLOR ==================== */
+
+/* Estado inicial - Verde */
+.neo-timer-circle.timer-start .neo-timer-progress {
+  stroke: var(--timer-color-start);
+}
+
+/* Estado medio - Amarillo */
+.neo-timer-circle.timer-middle .neo-timer-progress {
+  stroke: var(--timer-color-middle);
+}
+
+/* Estado final - Rojo */
+.neo-timer-circle.timer-end .neo-timer-progress {
+  stroke: var(--timer-color-end);
+}
+
+/* ==================== ANIMACIÓN DE PULSO CUANDO QUEDAN POCOS SEGUNDOS ==================== */
+.neo-timer-circle.timer-critical {
+  animation: timerPulse var(--timer-pulse-speed) ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(var(--timer-pulse-scale));
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1200px) {
+  .neo-timer-circle {
+    width: var(--timer-size-md);
+    height: var(--timer-size-md);
+  }
+  
+  .neo-timer-number {
+    font-size: var(--timer-font-size-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .neo-timer-circle {
+    width: var(--timer-size-sm);
+    height: var(--timer-size-sm);
+  }
+  
+  .neo-timer-number {
+    font-size: var(--timer-font-size-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .neo-timer-circle {
+    width: var(--timer-size-xs);
+    height: var(--timer-size-xs);
+  }
+  
+  .neo-timer-number {
+    font-size: var(--timer-font-size-xs);
+  }
+}

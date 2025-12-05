@@ -1,0 +1,155 @@
+/* =============================================================================
+   ARCHIVO: input-escritura.css
+   DESCRIPCIÓN: Input de escritura con efecto neobrutalist
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+*/
+
+/* ==================== CONFIGURACIÓN DEL INPUT ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR EL INPUT */
+:root {
+  /* Color del sombreado */
+  --input-shadow-color: var(--color-success);     /* Color principal de sombra */
+  
+  /* Colores del label (OPCIONAL - solo si usas label) */
+  --input-label-bg: var(--color-black);           /* Fondo del label */
+  --input-label-bg-focus: var(--color-success);   /* Fondo del label en focus */
+  --input-label-text: var(--color-white);         /* Color de texto del label */
+  --input-label-text-focus: var(--color-white);   /* Color de texto del label en focus */
+  --input-label-font-size: 14px;                  /* Tamaño de fuente del label */
+  
+  /* Tamaños */
+  --input-padding: 15px;                          /* Padding interno */
+  --input-font-size: 18px;                        /* Tamaño de fuente */
+  --input-border-width: 4px;                      /* Grosor del borde */
+  
+  /* Colores base */
+  --input-bg: var(--color-white);                 /* Fondo del input */
+  --input-text: var(--color-black);               /* Color de texto */
+  --input-border: var(--color-black);             /* Color del borde */
+  --input-placeholder: #888;                      /* Color del placeholder */
+  
+  /* Sombras */
+  --input-shadow-offset-small: 5px;               /* Sombra pequeña */
+  --input-shadow-offset-large: 10px;              /* Sombra grande */
+  
+  /* Transición */
+  --input-transition-speed: 0.3s;                 /* Velocidad de transición */
+}
+
+/* ==================== INPUT BASE ==================== */
+.neo-input-container {
+  position: relative;
+  font-family: monospace;
+  width: 100%;
+}
+
+.neo-input-write {
+  width: 100%;
+  padding: var(--input-padding);
+  font-size: var(--input-font-size);
+  font-weight: bold;
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  border: var(--input-border-width) solid var(--input-border);
+  border-radius: 0;
+  outline: none;
+  transition: all var(--input-transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 
+    var(--input-shadow-offset-small) var(--input-shadow-offset-small) 0 var(--input-border), 
+    var(--input-shadow-offset-large) var(--input-shadow-offset-large) 0 var(--input-shadow-color);
+}
+
+.neo-input-write::placeholder {
+  color: var(--input-placeholder);
+  transition: color var(--input-transition-speed) ease;
+}
+
+.neo-input-write:focus::placeholder {
+  color: transparent;
+}
+
+/* ==================== LABEL (OPCIONAL) ==================== */
+.neo-input-label {
+  position: absolute;
+  left: -3px;
+  top: -35px;
+  font-size: var(--input-label-font-size);
+  font-weight: bold;
+  color: var(--input-label-text);
+  background-color: var(--input-label-bg);
+  padding: 5px 10px;
+  transform: rotate(-1deg);
+  z-index: 1;
+  transition: all var(--input-transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 3px solid var(--input-border);
+}
+
+/* Animación glitch en focus */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.neo-input-write:focus {
+  animation: focus-pulse 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch var(--input-transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+}
+
+.neo-input-write:focus + .neo-input-label {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--input-label-bg-focus);
+  color: var(--input-label-text-focus);
+}
+
+@keyframes focus-pulse {
+  0%, 100% { border-color: var(--input-border); }
+  50% { border-color: var(--input-shadow-color); }
+}
+
+/* ==================== TEXTAREA ==================== */
+.neo-textarea-write {
+  width: 100%;
+  padding: var(--input-padding);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  border: var(--input-border-width) solid var(--input-border);
+  border-radius: 0;
+  outline: none;
+  font-family: monospace;
+  resize: vertical;
+  min-height: 120px;
+  transition: all var(--input-transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 
+    var(--input-shadow-offset-small) var(--input-shadow-offset-small) 0 var(--input-border), 
+    var(--input-shadow-offset-large) var(--input-shadow-offset-large) 0 var(--input-shadow-color);
+}
+
+.neo-textarea-write::placeholder {
+  color: var(--input-placeholder);
+}
+
+.neo-textarea-write:focus {
+  animation: glitch var(--input-transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  border-color: var(--input-shadow-color);
+}
+
+.neo-textarea-write:focus::placeholder {
+  color: transparent;
+}

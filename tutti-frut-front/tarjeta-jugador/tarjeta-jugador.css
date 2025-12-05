@@ -1,0 +1,322 @@
+/* =============================================================================
+   ARCHIVO: tarjeta-jugador.css
+   DESCRIPCIÓN: Carta de jugador con inputs de respuestas
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+*/
+
+/* ==================== CONFIGURACIÓN DE LA TARJETA DE JUGADOR ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR LA TARJETA */
+:root {
+  /* Colores de la carta */
+  --card-bg-color: var(--card-position-gold);            /* Fondo de la carta */
+  --card-text-color: var(--color-black);          /* Color de texto de la carta */
+  --card-border-color: var(--color-black);        /* Color del borde */
+  --card-border-width: 4px;                       /* Grosor del borde */
+
+  /* Colores de los inputs de salida */
+  --card-input-bg: var(--color-accent);           /* Fondo del input (verde agua) */
+  --card-input-text: var(--color-white);          /* Color de texto del input */
+  --card-input-border-width: 3px;                 /* Grosor del borde del input */
+  
+  /* Estados de input - NUEVOS COLORES */
+  --card-input-empty-bg: #e0e0e0;                 /* Fondo input vacío (gris) */
+  --card-input-empty-text: #888;                  /* Texto input vacío */
+  --card-input-correct-bg: var(--color-success);  /* Fondo input correcto (verde) */
+  --card-input-correct-text: var(--color-white);  /* Texto input correcto */
+  --card-input-repeated-bg: var(--color-warning); /* Fondo input repetido (amarillo) */
+  --card-input-repeated-text: var(--color-black); /* Texto input repetido */
+  --card-input-wrong-bg: var(--color-primary);    /* Fondo input incorrecto (rojo) */
+  --card-input-wrong-text: var(--color-white);    /* Texto input incorrecto */
+
+  /* Colores de posición */
+  --card-position-gold: #FFD700;                  /* Oro - 1er lugar */
+  --card-position-silver: #C0C0C0;                /* Plata - 2do lugar */
+  --card-position-bronze: #CD7F32;                /* Bronce - 3er lugar */
+  --card-position-default: #9e9e9e;               /* Gris - resto de posiciones */
+
+  /* Tamaños */
+  --card-padding: 1.5rem;                         /* Padding de la carta */
+  --card-padding-md: 1.2rem;                      /* Padding en tablets */
+  --card-padding-sm: 1rem;                        /* Padding en móviles */
+  --card-font-size: 1rem;                         /* Tamaño de fuente general */
+  --card-font-size-sm: 0.9rem;                    /* Tamaño de fuente móvil */
+  --card-title-font-size: 1.5rem;                 /* Tamaño del nombre del jugador */
+  --card-title-font-size-sm: 1.2rem;              /* Tamaño del nombre móvil */
+  --card-input-font-size: 1.1rem;                 /* Tamaño de fuente de los inputs */
+  --card-input-font-size-sm: 1rem;                /* Tamaño de fuente móvil */
+  --card-input-padding: 12px;                     /* Padding de los inputs */
+  --card-input-padding-sm: 10px;                  /* Padding de inputs móvil */
+
+  /* Sombras */
+  --card-shadow-offset: 8px;                      /* Desplazamiento de sombra */
+  --card-shadow-offset-hover: 5.6px;              /* Desplazamiento en hover (70%) */
+  --card-input-shadow-offset: 4px;                /* Desplazamiento de sombra del input */
+  --card-input-shadow-offset-hover: 2.4px;        /* Desplazamiento en hover (60%) */
+  
+  /* Header */
+  --card-header-gap: 1rem;                        /* Espacio entre avatar y nombre */
+  --card-header-margin-bottom: 1.5rem;            /* Margen inferior del header */
+  --card-header-padding-bottom: 1rem;             /* Padding inferior del header */
+  
+  /* Avatar */
+  --card-avatar-size: 60px;                       /* Tamaño del avatar */
+  --card-avatar-size-sm: 50px;                    /* Tamaño del avatar móvil */
+  --card-avatar-border-width: 3px;                /* Grosor del borde del avatar */
+  --card-avatar-font-size: 2rem;                  /* Tamaño del emoji/letra */
+  --card-avatar-font-size-sm: 1.5rem;             /* Tamaño móvil */
+  
+  /* Position badge */
+  --card-position-size: 50px;                     /* Tamaño del badge de posición */
+  --card-position-size-sm: 40px;                  /* Tamaño móvil */
+  --card-position-font-size: 1.5rem;              /* Tamaño de fuente */
+  --card-position-font-size-sm: 1.2rem;           /* Tamaño móvil */
+  
+  /* Body */
+  --card-body-gap: 1rem;                          /* Espacio entre filas */
+  
+  /* Row */
+  --card-row-gap: 1rem;                           /* Espacio entre label e input */
+  --card-row-gap-sm: 0.5rem;                      /* Espacio en móvil */
+  --card-label-width: 150px;                      /* Ancho del label */
+  
+  /* Footer */
+  --card-footer-margin-top: 1.5rem;               /* Margen superior del footer */
+  --card-footer-padding-top: 1rem;                /* Padding superior del footer */
+  --card-score-font-size: 1.3rem;                 /* Tamaño de fuente de puntuación */
+  --card-score-value-font-size: 1.8rem;           /* Tamaño del valor de puntuación */
+  --card-score-value-color: var(--color-success); /* Color del valor de puntuación */
+  
+  /* Ancho máximo */
+  --card-max-width: 500px;                        /* Ancho máximo de la carta */
+  
+  /* Transición */
+  --card-transition-speed: 0.3s;                  /* Velocidad de transición */
+  --card-input-transition-speed: 0.2s;            /* Velocidad de transición del input */
+}
+
+/* ==================== CONTENEDOR DE LA CARTA ==================== */
+.neo-player-card {
+  background: var(--card-bg-color);
+  border: var(--card-border-width) solid var(--card-border-color);
+  box-shadow: var(--card-shadow-offset) var(--card-shadow-offset) 0 var(--card-border-color);
+  padding: var(--card-padding);
+  font-family: 'Montserrat', sans-serif;
+  translate: calc(var(--card-shadow-offset) * -0.25) calc(var(--card-shadow-offset) * -0.25);
+  transition: all var(--card-transition-speed) ease;
+  max-width: var(--card-max-width);
+  width: 100%;
+  position: relative;
+}
+
+.neo-player-card:hover {
+  translate: 0 0;
+  box-shadow: var(--card-shadow-offset-hover) var(--card-shadow-offset-hover) 0 var(--card-border-color);
+}
+
+/* ==================== BADGE DE POSICIÓN ==================== */
+.neo-player-card-position {
+  position: absolute;
+  top: calc(var(--card-padding) * -1);
+  right: calc(var(--card-padding) * -1);
+  width: var(--card-position-size);
+  height: var(--card-position-size);
+  border-radius: 50%;
+  border: var(--card-border-width) solid var(--card-border-color);
+  background: var(--card-position-default);
+  color: var(--card-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--card-position-font-size);
+  font-weight: 900;
+  box-shadow: var(--card-shadow-offset) var(--card-shadow-offset) 0 var(--card-border-color);
+  z-index: 10;
+}
+
+/* Variantes de posición */
+.neo-player-card-position-1 {
+  background: var(--card-position-gold);
+}
+
+.neo-player-card-position-2 {
+  background: var(--card-position-silver);
+}
+
+.neo-player-card-position-3 {
+  background: var(--card-position-bronze);
+}
+
+/* ==================== HEADER DE LA CARTA (NOMBRE DEL JUGADOR) ==================== */
+.neo-player-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--card-header-gap);
+  margin-bottom: var(--card-header-margin-bottom);
+  padding-bottom: var(--card-header-padding-bottom);
+  border-bottom: var(--card-border-width) solid var(--card-border-color);
+}
+
+.neo-player-card-avatar {
+  width: var(--card-avatar-size);
+  height: var(--card-avatar-size);
+  border-radius: 50%;
+  border: var(--card-avatar-border-width) solid var(--card-border-color);
+  background: var(--card-border-color);
+  color: var(--card-bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--card-avatar-font-size);
+  flex-shrink: 0;
+}
+
+.neo-player-card-name {
+  font-size: var(--card-title-font-size);
+  font-weight: 900;
+  color: var(--card-text-color);
+  text-transform: uppercase;
+}
+
+/* ==================== BODY DE LA CARTA (LISTA DE CATEGORÍAS) ==================== */
+.neo-player-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-body-gap);
+}
+
+/* ==================== FILA DE CATEGORÍA ==================== */
+.neo-player-card-row {
+  display: grid;
+  grid-template-columns: var(--card-label-width) 1fr;
+  gap: var(--card-row-gap);
+  align-items: center;
+}
+
+.neo-player-card-label {
+  font-size: var(--card-font-size);
+  font-weight: 700;
+  color: var(--card-text-color);
+  text-transform: uppercase;
+}
+
+/* ==================== INPUT DE SALIDA (RESPUESTA) ==================== */
+.neo-player-card-input {
+  background: var(--card-input-bg);
+  color: var(--card-input-text);
+  border: var(--card-input-border-width) solid var(--card-border-color);
+  padding: var(--card-input-padding);
+  font-size: var(--card-input-font-size);
+  font-weight: bold;
+  font-family: monospace;
+  box-shadow: var(--card-input-shadow-offset) var(--card-input-shadow-offset) 0 var(--card-border-color);
+  transition: all var(--card-input-transition-speed) ease;
+  text-align: center;
+  cursor: default;
+  user-select: text;
+}
+
+.neo-player-card-input:hover {
+  box-shadow: var(--card-input-shadow-offset-hover) var(--card-input-shadow-offset-hover) 0 var(--card-border-color);
+  translate: 2px 2px;
+}
+
+/* ==================== VARIANTES DE INPUT (ESTADOS) ==================== */
+
+/* Input vacío (gris) */
+.neo-player-card-input-empty {
+  background: var(--card-input-empty-bg);
+  color: var(--card-input-empty-text);
+}
+
+/* Input correcto (verde) */
+.neo-player-card-input-correct {
+  background: var(--card-input-correct-bg);
+  color: var(--card-input-correct-text);
+}
+
+/* Input repetido (amarillo) */
+.neo-player-card-input-repeated {
+  background: var(--card-input-repeated-bg);
+  color: var(--card-input-repeated-text);
+}
+
+/* Input incorrecto (rojo) */
+.neo-player-card-input-wrong {
+  background: var(--card-input-wrong-bg);
+  color: var(--card-input-wrong-text);
+}
+
+/* ==================== FOOTER DE LA CARTA (PUNTUACIÓN) ==================== */
+.neo-player-card-footer {
+  margin-top: var(--card-footer-margin-top);
+  padding-top: var(--card-footer-padding-top);
+  border-top: var(--card-border-width) solid var(--card-border-color);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.neo-player-card-score {
+  font-size: var(--card-score-font-size);
+  font-weight: 900;
+  color: var(--card-text-color);
+}
+
+.neo-player-card-score-value {
+  color: var(--card-score-value-color);
+  font-size: var(--card-score-value-font-size);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .neo-player-card {
+    padding: var(--card-padding-md);
+  }
+  
+  .neo-player-card-row {
+    grid-template-columns: 1fr;
+    gap: var(--card-row-gap-sm);
+  }
+  
+  .neo-player-card-label {
+    font-size: var(--card-font-size-sm);
+  }
+  
+  .neo-player-card-input {
+    font-size: var(--card-input-font-size-sm);
+    padding: var(--card-input-padding-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .neo-player-card {
+    padding: var(--card-padding-sm);
+  }
+  
+  .neo-player-card-name {
+    font-size: var(--card-title-font-size-sm);
+  }
+  
+  .neo-player-card-avatar {
+    width: var(--card-avatar-size-sm);
+    height: var(--card-avatar-size-sm);
+    font-size: var(--card-avatar-font-size-sm);
+  }
+  
+  .neo-player-card-position {
+    width: var(--card-position-size-sm);
+    height: var(--card-position-size-sm);
+    font-size: var(--card-position-font-size-sm);
+  }
+}

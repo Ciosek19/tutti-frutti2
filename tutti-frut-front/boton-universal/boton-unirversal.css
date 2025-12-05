@@ -1,0 +1,97 @@
+/* =============================================================================
+   ARCHIVO: boton-universal.css
+   DESCRIPCIÓN: Botón universal configurable con efecto neobrutalist
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== PALETA DE COLORES (REFERENCIA) ==================== */
+/*
+  --color-primary: #d20473    (Fucsia/Rosa)
+  --color-secondary: #3204d9  (Azul)
+  --color-accent: #04bf9d     (Verde agua)
+  --color-success: #067302    (Verde)
+  --color-warning: #d2d904    (Amarillo)
+  --color-black: #000000
+  --color-white: #ffffff
+*/
+
+/* ==================== CONFIGURACIÓN DEL BOTÓN ==================== */
+/* ⚙️ MODIFICA ESTAS VARIABLES PARA PERSONALIZAR EL BOTÓN */
+:root {
+  --color-grey: #777;
+  /* Colores de fondo */
+  --btn-bg-color: var(--color-warning);           /* Color de fondo inicial */
+  --btn-bg-hover: var(--color-white);           /* Color de fondo en hover */
+  --btn-bg-active: var(--color-grey);          /* Color de fondo al presionar */
+  
+  /* Colores de texto */
+  --btn-text-color: var(--color-black);           /* Color de texto inicial */
+  --btn-text-hover: var(--color-black);           /* Color de texto en hover */
+  
+  /* Tamaños */
+  --btn-font-size: 18px;                          /* Tamaño de fuente */
+  --btn-padding: 15px 30px;                       /* Padding del botón */
+  --btn-min-width: 180px;                         /* Ancho mínimo */
+  --btn-max-width: auto;                         /* Ancho maximo */
+  --btn-height: 60px;                             /* Altura del botón */
+  
+  /* Bordes y sombras */
+  --btn-border-width: 4px;                        /* Grosor del borde */
+  --btn-shadow-offset: 5px;                       /* Desplazamiento de sombra */
+  --btn-shadow-color: var(--color-black);         /* Color de sombra */
+  
+  /* Transición */
+  --btn-transition-speed: 0.3s;                   /* Velocidad de transición */
+}
+
+/* ==================== ESTILOS DEL BOTÓN ==================== */
+.neo-button-universal {
+  /* Tipografía */
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: var(--btn-font-size);
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  color: var(--btn-text-color);
+  
+  /* Dimensiones */
+  padding: var(--btn-padding);
+  min-width: var(--btn-min-width);
+  max-width: var(--btn-max-width);
+  height: var(--btn-height);
+  width: 100%;
+  
+  /* Colores y bordes */
+  background: var(--btn-bg-color);
+  border: var(--btn-border-width) solid var(--btn-shadow-color);
+  
+  /* Efectos visuales */
+  box-shadow: var(--btn-shadow-offset) var(--btn-shadow-offset) 0 var(--btn-shadow-color);
+  translate: calc(var(--btn-shadow-offset) * -0.4) calc(var(--btn-shadow-offset) * -0.4);
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Comportamiento */
+  cursor: pointer;
+  position: relative;
+  transition: all var(--btn-transition-speed) ease;
+}
+
+/* Hover del botón */
+.neo-button-universal:hover {
+  background: var(--btn-bg-hover);
+  color: var(--btn-text-hover);
+  translate: 0 0;
+  box-shadow: calc(var(--btn-shadow-offset) * 0.6) calc(var(--btn-shadow-offset) * 0.6) 0 var(--btn-shadow-color);
+}
+
+/* Active del botón */
+.neo-button-universal:active {
+  translate: calc(var(--btn-shadow-offset) * 0.4) calc(var(--btn-shadow-offset) * 0.4);
+  box-shadow: 0 0 0 var(--btn-shadow-color);
+  background: var(--btn-bg-active);
+}
