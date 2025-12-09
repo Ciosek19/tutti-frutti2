@@ -1,0 +1,205 @@
+/* =============================================================================
+   PÁGINA: Lobby
+   DESCRIPCIÓN: Estilos específicos para la página de lobby multijugador
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN DE PÁGINA ==================== */
+:root {
+  /* Color de fondo de página */
+  --lobby-fondo-pagina: var(--paleta-acento);
+
+  /* Fuente */
+  --fuente-principal: 'Montserrat', sans-serif;
+
+  /* Input crear sala */
+  --input-escritura-ancho: 400px;
+  --input-escritura-sombra-color: var(--paleta-advertencia);
+
+  /* Botón crear sala */
+  --boton-ancho: auto;
+}
+
+/* ==================== ESTILOS DE PÁGINA ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-principal);
+}
+
+body {
+  background: var(--lobby-fondo-pagina);
+  min-height: 100vh;
+  font-family: var(--fuente-principal);
+}
+
+.lobby-container {
+  min-height: 100vh;
+  padding: 100px 20px 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ==================== BOTÓN VOLVER ==================== */
+.btn-volver-form {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.btn-volver {
+  --boton-fondo: var(--paleta-secundario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+/* ==================== NOMBRE DEL JUGADOR ==================== */
+.jugador-info {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--paleta-blanco);
+  padding: 10px 20px;
+  border: 4px solid var(--paleta-negro);
+  box-shadow: 5px 5px 0 var(--paleta-negro);
+}
+
+.jugador-avatar-lobby {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.jugador-nombre {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--paleta-negro);
+  text-transform: uppercase;
+}
+
+/* ==================== FORMULARIO CREAR SALA ==================== */
+.form-crear-sala {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.input-crear-sala {
+  --input-escritura-sombra-color: var(--paleta-advertencia);
+}
+
+.btn-crear-sala {
+  --boton-fondo: var(--paleta-advertencia);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-negro);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+/* ==================== GRID DE SALAS ==================== */
+.salas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 0 20px;
+  margin-top: 40px;
+}
+
+.salas-grid:empty::before {
+  content: "No hay salas disponibles";
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--paleta-negro);
+  padding: 60px 20px;
+  background: var(--paleta-blanco);
+  border: 4px solid var(--paleta-negro);
+  box-shadow: 6px 6px 0 var(--paleta-negro);
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .salas-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 768px) {
+  .lobby-container {
+    padding: 120px 15px 30px 15px;
+  }
+
+  .jugador-info {
+    top: 10px;
+    right: 10px;
+    padding: 8px 15px;
+  }
+
+  .jugador-avatar-lobby {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+
+  .jugador-nombre {
+    font-size: 1rem;
+  }
+
+  .form-crear-sala {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .input-crear-sala {
+    --input-escritura-ancho: 100%;
+  }
+
+  .btn-crear-sala {
+    --boton-ancho: 100%;
+  }
+
+  .salas-grid {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .lobby-container {
+    padding: 140px 10px 20px 10px;
+  }
+
+  .jugador-nombre {
+    font-size: 0.9rem;
+  }
+
+  .jugador-avatar-lobby {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}

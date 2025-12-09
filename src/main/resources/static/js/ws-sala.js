@@ -58,12 +58,15 @@ function mostrarJugadores(jugadores) {
   if (jugadores && jugadores.length > 0) {
     jugadores.forEach((jugador) => {
       const divJugador = document.createElement("div");
-      divJugador.style.background = "#999";
-      divJugador.style.padding = "10px";
-      divJugador.style.marginBottom = "5px";
+      divJugador.className = "jugador-card";
 
-      divJugador.innerHTML = `<p>${jugador.nombre}</p>`;
-      
+      const inicial = jugador.nombre.charAt(0).toUpperCase();
+
+      divJugador.innerHTML = `
+        <div class="jugador-avatar">${inicial}</div>
+        <span>${jugador.nombre}</span>
+      `;
+
       contenedorJugadores.appendChild(divJugador);
     });
   } else {
@@ -73,59 +76,41 @@ function mostrarJugadores(jugadores) {
 
 function mostrarConfiguracion() {
   const divConfiguracion = document.getElementById("configuracion");
-  
+
   if (!divConfiguracion) {
     return;
   }
-  
+
   divConfiguracion.innerHTML = "";
-  
+
   // Solo mostrar configuración si eres el creador
   if (salaData.nombreJugador === salaData.creador) {
     divConfiguracion.innerHTML = `
-      <h3>Configuración de la Partida</h3>
-      <div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px;">
-        <div style="margin-bottom: 15px;">
-          <label for="cantidadCategorias">Cantidad de categorías (2-15):</label><br>
-          <input
-            type="number"
-            id="cantidadCategorias"
-            min="2"
-            max="15"
-            value="${salaData.cantidadCategorias}"
-            style="width: 100px; padding: 5px; margin-top: 5px;">
-          <button onclick="actualizarCantidadCategorias()" style="margin-left: 10px;">Actualizar</button>
+      <div class="config-item">
+        <label for="cantidadCategorias">Cantidad de categorías (2-15)</label>
+        <div class="config-input-group">
+          <input type="number" id="cantidadCategorias" min="2" max="15" value="${salaData.cantidadCategorias}">
+          <button onclick="actualizarCantidadCategorias()" class="neo-boton-universal btn-actualizar">Actualizar</button>
         </div>
-
-        <div style="margin-bottom: 15px;">
-          <label for="maxJugadores">Máximo de jugadores (2-6):</label><br>
-          <input
-            type="number"
-            id="maxJugadores"
-            min="2"
-            max="6"
-            value="${salaData.maxJugadores}"
-            style="width: 100px; padding: 5px; margin-top: 5px;">
-          <button onclick="actualizarMaxJugadores()" style="margin-left: 10px;">Actualizar</button>
+      </div>
+      <div class="config-item">
+        <label for="maxJugadores">Máximo de jugadores (2-6)</label>
+        <div class="config-input-group">
+          <input type="number" id="maxJugadores" min="2" max="6" value="${salaData.maxJugadores}">
+          <button onclick="actualizarMaxJugadores()" class="neo-boton-universal btn-actualizar">Actualizar</button>
         </div>
-
-        <div>
-          <label for="duracion">Duración (30-120 segundos):</label><br>
-          <input
-            type="number"
-            id="duracion"
-            min="30"
-            max="120"
-            value="${salaData.duracion}"
-            style="width: 100px; padding: 5px; margin-top: 5px;">
-          <button onclick="actualizarDuracion()" style="margin-left: 10px;">Actualizar</button>
+      </div>
+      <div class="config-item">
+        <label for="duracion">Duración (30-120 segundos)</label>
+        <div class="config-input-group">
+          <input type="number" id="duracion" min="30" max="120" value="${salaData.duracion}">
+          <button onclick="actualizarDuracion()" class="neo-boton-universal btn-actualizar">Actualizar</button>
         </div>
       </div>
     `;
   } else {
     divConfiguracion.innerHTML = `
-      <h3>Configuración de la Partida</h3>
-      <div style="background: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px;">
+      <div class="config-readonly">
         <p><strong>Categorías:</strong> ${salaData.cantidadCategorias}</p>
         <p><strong>Máximo jugadores:</strong> ${salaData.maxJugadores}</p>
         <p><strong>Duración:</strong> ${salaData.duracion} segundos</p>
@@ -213,8 +198,8 @@ function mostrarBotonEmpezarPartida(cantidadJugadores) {
         <input type="hidden" name="codigoSala" value="${salaData.codigo}">
         <input type="hidden" name="cantidadCategorias" value="${salaData.cantidadCategorias}">
         <input type="hidden" name="maxJugadores" value="${salaData.maxJugadores}">
-        <button type="submit" ${estaDeshabilitado ? 'disabled' : ''}>
-          Empezar partida ${estaDeshabilitado ? '(minimo 2 jugadores)' : ''}
+        <button type="submit" class="neo-boton-universal" ${estaDeshabilitado ? 'disabled' : ''}>
+          Empezar partida ${estaDeshabilitado ? '(mínimo 2 jugadores)' : ''}
         </button>
       </form>
     `;

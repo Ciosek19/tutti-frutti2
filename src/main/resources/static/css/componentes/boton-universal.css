@@ -1,0 +1,102 @@
+/* =============================================================================
+   COMPONENTE: Botón Universal
+   DESCRIPCIÓN: Botón neobrutalist configurable mediante variables CSS
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Tipografía (compartida por todos los componentes) */
+  --fuente-principal: 'Montserrat', sans-serif;
+
+  /* Dimensiones */
+  --boton-ancho: auto;
+  --boton-alto: auto;
+  --boton-ancho-max: none;
+  --boton-ancho-min: auto;
+  --boton-padding: 15px 30px;
+
+  /* Colores */
+  --boton-fondo: var(--paleta-advertencia);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-negro);
+  --boton-texto-hover: var(--paleta-negro);
+  --boton-borde: var(--paleta-negro);
+
+  /* Tamaños visuales */
+  --boton-tamano-texto: 18px;
+  --boton-grosor-borde: 4px;
+  --boton-desplazamiento-sombra: 5px;
+
+  /* Animación */
+  --boton-transicion: 0.3s;
+}
+
+/* ==================== COMPONENTE ==================== */
+.neo-boton-universal {
+  /* Tipografía */
+  font-family: var(--fuente-principal);
+  font-weight: 900;
+  font-size: var(--boton-tamano-texto);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--boton-texto);
+
+  /* Dimensiones */
+  width: var(--boton-ancho);
+  height: var(--boton-alto);
+  max-width: var(--boton-ancho-max);
+  min-width: var(--boton-ancho-min);
+  padding: var(--boton-padding);
+
+  /* Estilo */
+  background: var(--boton-fondo);
+  border: var(--boton-grosor-borde) solid var(--boton-borde);
+  box-shadow: var(--boton-desplazamiento-sombra) var(--boton-desplazamiento-sombra) 0 var(--boton-borde);
+
+  /* Efecto 3D inicial */
+  translate: calc(var(--boton-desplazamiento-sombra) * -0.4) calc(var(--boton-desplazamiento-sombra) * -0.4);
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  /* Comportamiento */
+  cursor: pointer;
+  transition: all var(--boton-transicion) ease;
+}
+
+.neo-boton-universal:hover {
+  background: var(--boton-fondo-hover);
+  color: var(--boton-texto-hover);
+  translate: 0 0;
+  box-shadow: calc(var(--boton-desplazamiento-sombra) * 0.6) calc(var(--boton-desplazamiento-sombra) * 0.6) 0 var(--boton-borde);
+}
+
+.neo-boton-universal:active {
+  translate: calc(var(--boton-desplazamiento-sombra) * 0.4) calc(var(--boton-desplazamiento-sombra) * 0.4);
+  box-shadow: 0 0 0 var(--boton-borde);
+  background: var(--boton-fondo-activo);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --boton-padding: 12px 24px;
+    --boton-tamano-texto: 16px;
+    --boton-grosor-borde: 3px;
+    --boton-desplazamiento-sombra: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --boton-padding: 10px 20px;
+    --boton-tamano-texto: 14px;
+    --boton-grosor-borde: 3px;
+    --boton-desplazamiento-sombra: 3px;
+  }
+}

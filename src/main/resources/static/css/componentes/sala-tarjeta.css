@@ -1,0 +1,245 @@
+/* =============================================================================
+   COMPONENTE: Tarjeta Sala
+   DESCRIPCIÓN: Tarjeta de sala para listados de partidas
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --sala-ancho: 100%;
+  --sala-margen-inferior: 1.25rem;
+
+  /* Colores base */
+  --sala-fondo: var(--paleta-secundario);
+  --sala-fondo-llena: var(--paleta-gris);
+  --sala-texto: var(--paleta-blanco);
+  --sala-texto-llena: rgba(255, 255, 255, 0.7);
+  --sala-borde: var(--paleta-negro);
+  --sala-grosor-borde: 0.25rem;
+
+  /* Título */
+  --sala-titulo-fondo: var(--paleta-blanco);
+  --sala-titulo-texto: var(--paleta-negro);
+  --sala-titulo-tamano: 1.125rem;
+  --sala-titulo-padding: 0.75rem 1.25rem;
+
+  /* Labels */
+  --sala-etiqueta-texto: var(--paleta-negro);
+  --sala-etiqueta-tamano: 0.875rem;
+
+  /* Botón */
+  --sala-boton-fondo: var(--paleta-primario);
+  --sala-boton-fondo-hover: var(--paleta-blanco);
+  --sala-boton-fondo-activo: var(--paleta-gris);
+  --sala-boton-texto: var(--paleta-blanco);
+  --sala-boton-texto-hover: var(--paleta-negro);
+  --sala-boton-deshabilitado-fondo: var(--paleta-gris);
+  --sala-boton-deshabilitado-texto: rgba(255, 255, 255, 0.7);
+  --sala-boton-tamano: auto;
+  --sala-boton-padding: 0.75rem 1.25rem;
+
+  /* Contenido */
+  --sala-contenido-padding: 1.25rem 0.625rem;
+  --sala-tamano-texto: 1.238rem;
+
+  /* Avatar */
+  --sala-avatar-tamano: 2.813rem;
+  --sala-avatar-texto: 1.5rem;
+
+  /* Sombras */
+  --sala-sombra: 0.5rem;
+  --sala-sombra-hover: 0.375rem;
+
+  /* Animación */
+  --sala-transicion: 0.3s;
+}
+
+/* ==================== TARJETA BASE ==================== */
+.neo-sala-tarjeta {
+  width: var(--sala-ancho);
+  margin-bottom: var(--sala-margen-inferior);
+  border: var(--sala-grosor-borde) solid var(--sala-borde);
+  box-shadow: var(--sala-sombra) var(--sala-sombra) 0 var(--sala-borde);
+  translate: calc(var(--sala-sombra) * -0.5) calc(var(--sala-sombra) * -0.5);
+  transition: all var(--sala-transicion) ease;
+  font-family: var(--fuente-principal);
+  box-sizing: border-box;
+}
+
+.neo-sala-tarjeta:hover {
+  translate: calc(var(--sala-sombra) * -0.25) calc(var(--sala-sombra) * -0.25);
+  box-shadow: var(--sala-sombra-hover) var(--sala-sombra-hover) 0 var(--sala-borde);
+}
+
+/* Sala llena */
+.neo-sala-tarjeta-llena {
+  width: 100%;
+  margin-bottom: var(--sala-margen-inferior);
+  border: var(--sala-grosor-borde) solid var(--sala-borde);
+  box-shadow: none;
+  translate: 0 0;
+  opacity: 0.6;
+  box-sizing: border-box;
+}
+
+/* ==================== TÍTULO ==================== */
+.neo-sala-titulo {
+  font-size: var(--sala-titulo-tamano);
+  font-weight: 900;
+  background: var(--sala-titulo-fondo);
+  color: var(--sala-titulo-texto);
+  padding: var(--sala-titulo-padding);
+  border-bottom: var(--sala-grosor-borde) solid var(--sala-borde);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+/* ==================== CONTENIDO ==================== */
+.neo-sala-contenido {
+  background: var(--sala-fondo);
+  color: var(--sala-texto);
+  padding: var(--sala-contenido-padding);
+  font-weight: 700;
+  font-size: var(--sala-tamano-texto);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.neo-sala-contenido form {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+.neo-sala-contenido-llena {
+  background: var(--sala-fondo-llena);
+  color: var(--sala-texto-llena);
+}
+
+/* ==================== ITEM WRAPPER ==================== */
+.neo-sala-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.neo-sala-etiqueta {
+  color: var(--sala-etiqueta-texto);
+  font-size: var(--sala-etiqueta-tamano);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* ==================== CREADOR ==================== */
+.neo-sala-creador {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.neo-sala-avatar {
+  width: var(--sala-avatar-tamano);
+  height: var(--sala-avatar-tamano);
+  border-radius: 50%;
+  border: 0.188rem solid var(--sala-borde);
+  background: var(--sala-borde);
+  color: var(--paleta-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--sala-avatar-texto);
+  flex-shrink: 0;
+}
+
+.neo-sala-nombre-creador {
+  font-weight: 900;
+  font-size: var(--sala-tamano-texto);
+}
+
+/* ==================== BOTÓN ==================== */
+.neo-sala-boton {
+  width: 100%;
+  padding: var(--sala-boton-padding);
+  border: var(--sala-grosor-borde) solid var(--sala-borde);
+  box-shadow: 0.25rem 0.25rem 0 var(--sala-borde);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  font-size: var(--sala-boton-tamano);
+  background: var(--sala-boton-fondo);
+  color: var(--sala-boton-texto);
+  transition: all var(--sala-transicion) ease;
+  cursor: pointer;
+  text-transform: uppercase;
+  translate: -0.125rem -0.125rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neo-sala-boton:hover {
+  translate: 0 0;
+  box-shadow: 0.125rem 0.125rem 0 var(--sala-borde);
+  background: var(--sala-boton-fondo-hover);
+  color: var(--sala-boton-texto-hover);
+}
+
+.neo-sala-boton:active {
+  translate: 0.125rem 0.125rem;
+  box-shadow: 0 0 0 var(--sala-borde);
+  background: var(--sala-boton-fondo-activo);
+}
+
+/* Botón deshabilitado */
+.neo-sala-boton-deshabilitado {
+  width: 100%;
+  padding: var(--sala-boton-padding);
+  border: var(--sala-grosor-borde) solid var(--sala-borde);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  font-size: var(--sala-boton-tamano);
+  background: var(--sala-boton-deshabilitado-fondo);
+  color: var(--sala-boton-deshabilitado-texto);
+  cursor: not-allowed;
+  text-transform: uppercase;
+  box-shadow: none;
+  translate: 0 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+  .neo-sala-contenido {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .neo-sala-item {
+    align-items: center;
+  }
+
+  .neo-sala-etiqueta {
+    font-size: 0.75rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --sala-titulo-tamano: 1rem;
+    --sala-tamano-texto: 1rem;
+    --sala-boton-tamano: 0.9rem;
+    --sala-contenido-padding: 1rem 0.5rem;
+    --sala-avatar-tamano: 2.2rem;
+    --sala-avatar-texto: 1.2rem;
+  }
+}

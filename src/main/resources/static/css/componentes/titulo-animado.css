@@ -1,0 +1,190 @@
+/* =============================================================================
+   COMPONENTE: Título Animado
+   DESCRIPCIÓN: Título TUTTI-FRUTTI animado con efectos configurables
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --titulo-animado-ancho: auto;
+  --titulo-animado-alto: auto;
+
+  /* Colores base */
+  --titulo-animado-tutti: var(--paleta-advertencia);
+  --titulo-animado-frutti: var(--paleta-primario);
+  --titulo-animado-separador: var(--paleta-blanco);
+  --titulo-animado-linea: var(--paleta-secundario);
+  --titulo-animado-sombra: var(--paleta-negro);
+
+  /* Colores activos */
+  --titulo-animado-tutti-activo: #fff389;
+  --titulo-animado-frutti-activo: #ff66a3;
+  --titulo-animado-linea-activo: #6666ff;
+
+  /* Animación */
+  --titulo-animado-duracion: 10s;
+  --titulo-animado-escala: 1.3;
+
+  /* Tipografía */
+  --fuente-principal:'montserrat';
+  --titulo-animado-tamano: 7rem;
+  --titulo-animado-espaciado: 0.3rem;
+  --titulo-animado-margen-separador: 1.5rem;
+  --titulo-animado-padding-inferior: 1.5rem;
+
+  /* Línea */
+  --titulo-animado-linea-ancho: 100%;
+  --titulo-animado-linea-alto: 0.5rem;
+  --titulo-animado-linea-escala: 1.3;
+
+  /* Sombras */
+  --titulo-animado-sombra-pequena: 0.25rem;
+  --titulo-animado-sombra-grande: 0.5rem;
+}
+
+/* ==================== TÍTULO ==================== */
+.neo-titulo-animado {
+  width: var(--titulo-animado-ancho);
+  height: var(--titulo-animado-alto);
+  font-size: var(--titulo-animado-tamano);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  letter-spacing: var(--titulo-animado-espaciado);
+  text-transform: uppercase;
+  line-height: 1.2;
+  padding-bottom: var(--titulo-animado-padding-inferior);
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* ==================== TEXTOS ==================== */
+.neo-titulo-animado-tutti,
+.neo-titulo-animado-frutti,
+.neo-titulo-animado-separador {
+  display: inline-block;
+  transform-origin: center bottom;
+}
+
+.neo-titulo-animado-tutti {
+  color: var(--titulo-animado-tutti);
+  text-shadow:
+    var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+    var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  animation: animacionTutti var(--titulo-animado-duracion) infinite ease-in-out;
+}
+
+.neo-titulo-animado-frutti {
+  color: var(--titulo-animado-frutti);
+  text-shadow:
+    var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+    var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  animation: animacionFrutti var(--titulo-animado-duracion) infinite ease-in-out;
+}
+
+.neo-titulo-animado-separador {
+  color: var(--titulo-animado-separador);
+  text-shadow:
+    var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+    var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  margin: 0 var(--titulo-animado-margen-separador);
+}
+
+/* ==================== LÍNEA INFERIOR ==================== */
+.neo-titulo-animado::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--titulo-animado-linea-ancho);
+  height: var(--titulo-animado-linea-alto);
+  background: var(--titulo-animado-linea);
+  border: 0.125rem solid var(--titulo-animado-sombra);
+  box-shadow:
+    var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+    inset 0.125rem 0.125rem 0 rgba(255, 255, 255, 0.5);
+  border-radius: 0.25rem;
+  animation: animacionLinea var(--titulo-animado-duracion) infinite ease-in-out;
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes animacionTutti {
+  0%, 50%, 100% {
+    color: var(--titulo-animado-tutti);
+    transform: scale(1);
+    text-shadow:
+      var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+      var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  }
+  25% {
+    color: var(--titulo-animado-tutti-activo);
+    transform: scale(var(--titulo-animado-escala));
+    text-shadow:
+      var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 rgba(0, 0, 0, 0.6),
+      var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes animacionFrutti {
+  0%, 50% {
+    color: var(--titulo-animado-frutti);
+    transform: scale(1);
+    text-shadow:
+      var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+      var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  }
+  75% {
+    color: var(--titulo-animado-frutti-activo);
+    transform: scale(var(--titulo-animado-escala));
+    text-shadow:
+      var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 rgba(0, 0, 0, 0.6),
+      var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.4);
+  }
+  100% {
+    color: var(--titulo-animado-frutti);
+    transform: scale(1);
+    text-shadow:
+      var(--titulo-animado-sombra-pequena) var(--titulo-animado-sombra-pequena) 0 var(--titulo-animado-sombra),
+      var(--titulo-animado-sombra-grande) var(--titulo-animado-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  }
+}
+
+@keyframes animacionLinea {
+  0%, 50%, 100% {
+    transform: translateX(-50%) scaleX(1);
+    background: var(--titulo-animado-linea);
+  }
+  25%, 75% {
+    transform: translateX(-50%) scaleX(var(--titulo-animado-linea-escala));
+    background: var(--titulo-animado-linea-activo);
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --titulo-animado-tamano: 3rem;
+    --titulo-animado-espaciado: 0.2rem;
+    --titulo-animado-margen-separador: 1rem;
+    --titulo-animado-padding-inferior: 1.2rem;
+    --titulo-animado-linea-alto: 0.4rem;
+    --titulo-animado-sombra-pequena: 0.2rem;
+    --titulo-animado-sombra-grande: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --titulo-animado-tamano: 2.2rem;
+    --titulo-animado-espaciado: 0.15rem;
+    --titulo-animado-margen-separador: 0.75rem;
+    --titulo-animado-padding-inferior: 1rem;
+    --titulo-animado-linea-alto: 0.375rem;
+    --titulo-animado-sombra-pequena: 0.15rem;
+    --titulo-animado-sombra-grande: 0.3rem;
+    --titulo-animado-escala: 1.15;
+  }
+}

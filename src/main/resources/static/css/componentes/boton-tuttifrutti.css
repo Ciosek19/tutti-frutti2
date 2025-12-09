@@ -1,0 +1,114 @@
+/* =============================================================================
+   COMPONENTE: Botón Tutti Frutti
+   DESCRIPCIÓN: Botón circular con efecto de sombra interna envolvente
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --boton-tf-contenedor-ancho: 100%;
+  --boton-tf-contenedor-alto: 100%;
+  --boton-tf-tamano: 200px;
+
+  /* Colores */
+  --boton-tf-fondo: var(--paleta-primario);
+  --boton-tf-texto: var(--paleta-blanco);
+  --boton-tf-borde: var(--paleta-negro);
+
+  /* Tipografía */
+  --boton-tf-tamano-texto: 1.8rem;
+  --boton-tf-grosor-borde: 5px;
+
+  /* Sombras internas */
+  --boton-tf-sombra: inset 0 0 0 0 rgba(0, 0, 0, 0);
+  --boton-tf-sombra-hover: inset 0 0 20px 5px rgba(0, 0, 0, 0.4);
+  --boton-tf-sombra-activo: inset 0 0 40px 30px rgba(0, 0, 0, 0.6);
+
+  /* Sombras de texto */
+  --boton-tf-texto-sombra: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --boton-tf-texto-sombra-hover: 0 2px 6px rgba(0, 0, 0, 0.5);
+  --boton-tf-texto-sombra-activo: 0 1px 8px rgba(0, 0, 0, 0.7);
+
+  /* Animación */
+  --boton-tf-transicion: 0.3s;
+}
+
+/* ==================== CONTENEDOR ==================== */
+.neo-boton-tf-contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--boton-tf-contenedor-ancho);
+  height: var(--boton-tf-contenedor-alto);
+}
+
+/* ==================== BOTÓN CIRCULAR ==================== */
+.neo-boton-tuttifrutti {
+  width: var(--boton-tf-tamano);
+  height: var(--boton-tf-tamano);
+  border-radius: 50%;
+  background: var(--boton-tf-fondo);
+  border: var(--boton-tf-grosor-borde) solid var(--boton-tf-borde);
+  color: var(--boton-tf-texto);
+  font-size: var(--boton-tf-tamano-texto);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1.2;
+  box-sizing: border-box;
+  box-shadow: var(--boton-tf-sombra);
+  text-shadow: var(--boton-tf-texto-sombra);
+  transition: box-shadow var(--boton-tf-transicion) ease,
+              text-shadow var(--boton-tf-transicion) ease;
+}
+
+.neo-boton-tuttifrutti:hover {
+  box-shadow: var(--boton-tf-sombra-hover);
+  text-shadow: var(--boton-tf-texto-sombra-hover);
+}
+
+.neo-boton-tuttifrutti:active {
+  box-shadow: var(--boton-tf-sombra-activo);
+  text-shadow: var(--boton-tf-texto-sombra-activo);
+}
+
+/* ==================== ANIMACIÓN PULSO (OPCIONAL) ==================== */
+.neo-boton-tuttifrutti.pulso {
+  animation: botonTFPulso 2s ease-in-out infinite;
+}
+
+@keyframes botonTFPulso {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --boton-tf-tamano: 150px;
+    --boton-tf-tamano-texto: 1.2rem;
+    --boton-tf-sombra-hover: inset 0 0 15px 4px rgba(0, 0, 0, 0.4);
+    --boton-tf-sombra-activo: inset 0 0 25px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --boton-tf-tamano: 120px;
+    --boton-tf-tamano-texto: 1rem;
+    --boton-tf-grosor-borde: 4px;
+    --boton-tf-sombra-hover: inset 0 0 12px 3px rgba(0, 0, 0, 0.4);
+    --boton-tf-sombra-activo: inset 0 0 20px 6px rgba(0, 0, 0, 0.6);
+  }
+}

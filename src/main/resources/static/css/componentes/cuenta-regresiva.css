@@ -1,0 +1,121 @@
+/* =============================================================================
+   COMPONENTE: Cuenta Regresiva
+   DESCRIPCIÓN: Cuenta regresiva animada (3, 2, 1, ¡TUTTI FRUTTI!)
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --cuenta-contenedor-ancho: 100%;
+  --cuenta-contenedor-alto: 100%;
+
+  /* Colores */
+  --cuenta-texto: var(--paleta-advertencia);
+  --cuenta-inicio: var(--paleta-primario);
+  --cuenta-sombra: var(--paleta-negro);
+  --cuenta-fondo: var(--paleta-acento);
+
+  /* Tipografía */
+  --cuenta-tamano-numero: 15rem;
+  --cuenta-tamano-inicio: 7.5rem;
+
+  /* Sombras */
+  --cuenta-sombra-pequena: 0.5rem;
+  --cuenta-sombra-grande: 1rem;
+
+  /* Animación */
+  --cuenta-duracion: 1s;
+  --cuenta-escala-inicio: 0.5;
+  --cuenta-escala-final: 1.2;
+}
+
+/* ==================== CONTENEDOR ==================== */
+.neo-cuenta-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--cuenta-contenedor-ancho);
+  height: var(--cuenta-contenedor-alto);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background: var(--cuenta-fondo);
+  pointer-events: none;
+}
+
+/* ==================== NÚMERO ==================== */
+.neo-cuenta-numero {
+  font-size: var(--cuenta-tamano-numero);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  color: var(--cuenta-texto);
+  text-shadow:
+    var(--cuenta-sombra-pequena) var(--cuenta-sombra-pequena) 0 var(--cuenta-sombra),
+    var(--cuenta-sombra-grande) var(--cuenta-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  animation: cuentaPulso var(--cuenta-duracion) ease-out forwards;
+  opacity: 0;
+}
+
+/* ==================== TEXTO INICIO ==================== */
+.neo-cuenta-inicio {
+  font-size: var(--cuenta-tamano-inicio);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  color: var(--cuenta-inicio);
+  text-shadow:
+    var(--cuenta-sombra-pequena) var(--cuenta-sombra-pequena) 0 var(--cuenta-sombra),
+    var(--cuenta-sombra-grande) var(--cuenta-sombra-grande) 0 rgba(0, 0, 0, 0.8);
+  animation: cuentaInicio var(--cuenta-duracion) ease-out forwards;
+  opacity: 0;
+  text-transform: uppercase;
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes cuentaPulso {
+  0% {
+    opacity: 0;
+    transform: scale(var(--cuenta-escala-inicio));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(var(--cuenta-escala-final));
+  }
+}
+
+@keyframes cuentaInicio {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-5deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.3) rotate(0deg);
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --cuenta-tamano-numero: 9rem;
+    --cuenta-tamano-inicio: 4.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --cuenta-tamano-numero: 6rem;
+    --cuenta-tamano-inicio: 3rem;
+    --cuenta-sombra-pequena: 0.3rem;
+    --cuenta-sombra-grande: 0.6rem;
+  }
+}

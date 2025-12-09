@@ -4,25 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Principal - Tutti Frutti</title>
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/menu-principal.css}" />
 </head>
 <body>
-    <h1>Bienvenido a Tutti Frutti</h1>
-    <h2 th:text="'Jugador: ' + ${nombreJugador}"></h2>
+    <div class="menu-container">
+        <h1 class="neo-titulo-simple">MODO DE JUEGO</h1>
 
-    <form method="post" th:action="@{/menu/solitario}">
-        <button type="submit">Solitario</button>
-    </form>
+        <div class="botones-container">
+            <form method="post" th:action="@{/menu/solitario}">
+                <button type="submit" class="neo-boton-universal">Solitario</button>
+            </form>
 
-    <form method="post" th:action="@{/menu/multijugador}">
-        <button type="submit">Multijugador</button>
-    </form>
+            <form method="post" th:action="@{/menu/multijugador}">
+                <button type="submit" class="neo-boton-universal">Multijugador</button>
+            </form>
 
-    <form th:action="@{/logout}" method="post" style="margin-top: 20px;">
-        <button type="submit">Cerrar Sesión</button>
-    </form>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="neo-boton-universal">Cerrar Sesión</button>
+            </form>
+        </div>
 
-    <div th:if="${error}" style="color:red;">
-        <span th:text="${error}"></span>
+        <div class="error-message" th:if="${error}">
+            <span th:text="${error}"></span>
+        </div>
     </div>
 </body>
 </html>

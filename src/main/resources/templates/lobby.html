@@ -3,28 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Lobby - Tutti Frutti</title>
+
+    <!-- Google Fonts - Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/input-escritura.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/sala-tarjeta.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/lobby.css}" />
   </head>
   <body>
-    <form th:action="@{/menu}" method="get" style="display: inline;">
-      <button type="submit">Volver al Menú</button>
-    </form>
-    <div id="titulo">
-      <h1
-        th:text="|Bienvenido ${nombreJugador} a Tutti Frutti Multijugador|"
-      ></h1>
-    </div>
-    <form th:action="@{/sala/crear-sala}" method="post">
-    <input type="text" name="nombre" placeholder="Nombre de la sala" required>
-    <button type="submit">Crear sala</button>
-</form>
+    <div class="lobby-container">
+      <form th:action="@{/menu}" method="get" class="btn-volver-form">
+        <button type="submit" class="neo-boton-universal btn-volver">Volver al Menú</button>
+      </form>
 
-    <h2>Salas:</h2>
-    <div id="listaSalas"></div>
+      <div class="jugador-info">
+        <div class="jugador-avatar-lobby" th:text="${nombreJugador != null && !nombreJugador.isEmpty() ? nombreJugador.substring(0,1).toUpperCase() : 'J'}">J</div>
+        <span class="jugador-nombre" th:text="${nombreJugador}">Jugador</span>
+      </div>
+
+      <form th:action="@{/sala/crear-sala}" method="post" class="form-crear-sala">
+        <input type="text" name="nombre" class="neo-input-escribir input-crear-sala" placeholder="Nombre de la sala" required>
+        <button type="submit" class="neo-boton-universal btn-crear-sala">Crear sala</button>
+      </form>
+
+      <div id="listaSalas" class="salas-grid"></div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
-
     <script th:src="@{/js/ws-lobby.js}"></script>
   </body>
 </html>

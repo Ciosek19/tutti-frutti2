@@ -1,0 +1,63 @@
+/* =============================================================================
+   COMPONENTE: Título Simple
+   DESCRIPCIÓN: Título con efecto neobrutalist configurable
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --titulo-ancho: auto;
+  --titulo-alto: auto;
+  --titulo-ancho-max: 100%;
+
+  /* Colores */
+  --titulo-color: var(--paleta-secundario);
+  --titulo-sombra-color: var(--paleta-negro);
+
+  /* Tipografía */
+  --titulo-tamano: 7rem;
+  --titulo-espaciado-letras: 0.3rem;
+  --titulo-padding-inferior: 1.5rem;
+
+  /* Sombra */
+  --titulo-desplazamiento-sombra: 0.25rem;
+}
+
+/* ==================== COMPONENTE ==================== */
+.neo-titulo-simple {
+  width: var(--titulo-ancho);
+  height: var(--titulo-alto);
+  max-width: var(--titulo-ancho-max);
+  font-size: var(--titulo-tamano);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  letter-spacing: var(--titulo-espaciado-letras);
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--titulo-color);
+  text-shadow:
+    var(--titulo-desplazamiento-sombra) var(--titulo-desplazamiento-sombra) 0 var(--titulo-sombra-color),
+    calc(var(--titulo-desplazamiento-sombra) * 2) calc(var(--titulo-desplazamiento-sombra) * 2) 0 rgba(0, 0, 0, 0.8);
+  padding-bottom: var(--titulo-padding-inferior);
+  margin: 0;
+  display: inline-block;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --titulo-tamano: 3rem;
+    --titulo-espaciado-letras: 0.2rem;
+    --titulo-padding-inferior: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --titulo-tamano: 2.2rem;
+    --titulo-espaciado-letras: 0.15rem;
+    --titulo-padding-inferior: 1rem;
+    --titulo-desplazamiento-sombra: 0.2rem;
+  }
+}

@@ -66,7 +66,15 @@ public class SolitarioController {
     public String validarRespuestas(@RequestParam Map<String,String> respuestas, String letra, HttpSession session, Model model) {
         respuestas.remove("letra");
         ValidacionesDTO resultado = servicioIA.validarRespuestas(respuestas, letra);
+
+        // Obtener el nombre del jugador de la sesión
+        String idJugador = (String) session.getAttribute("idJugador");
+        Jugador jugador = jugadorServicio.obtenerJugador(idJugador);
+        String nombreJugador = jugador != null ? jugador.getNombre() : "Jugador";
+
         model.addAttribute("resultado", resultado);
+        model.addAttribute("nombreJugador", nombreJugador);
+        model.addAttribute("letra", letra);
         return "solitarioResultados";
     }
 

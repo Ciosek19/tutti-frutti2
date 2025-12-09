@@ -1,0 +1,23 @@
+/* =============================================================================
+   ARCHIVO: colores.css
+   DESCRIPCIÓN: Paleta de colores global reutilizable
+   USO: Importar en proyectos y sobrescribir variables según necesidad
+   ============================================================================= */
+
+/* Importar fuente Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+:root {
+  /* ==================== FUENTE ==================== */
+  --fuente-principal: 'Montserrat', sans-serif;
+
+  /* ==================== PALETA BASE ==================== */
+  --paleta-primario: #d20473;    /* Fucsia/Rosa */
+  --paleta-secundario: #3204d9;  /* Azul */
+  --paleta-acento: #04bf9d;      /* Verde agua */
+  --paleta-exito: #067302;       /* Verde */
+  --paleta-advertencia: #d2d904; /* Amarillo */
+  --paleta-negro: #000000;
+  --paleta-blanco: #ffffff;
+  --paleta-gris: #888888;
+}

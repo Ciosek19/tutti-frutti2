@@ -1,0 +1,287 @@
+/* =============================================================================
+   PÁGINA: Resultados Multijugador
+   DESCRIPCIÓN: Estilos específicos para la página de resultados del modo multijugador
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN DE PÁGINA ==================== */
+:root {
+  /* Color de fondo de página */
+  --resultados-multi-fondo-pagina: var(--paleta-acento);
+
+  /* Variables de componentes */
+  --titulo-tamano: 4.5rem;
+}
+
+/* ==================== ESTILOS DE PÁGINA ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-principal);
+}
+
+body {
+  background: var(--resultados-multi-fondo-pagina);
+  min-height: 100vh;
+}
+
+.resultados-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* ==================== TÍTULOS ==================== */
+
+.titulo-resultados {
+  --titulo-color: var(--paleta-secundario);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.letra-usada {
+  --titulo-color: var(--paleta-primario);
+  --titulo-tamano: 6rem;
+  margin: 5px 0 20px 0;
+}
+
+/* ==================== RANKING ==================== */
+
+.ranking-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin: 20px 0;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* ==================== TARJETAS DE JUGADOR ==================== */
+
+/* Tarjeta oro (1er puesto) */
+.neo-jugador-tarjeta.posicion-1 {
+  --jugador-fondo: var(--jugador-posicion-oro);
+}
+
+/* Tarjeta plata (2do puesto) */
+.neo-jugador-tarjeta.posicion-2 {
+  --jugador-fondo: var(--jugador-posicion-plata);
+}
+
+/* Tarjeta bronce (3er puesto) */
+.neo-jugador-tarjeta.posicion-3 {
+  --jugador-fondo: var(--jugador-posicion-bronce);
+}
+
+/* Tarjeta default (resto de puestos) */
+.neo-jugador-tarjeta.posicion-default {
+  --jugador-fondo: var(--jugador-posicion-default);
+}
+
+/* Ajuste de ancho para resultados - ancho automático según contenido */
+.neo-jugador-tarjeta {
+  width: auto;
+  min-width: 350px;
+  max-width: 500px;
+  flex: 0 1 auto;
+}
+
+/* ==================== FILA CON INFO ==================== */
+.neo-jugador-fila-con-info {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* ==================== ICONO DE INFORMACIÓN ==================== */
+.neo-jugador-info {
+  position: relative;
+  display: inline-block;
+}
+
+.neo-jugador-info-icono {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--paleta-secundario);
+  color: var(--paleta-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
+  cursor: help;
+  border: 3px solid var(--paleta-negro);
+  transition: all 0.2s ease;
+}
+
+.neo-jugador-info-icono:hover {
+  background: var(--paleta-primario);
+  transform: scale(1.1);
+}
+
+.neo-jugador-info-tooltip {
+  position: absolute;
+  bottom: 120%;
+  right: 0;
+  background: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  max-width: 300px;
+  white-space: normal;
+}
+
+.neo-jugador-info-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border: 8px solid transparent;
+  border-top-color: var(--paleta-negro);
+}
+
+.neo-jugador-info:hover .neo-jugador-info-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==================== BOTONES ==================== */
+
+.botones-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.botones-container form {
+  margin: 0;
+}
+
+.btn-volver-sala {
+  --boton-ancho: 250px;
+  --boton-fondo: var(--paleta-exito);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+.btn-volver-lobby {
+  --boton-ancho: 250px;
+  --boton-fondo: var(--paleta-primario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+.btn-menu {
+  --boton-ancho: 250px;
+  --boton-fondo: var(--paleta-gris);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-negro);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 1024px) {
+  .neo-jugador-tarjeta {
+    min-width: 320px;
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --titulo-tamano: 3rem;
+  }
+
+  .resultados-container {
+    padding: 30px 15px;
+  }
+
+  .letra-usada {
+    --titulo-tamano: 4.5rem;
+  }
+
+  .ranking-container {
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .neo-jugador-tarjeta {
+    width: 100%;
+    min-width: auto;
+    max-width: 600px;
+  }
+
+  .botones-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-volver-sala,
+  .btn-volver-lobby,
+  .btn-menu {
+    --boton-ancho: 100%;
+  }
+
+  .neo-jugador-fila-con-info {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .neo-jugador-info-tooltip {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 110%;
+  }
+
+  .neo-jugador-info-tooltip::after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --titulo-tamano: 2.5rem;
+  }
+
+  .resultados-container {
+    padding: 20px 10px;
+    gap: 15px;
+  }
+
+  .letra-usada {
+    --titulo-tamano: 3.5rem;
+  }
+
+  .ranking-container {
+    gap: 15px;
+  }
+}

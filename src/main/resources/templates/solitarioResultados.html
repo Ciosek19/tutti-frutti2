@@ -4,58 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados - Tutti Frutti</title>
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/tarjeta-resultado.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/solitarioResultados.css}" />
 </head>
 <body>
-    
-    <div th:if="${error}">
-        <h1>ERROR</h1>
+
+    <div th:if="${error}" class="error-container">
+        <h1 class="neo-titulo-simple error-titulo">ERROR</h1>
         <h2 th:text="${error}"></h2>
-        <a th:href="@{/juego/solitario/}">Volver</a>
+        <a th:href="@{/juego/solitario/}" class="neo-boton-universal">Volver</a>
     </div>
-    
-    <div th:if="${resultado != null}">
-        
-        <div th:if="${resultado.respuestasInvalidas == 0}">
-            <h1>🎉 ¡VICTORIA! 🎉</h1>
-            <h2>¡PERFECTO! Todas tus respuestas son correctas</h2>
-            <h3>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h3>
+
+    <div th:if="${resultado != null}" class="resultados-container">
+
+        <!-- Título de Victoria o Derrota -->
+        <div th:if="${resultado.respuestasInvalidas == 0}" class="titulo-resultado">
+            <h1 class="neo-titulo-simple titulo-victoria">¡VICTORIA PERFECTA!</h1>
+            <h2 class="subtitulo-resultado">¡INCREÍBLE! ¡Todas tus respuestas son correctas!</h2>
         </div>
-        
-        <div th:if="${resultado.respuestasInvalidas > 0}">
-            <h1>❌ DERROTA ❌</h1>
-            <h2>Tienes respuestas incorrectas</h2>
-            <h3>PUNTAJE TOTAL: <span th:text="${resultado.puntajeTotal}"></span> puntos</h3>
+
+        <div th:if="${resultado.respuestasInvalidas > 0}" class="titulo-resultado">
+            <h1 class="neo-titulo-simple titulo-derrota">¡INTENTA DE NUEVO!</h1>
+            <h2 class="subtitulo-resultado">¡No te rindas! ¡Puedes hacerlo mejor!</h2>
         </div>
-        
-        <hr>
-        
-        <p>Letra usada: <strong th:text="${letra}"></strong></p>
-        
-        <p>Respuestas válidas: <span th:text="${resultado.respuestasValidas}"></span></p>
-        <p>Respuestas inválidas: <span th:text="${resultado.respuestasInvalidas}"></span></p>
-        
-        <hr>
-        
-        <h3>DETALLE:</h3>
-        
-        <ul>
-            <li th:each="v : ${resultado.validaciones}">
-                <strong th:text="${v.categoria}"></strong>: 
-                <input type="text" th:value="${v.respuestaUsuario}" readonly>
-                
-                <span th:if="${v.esValida}">✓ </span>
-                <span th:unless="${v.esValida}">✗</span>
-                
-                <span th:if="${v.razon != null and !v.razon.isEmpty()}">
-                    Razón: <em th:text="${v.razon}"></em>
-                </span>
-            </li>
-        </ul>
-        
-        <hr>
-        
-        <a th:href="@{/solitario}">NUEVA PARTIDA</a>
-        <a th:href="@{/menu}">IR AL MENU</a>
+
+        <!-- Letra usada -->
+        <h2 class="neo-titulo-simple letra-usada" th:text="${letra}"></h2>
+
+        <!-- Tarjeta de Resultados -->
+        <div class="neo-resultado-tarjeta">
+            <div class="neo-resultado-header">
+                <div class="neo-resultado-avatar" th:text="${nombreJugador != null && nombreJugador != '' ? nombreJugador.substring(0,1).toUpperCase() : 'J'}">J</div>
+                <div class="neo-resultado-nombre" th:text="${nombreJugador != null && nombreJugador != '' ? nombreJugador : 'Jugador'}">Jugador</div>
+            </div>
+
+            <div class="neo-resultado-respuestas">
+                <div th:each="v : ${resultado.validaciones}" class="neo-resultado-fila">
+                    <div class="neo-resultado-etiqueta" th:text="${v.categoria}"></div>
+                    <input
+                        type="text"
+                        th:value="${v.respuestaUsuario}"
+                        th:class="${v.esValida ? 'neo-resultado-input neo-resultado-input-correcto' : 'neo-resultado-input neo-resultado-input-incorrecto'}"
+                        readonly>
+
+                    <!-- Icono de información solo si hay razón (respuesta incorrecta) -->
+                    <div th:if="${v.razon != null and !v.razon.isEmpty()}" class="neo-resultado-info">
+                        <div class="neo-resultado-info-icono">i</div>
+                        <div class="neo-resultado-info-tooltip" th:text="${v.razon}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="neo-resultado-footer">
+                <div class="neo-resultado-puntaje">
+                    Puntuación: <span class="neo-resultado-puntaje-valor" th:text="${resultado.respuestasValidas} + '/' + ${resultado.validaciones.size()}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="botones-container">
+            <a th:href="@{/solitario}" class="neo-boton-universal btn-nueva-partida">NUEVA PARTIDA</a>
+            <a th:href="@{/menu}" class="neo-boton-universal btn-menu">IR AL MENÚ</a>
+        </div>
     </div>
 </body>
 </html>

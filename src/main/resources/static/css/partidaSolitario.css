@@ -1,0 +1,253 @@
+/* =============================================================================
+   PÁGINA: Partida Solitario
+   DESCRIPCIÓN: Estilos específicos para la página de partida en modo solitario
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN DE PÁGINA ==================== */
+:root {
+  /* Color de fondo de página */
+  --partida-fondo-pagina: var(--paleta-acento);
+
+  /* Variables de componentes */
+  --titulo-tamano: 5rem;
+
+  --cronometro-tamano: 150px;
+  --cronometro-tamano-texto: 3rem;
+
+  --boton-tf-tamano: 180px;
+
+  --input-escritura-sombra-color: var(--paleta-primario);
+  --input-escritura-ancho: 100%;
+}
+
+/* ==================== ESTILOS DE PÁGINA ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-principal);
+}
+
+body {
+  background: var(--partida-fondo-pagina);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.partida-container {
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+/* ==================== ESQUINAS ==================== */
+
+/* Letra - Esquina Superior Izquierda */
+.letra-esquina {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 50;
+}
+
+.letra-esquina .neo-titulo-simple {
+  margin: 0;
+  padding: 0;
+  --titulo-color: var(--paleta-advertencia);
+}
+
+/* Cronómetro - Esquina Superior Derecha */
+.cronometro-esquina {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+}
+
+.cronometro-esquina .neo-cronometro-contenedor {
+  width: auto;
+  height: auto;
+}
+
+/* Botón Salir - Esquina Inferior Izquierda */
+.btn-salir {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  --boton-ancho: auto;
+  --boton-fondo: var(--paleta-secundario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+  z-index: 100;
+}
+
+/* Botón TUTTI FRUTTI - Esquina Inferior Derecha */
+.boton-tuttifrutti-esquina {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.neo-boton-tuttifrutti:disabled {
+  --boton-tf-fondo: var(--paleta-gris);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.neo-boton-tuttifrutti:disabled:hover {
+  box-shadow: var(--boton-tf-sombra);
+  text-shadow: var(--boton-tf-texto-sombra);
+}
+
+/* ==================== FORMULARIO Y CATEGORÍAS ==================== */
+
+.form-categorias {
+  padding-top: 180px;
+  padding-bottom: 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.categorias-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  padding: 0 20px;
+}
+
+.categoria-item .neo-input-contenedor {
+  width: 100%;
+}
+
+/* ==================== ERROR ==================== */
+
+.error-partida {
+  text-align: center;
+  padding: 40px;
+  background: var(--paleta-blanco);
+  border: 4px solid var(--paleta-negro);
+  box-shadow: 6px 6px 0 var(--paleta-negro);
+  margin-top: 100px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-partida p {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--paleta-primario);
+  margin-bottom: 20px;
+}
+
+.error-partida a {
+  color: var(--paleta-secundario);
+  font-weight: 900;
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 3px solid var(--paleta-negro);
+  background: var(--paleta-advertencia);
+  display: inline-block;
+}
+
+.error-partida a:hover {
+  background: var(--paleta-blanco);
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .categorias-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+/* Tablet pequeña */
+@media (max-width: 768px) {
+  :root {
+    --titulo-tamano: 3.5rem;
+    --cronometro-tamano: 120px;
+    --cronometro-tamano-texto: 2.5rem;
+    --boton-tf-tamano: 140px;
+  }
+
+  .categorias-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .form-categorias {
+    padding-top: 150px;
+    padding-bottom: 100px;
+  }
+
+  .letra-esquina {
+    top: 15px;
+    left: 15px;
+  }
+
+  .cronometro-esquina {
+    top: 15px;
+    right: 15px;
+  }
+
+  .btn-salir {
+    bottom: 15px;
+    left: 15px;
+  }
+
+  .boton-tuttifrutti-esquina {
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 480px) {
+  :root {
+    --titulo-tamano: 2.5rem;
+    --cronometro-tamano: 100px;
+    --cronometro-tamano-texto: 2rem;
+    --boton-tf-tamano: 120px;
+  }
+
+  .partida-container {
+    padding: 10px;
+  }
+
+  .categorias-grid {
+    gap: 15px;
+  }
+
+  .form-categorias {
+    padding-top: 130px;
+    padding-bottom: 90px;
+  }
+
+  .letra-esquina {
+    top: 10px;
+    left: 10px;
+  }
+
+  .cronometro-esquina {
+    top: 10px;
+    right: 10px;
+  }
+
+  .btn-salir {
+    bottom: 10px;
+    left: 10px;
+    --boton-padding: 12px 20px;
+  }
+
+  .boton-tuttifrutti-esquina {
+    bottom: 10px;
+    right: 10px;
+  }
+}

@@ -4,23 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sala de Juego</title>
+
+    <!-- Google Fonts - Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/tarjeta-jugador.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/sala.css}" />
+
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
   </head>
   <body>
-    <h1 th:text="|SALA: ${sala.nombre} / ${sala.codigo}|"></h1>
+    <div class="sala-container">
+      <form id="formVolver" action="/sala/salir-sala" method="POST" class="btn-volver-form">
+        <input type="hidden" name="codigoSala" th:value="${sala.codigo}">
+        <button type="submit" id="btnVolver" class="neo-boton-universal btn-volver">Volver</button>
+      </form>
 
-    <form id="formVolver" action="/sala/salir-sala" method="POST">
-      <input type="hidden" name="codigoSala" th:value="${sala.codigo}">
-      <button type="submit" id="btnVolver">Volver</button>
-    </form>
+      <h1 class="titulo-sala">
+        <span class="titulo-sala-texto">Sala:</span>
+        <span class="titulo-sala-nombre" th:text="${sala.nombre}">Nombre</span>
+      </h1>
 
-    <h3>Jugadores:</h3>
-    <div id="jugadores"></div>
+      <div class="contenido-sala">
+        <div class="seccion-jugadores">
+          <div id="jugadores"></div>
+        </div>
 
-    <div id="configuracion"></div>
-
-    <div id="btnEmpezarPartida"></div>
+        <div class="seccion-configuracion">
+          <div id="configuracion"></div>
+          <div id="btnEmpezarPartida"></div>
+        </div>
+      </div>
+    </div>
 
     <script th:inline="javascript">
       const salaData = {
@@ -34,7 +58,7 @@
         duracion: /*[[${sala.duracion != null ? sala.duracion : 60}]]*/ 60
       };
     </script>
-    
+
     <script th:src="@{/js/ws-sala.js}"></script>
   </body>
 </html>

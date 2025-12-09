@@ -1,0 +1,165 @@
+/* =============================================================================
+   COMPONENTE: Input Escritura
+   DESCRIPCIÓN: Input de escritura con efecto neobrutalist y animaciones
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --input-escritura-ancho: auto;
+  --input-escritura-alto: auto;
+  --input-escritura-padding: 15px;
+
+  /* Colores */
+  --input-escritura-sombra-color: var(--paleta-exito);
+  --input-escritura-fondo: var(--paleta-blanco);
+  --input-escritura-texto: var(--paleta-negro);
+  --input-escritura-borde: var(--paleta-negro);
+  --input-escritura-placeholder: var(--paleta-gris);
+
+  /* Label */
+  --input-escritura-etiqueta-fondo: var(--input-escritura-sombra-color);
+  --input-escritura-etiqueta-fondo-foco: var(--paleta-exito);
+  --input-escritura-etiqueta-texto: var(--paleta-blanco);
+  --input-escritura-etiqueta-tamano: 14px;
+
+  /* Tamaños */
+  --input-escritura-tamano-texto: 18px;
+  --input-escritura-grosor-borde: 4px;
+
+  /* Sombras */
+  --input-escritura-sombra-pequena: 5px;
+  --input-escritura-sombra-grande: 10px;
+
+  /* Animación */
+  --input-escritura-transicion: 0.3s;
+}
+
+/* ==================== CONTENEDOR ==================== */
+.neo-input-contenedor {
+  position: relative;
+  font-family: monospace;
+  width: var(--input-escritura-ancho);
+  height: var(--input-escritura-alto);
+}
+
+/* ==================== INPUT ==================== */
+.neo-input-escribir {
+  width: 100%;
+  padding: var(--input-escritura-padding);
+  font-size: var(--input-escritura-tamano-texto);
+  font-weight: bold;
+  color: var(--input-escritura-texto);
+  background-color: var(--input-escritura-fondo);
+  border: var(--input-escritura-grosor-borde) solid var(--input-escritura-borde);
+  border-radius: 0;
+  outline: none;
+  box-sizing: border-box;
+  transition: all var(--input-escritura-transicion) cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow:
+    var(--input-escritura-sombra-pequena) var(--input-escritura-sombra-pequena) 0 var(--input-escritura-borde),
+    var(--input-escritura-sombra-grande) var(--input-escritura-sombra-grande) 0 var(--input-escritura-sombra-color);
+}
+
+.neo-input-escribir::placeholder {
+  color: var(--input-escritura-placeholder);
+  transition: color var(--input-escritura-transicion) ease;
+}
+
+.neo-input-escribir:focus::placeholder {
+  color: transparent;
+}
+
+/* ==================== LABEL ==================== */
+.neo-input-etiqueta {
+  position: absolute;
+  left: -3px;
+  top: -35px;
+  font-size: var(--input-escritura-etiqueta-tamano);
+  font-weight: bold;
+  color: var(--input-escritura-etiqueta-texto);
+  background-color: var(--input-escritura-etiqueta-fondo);
+  padding: 5px 10px;
+  transform: rotate(-1deg);
+  z-index: 1;
+  transition: all var(--input-escritura-transicion) cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 3px solid var(--input-escritura-borde);
+  white-space: nowrap;
+}
+
+/* ==================== ANIMACIONES ==================== */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes focus-pulse {
+  0%, 100% { border-color: var(--input-escritura-borde); }
+  50% { border-color: var(--input-escritura-sombra-color); }
+}
+
+.neo-input-escribir:focus {
+  animation: focus-pulse 4s cubic-bezier(0.25, 0.8, 0.25, 1) infinite,
+    glitch var(--input-escritura-transicion) cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+}
+
+.neo-input-escribir:focus + .neo-input-etiqueta {
+  transform: rotate(0deg) scale(1.05);
+  background-color: var(--input-escritura-etiqueta-fondo-foco);
+  color: var(--input-escritura-etiqueta-texto);
+}
+
+/* ==================== TEXTAREA ==================== */
+.neo-textarea-escribir {
+  width: 100%;
+  padding: var(--input-escritura-padding);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--input-escritura-texto);
+  background-color: var(--input-escritura-fondo);
+  border: var(--input-escritura-grosor-borde) solid var(--input-escritura-borde);
+  border-radius: 0;
+  outline: none;
+  font-family: monospace;
+  resize: vertical;
+  min-height: 120px;
+  box-sizing: border-box;
+  transition: all var(--input-escritura-transicion) cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow:
+    var(--input-escritura-sombra-pequena) var(--input-escritura-sombra-pequena) 0 var(--input-escritura-borde),
+    var(--input-escritura-sombra-grande) var(--input-escritura-sombra-grande) 0 var(--input-escritura-sombra-color);
+}
+
+.neo-textarea-escribir::placeholder {
+  color: var(--input-escritura-placeholder);
+}
+
+.neo-textarea-escribir:focus {
+  animation: glitch var(--input-escritura-transicion) cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+  border-color: var(--input-escritura-sombra-color);
+}
+
+.neo-textarea-escribir:focus::placeholder {
+  color: transparent;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --input-escritura-padding: 12px;
+    --input-escritura-tamano-texto: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --input-escritura-padding: 10px;
+    --input-escritura-tamano-texto: 14px;
+    --input-escritura-etiqueta-tamano: 12px;
+  }
+}

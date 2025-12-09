@@ -1,22 +1,49 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro - Tutti Frutti</title>
-</head>
-<body>
-    <h1>Bienvenido a Tutti Frutti</h1>
-    <div th:if="${session.nombreJugador}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap" rel="stylesheet">
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-animado.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/input-escritura.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h1 class="neo-titulo-animado">
+        <span class="neo-titulo-animado-tutti">TUTTI</span>
+        <span class="neo-titulo-animado-separador">-</span>
+        <span class="neo-titulo-animado-frutti">FRUTTI</span>
+      </h1>
+
+      <div class="user-info" th:if="${session.nombreJugador}">
         <h2>Usuario: <span th:text="${session.nombreJugador}"></span></h2>
+      </div>
+
+      <h1 class="neo-titulo-simple" th:text="${session.nombreJugador}"></h1>
+
+          <form action="/" method="post" class="login-form">
+            <div class="neo-input-contenedor">
+              <input
+                type="text"
+                name="nombre"
+                class="neo-input-escribir"
+                placeholder="Escribe aquí tu nombre..."
+                required
+              />
+            </div>
+            <button type="submit" class="neo-boton-universal">Ingresar</button>
+            <div class="error-message" th:if="${error}">
+              <span th:text="${error}" style="color:var(--paleta-primario)"></span>
+            </div>
+          </form>
     </div>
-    <form action="/" method="post">
-        <input type="text" name="nombre" placeholder="Nombre de usuario" required>
-        <button type="submit">Ingresar</button>
-        
-        <div th:if="${error}" style="color: red">
-            <span th:text="${error}"></span>
-        </div>
-    </form>
-</body>
+  </body>
 </html>

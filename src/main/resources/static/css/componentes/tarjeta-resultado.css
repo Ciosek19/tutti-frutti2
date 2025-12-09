@@ -1,0 +1,277 @@
+/* =============================================================================
+   COMPONENTE: Tarjeta Resultado
+   DESCRIPCIÓN: Tarjeta de resultado sin indicador de posición
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --resultado-ancho: 600px;
+  --resultado-padding: 1.5rem;
+
+  /* Colores principales */
+  --resultado-fondo: #FFD700;
+  --resultado-texto: var(--paleta-negro);
+  --resultado-borde: var(--paleta-negro);
+  --resultado-grosor-borde: 4px;
+
+  /* Input base */
+  --resultado-input-grosor-borde: 3px;
+  --resultado-input-padding: 12px;
+
+  /* Estados de input */
+  --resultado-input-correcto-fondo: var(--paleta-exito);
+  --resultado-input-correcto-texto: var(--paleta-blanco);
+  --resultado-input-incorrecto-fondo: var(--paleta-primario);
+  --resultado-input-incorrecto-texto: var(--paleta-blanco);
+
+  /* Tipografía */
+  --resultado-tamano-texto: 1rem;
+  --resultado-tamano-titulo: 1.5rem;
+  --resultado-tamano-input: 1.1rem;
+
+  /* Avatar */
+  --resultado-avatar-tamano: 60px;
+  --resultado-avatar-texto: 2rem;
+
+  /* Score */
+  --resultado-score-texto: 1.3rem;
+  --resultado-score-valor-texto: 1.8rem;
+  --resultado-score-color: var(--paleta-exito);
+
+  /* Sombras */
+  --resultado-sombra: 8px;
+  --resultado-sombra-hover: 5.6px;
+  --resultado-input-sombra: 4px;
+  --resultado-input-sombra-hover: 2.4px;
+
+  /* Animación */
+  --resultado-transicion: 0.3s;
+}
+
+/* ==================== TARJETA ==================== */
+.neo-resultado-tarjeta {
+  width: var(--resultado-ancho);
+  background: var(--resultado-fondo);
+  border: var(--resultado-grosor-borde) solid var(--resultado-borde);
+  box-shadow: var(--resultado-sombra) var(--resultado-sombra) 0 var(--resultado-borde);
+  padding: var(--resultado-padding);
+  font-family: var(--fuente-principal);
+  box-sizing: border-box;
+  translate: calc(var(--resultado-sombra) * -0.25) calc(var(--resultado-sombra) * -0.25);
+  transition: all var(--resultado-transicion) ease;
+  position: relative;
+  margin: 0 auto 30px auto;
+}
+
+.neo-resultado-tarjeta:hover {
+  translate: 0 0;
+  box-shadow: var(--resultado-sombra-hover) var(--resultado-sombra-hover) 0 var(--resultado-borde);
+}
+
+/* ==================== HEADER ==================== */
+.neo-resultado-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: var(--resultado-grosor-borde) solid var(--resultado-borde);
+}
+
+.neo-resultado-avatar {
+  width: var(--resultado-avatar-tamano);
+  height: var(--resultado-avatar-tamano);
+  border-radius: 50%;
+  border: 3px solid var(--resultado-borde);
+  background: var(--resultado-borde);
+  color: var(--resultado-fondo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--resultado-avatar-texto);
+  flex-shrink: 0;
+}
+
+.neo-resultado-nombre {
+  font-size: var(--resultado-tamano-titulo);
+  font-weight: 900;
+  color: var(--paleta-negro);
+  text-transform: uppercase;
+}
+
+/* ==================== BODY ==================== */
+.neo-resultado-respuestas {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ==================== FILA ==================== */
+.neo-resultado-fila {
+  display: grid;
+  grid-template-columns: 150px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.neo-resultado-etiqueta {
+  font-size: var(--resultado-tamano-texto);
+  font-weight: 700;
+  color: var(--resultado-texto);
+  text-transform: uppercase;
+}
+
+/* ==================== INPUT ==================== */
+.neo-resultado-input {
+  width: 100%;
+  border: var(--resultado-input-grosor-borde) solid var(--resultado-borde);
+  padding: var(--resultado-input-padding);
+  font-size: var(--resultado-tamano-input);
+  font-weight: bold;
+  font-family: monospace;
+  box-sizing: border-box;
+  box-shadow: var(--resultado-input-sombra) var(--resultado-input-sombra) 0 var(--resultado-borde);
+  transition: all 0.2s ease;
+  text-align: center;
+  cursor: default;
+  user-select: text;
+}
+
+.neo-resultado-input:hover {
+  box-shadow: var(--resultado-input-sombra-hover) var(--resultado-input-sombra-hover) 0 var(--resultado-borde);
+  translate: 2px 2px;
+}
+
+/* Estados */
+.neo-resultado-input-correcto {
+  background: var(--resultado-input-correcto-fondo);
+  color: var(--resultado-input-correcto-texto);
+}
+
+.neo-resultado-input-incorrecto {
+  background: var(--resultado-input-incorrecto-fondo);
+  color: var(--resultado-input-incorrecto-texto);
+}
+
+/* ==================== ICONO DE INFORMACIÓN ==================== */
+.neo-resultado-info {
+  position: relative;
+  display: inline-block;
+}
+
+.neo-resultado-info-icono {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--paleta-secundario);
+  color: var(--paleta-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
+  cursor: help;
+  border: 3px solid var(--paleta-negro);
+  transition: all 0.2s ease;
+}
+
+.neo-resultado-info-icono:hover {
+  background: var(--paleta-primario);
+  transform: scale(1.1);
+}
+
+.neo-resultado-info-tooltip {
+  position: absolute;
+  bottom: 120%;
+  right: 0;
+  background: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+  min-width: 200px;
+  max-width: 300px;
+  white-space: normal;
+}
+
+.neo-resultado-info-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border: 8px solid transparent;
+  border-top-color: var(--paleta-negro);
+}
+
+.neo-resultado-info:hover .neo-resultado-info-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==================== FOOTER ==================== */
+.neo-resultado-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: var(--resultado-grosor-borde) solid var(--resultado-borde);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.neo-resultado-puntaje {
+  font-size: var(--resultado-score-texto);
+  font-weight: 900;
+  color: var(--resultado-texto);
+}
+
+.neo-resultado-puntaje-valor {
+  color: var(--resultado-score-color);
+  font-size: var(--resultado-score-valor-texto);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --resultado-ancho: 100%;
+    --resultado-padding: 1.2rem;
+    --resultado-tamano-texto: 0.9rem;
+  }
+
+  .neo-resultado-fila {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .neo-resultado-info-tooltip {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 110%;
+  }
+
+  .neo-resultado-info-tooltip::after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --resultado-padding: 1rem;
+    --resultado-tamano-titulo: 1.2rem;
+    --resultado-tamano-input: 1rem;
+    --resultado-input-padding: 10px;
+    --resultado-avatar-tamano: 50px;
+    --resultado-avatar-texto: 1.5rem;
+  }
+}

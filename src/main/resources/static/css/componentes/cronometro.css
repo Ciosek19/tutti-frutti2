@@ -1,0 +1,135 @@
+/* =============================================================================
+   COMPONENTE: Cronómetro
+   DESCRIPCIÓN: Cronómetro circular con cambio de color según tiempo
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --cronometro-contenedor-ancho: 100%;
+  --cronometro-contenedor-alto: 100%;
+  --cronometro-tamano: 300px;
+
+  /* Tipografía */
+  --cronometro-tamano-texto: 6rem;
+
+  /* Colores según tiempo */
+  --cronometro-color-inicio: var(--paleta-exito);
+  --cronometro-color-medio: var(--paleta-advertencia);
+  --cronometro-color-final: var(--paleta-primario);
+
+  /* Grosores */
+  --cronometro-grosor-borde: 15px;
+  --cronometro-grosor-fondo: 5px;
+
+  /* Colores de fondo */
+  --cronometro-fondo: var(--paleta-blanco);
+  --cronometro-borde: var(--paleta-negro);
+  --cronometro-fondo-interior: #e0e0e0;
+
+  /* Sombras */
+  --cronometro-sombra: 8px;
+  --cronometro-sombra-texto: 3px;
+
+  /* Animación */
+  --cronometro-transicion: 0.5s;
+  --cronometro-velocidad-pulso: 0.5s;
+  --cronometro-escala-pulso: 1.05;
+}
+
+/* ==================== CONTENEDOR ==================== */
+.neo-cronometro-contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--cronometro-contenedor-ancho);
+  height: var(--cronometro-contenedor-alto);
+}
+
+/* ==================== CÍRCULO ==================== */
+.neo-cronometro-circulo {
+  width: var(--cronometro-tamano);
+  height: var(--cronometro-tamano);
+  border-radius: 50%;
+  background: var(--cronometro-fondo);
+  border: var(--cronometro-grosor-fondo) solid var(--cronometro-borde);
+  box-shadow:
+    var(--cronometro-sombra) var(--cronometro-sombra) 0 var(--cronometro-borde),
+    inset 0 0 0 var(--cronometro-grosor-borde) var(--cronometro-fondo-interior);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+/* ==================== NÚMERO ==================== */
+.neo-cronometro-numero {
+  font-size: var(--cronometro-tamano-texto);
+  font-weight: 900;
+  font-family: var(--fuente-principal);
+  color: var(--cronometro-borde);
+  z-index: 2;
+  text-shadow: var(--cronometro-sombra-texto) var(--cronometro-sombra-texto) 0 rgba(0, 0, 0, 0.2);
+  transition: color var(--cronometro-transicion) ease;
+}
+
+/* ==================== BORDE ANIMADO (SVG) ==================== */
+.neo-cronometro-svg {
+  position: absolute;
+  top: calc(var(--cronometro-grosor-borde) * -1);
+  left: calc(var(--cronometro-grosor-borde) * -1);
+  width: calc(100% + (var(--cronometro-grosor-borde) * 2));
+  height: calc(100% + (var(--cronometro-grosor-borde) * 2));
+  transform: rotate(-90deg);
+  z-index: 1;
+  overflow: visible;
+}
+
+.neo-cronometro-progreso {
+  fill: none;
+  stroke-width: var(--cronometro-grosor-borde);
+  stroke-linecap: round;
+  transition: stroke var(--cronometro-transicion) ease;
+}
+
+/* ==================== ESTADOS DE COLOR ==================== */
+.neo-cronometro-circulo.cronometro-inicio .neo-cronometro-progreso {
+  stroke: var(--cronometro-color-inicio);
+}
+
+.neo-cronometro-circulo.cronometro-medio .neo-cronometro-progreso {
+  stroke: var(--cronometro-color-medio);
+}
+
+.neo-cronometro-circulo.cronometro-final .neo-cronometro-progreso {
+  stroke: var(--cronometro-color-final);
+}
+
+/* ==================== ANIMACIÓN PULSO CRÍTICO ==================== */
+.neo-cronometro-circulo.cronometro-critico {
+  animation: cronometroPulso var(--cronometro-velocidad-pulso) ease-in-out infinite;
+}
+
+@keyframes cronometroPulso {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(var(--cronometro-escala-pulso)); }
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --cronometro-tamano: 200px;
+    --cronometro-tamano-texto: 4rem;
+    --cronometro-grosor-borde: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --cronometro-tamano: 150px;
+    --cronometro-tamano-texto: 3rem;
+    --cronometro-grosor-borde: 10px;
+  }
+}

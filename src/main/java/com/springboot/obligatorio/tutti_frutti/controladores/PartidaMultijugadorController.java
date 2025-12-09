@@ -234,26 +234,6 @@ public class PartidaMultijugadorController {
         );
     }
 
-    @GetMapping("/partida/{partidaId}/debug")
-    @ResponseBody
-    public Map<String, Object> debugPartida(@PathVariable Long partidaId) {
-        PartidaMultijugador partida = partidaRepositorio.findById(partidaId).orElse(null);
-
-        if (partida == null) {
-            return Map.of("error", "Partida no encontrada");
-        }
-
-        List<Respuesta> todasRespuestas = respuestaRepositorio.findByPartida(partida);
-
-        return Map.of(
-            "partidaId", partidaId,
-            "letra", partida.getLetra(),
-            "finalizada", partida.getFinalizada(),
-            "totalRespuestas", todasRespuestas.size(),
-            "mensaje", "Ver logs en consola para detalles completos"
-        );
-    }
-
     @GetMapping("/partida/{partidaId}/resultados")
     public String mostrarResultados(@PathVariable Long partidaId, HttpSession session, Model model) {
         String idJugador = (String) session.getAttribute("idJugador");

@@ -1,0 +1,265 @@
+/* =============================================================================
+   PÁGINA: Sala
+   DESCRIPCIÓN: Estilos específicos para la página de sala de espera
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN DE PÁGINA ==================== */
+:root {
+  /* Color de fondo de página */
+  --sala-fondo-pagina: var(--paleta-acento);
+
+  /* Fuente */
+  --fuente-principal: 'Montserrat', sans-serif;
+
+  /* Variables de componentes */
+  --boton-ancho: auto;
+}
+
+/* ==================== ESTILOS DE PÁGINA ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-principal);
+}
+
+body {
+  background: var(--sala-fondo-pagina);
+  min-height: 100vh;
+  font-family: var(--fuente-principal);
+}
+
+.sala-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ==================== BOTÓN VOLVER ==================== */
+.btn-volver-form {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.btn-volver {
+  --boton-fondo: var(--paleta-secundario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+/* ==================== TÍTULO DE SALA ==================== */
+.titulo-sala {
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  text-shadow: 4px 4px 0 var(--paleta-negro);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.titulo-sala-texto {
+  color: var(--paleta-secundario);
+}
+
+.titulo-sala-nombre {
+  color: var(--paleta-primario);
+}
+
+/* ==================== CONTENIDO ==================== */
+.contenido-sala {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+/* ==================== SECCIONES ==================== */
+.seccion-jugadores,
+.seccion-configuracion {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ==================== JUGADORES ==================== */
+#jugadores {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.jugador-card {
+  background: var(--paleta-secundario);
+  color: var(--paleta-blanco);
+  padding: 15px 20px;
+  border: 3px solid var(--paleta-negro);
+  box-shadow: 4px 4px 0 var(--paleta-negro);
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.jugador-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  border: 3px solid var(--paleta-negro);
+}
+
+/* ==================== CONFIGURACIÓN ==================== */
+#configuracion {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.config-item label {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--paleta-negro);
+}
+
+.config-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.config-input-group input {
+  flex: 1;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 3px solid var(--paleta-negro);
+  box-shadow: 3px 3px 0 var(--paleta-negro);
+  font-family: var(--fuente-principal);
+}
+
+.btn-actualizar {
+  --boton-fondo: var(--paleta-advertencia);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-negro);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+.config-readonly {
+  background: var(--paleta-blanco);
+  padding: 15px;
+  border: 3px solid var(--paleta-negro);
+  box-shadow: 3px 3px 0 var(--paleta-negro);
+}
+
+.config-readonly p {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.config-readonly p:last-child {
+  margin-bottom: 0;
+}
+
+.config-readonly strong {
+  color: var(--paleta-secundario);
+}
+
+/* ==================== BOTÓN EMPEZAR PARTIDA ==================== */
+#btnEmpezarPartida .neo-boton-universal {
+  width: 100%;
+  --boton-fondo: var(--paleta-primario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-fondo-activo: var(--paleta-gris);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+#btnEmpezarPartida .neo-boton-universal:disabled {
+  --boton-fondo: var(--paleta-gris);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+  .contenido-sala {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .config-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-actualizar {
+    --boton-ancho: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sala-container {
+    padding: 80px 15px 30px 15px;
+  }
+
+  .titulo-sala {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  .jugador-card {
+    font-size: 1rem;
+    padding: 12px 15px;
+  }
+
+  .jugador-avatar {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sala-container {
+    padding: 60px 10px 20px 10px;
+  }
+
+  .titulo-sala {
+    font-size: 1.5rem;
+    gap: 10px;
+  }
+
+  .config-item label {
+    font-size: 0.9rem;
+  }
+
+  .config-input-group input {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}

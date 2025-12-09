@@ -3,48 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <title>Tutti Frutti - Partida Multijugador</title>
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-tuttifrutti.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/cuenta-regresiva.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/cronometro.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/input-escritura.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/partidaMultijugador.css}" />
+
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
   </head>
   <body>
-    <div id="cuenta-regresiva-inicial">
-      <h1 id="numero-cuenta">3</h1>
+    <div id="cuenta-regresiva-inicial" class="neo-cuenta-contenedor">
+      <h1 id="numero-cuenta" class="neo-cuenta-numero">3</h1>
     </div>
 
-    <div id="contenido-juego" style="display: none">
-      <h1>TUTTI FRUTTI - MULTIJUGADOR</h1>
-
-      <button type="button" id="btnSalir" onclick="confirmarSalida()">Salir al Menú</button>
-
+    <div id="contenido-juego" class="partida-container" style="display: none">
       <div th:if="${partida != null}">
-        <div id="temporizador">
-          Tiempo restante: <span id="tiempo">--</span> segundos
+        <!-- Letra en esquina superior izquierda -->
+        <div class="letra-esquina">
+          <h2 class="neo-titulo-simple" th:text="'Letra: ' + ${partida.letra}"></h2>
         </div>
-        <h2>Tu letra es: <span th:text="${partida.letra}"></span></h2>
 
+        <!-- Cronómetro en esquina superior derecha -->
+        <div class="cronometro-esquina">
+          <div class="neo-cronometro-contenedor">
+            <div class="neo-cronometro-circulo cronometro-inicio" id="cronometro-circulo">
+              <svg class="neo-cronometro-svg" id="cronometro-svg">
+                <circle class="neo-cronometro-progreso" cx="50%" cy="50%" r="calc(50% - 10px)" id="cronometro-progreso"></circle>
+              </svg>
+              <div class="neo-cronometro-numero" id="tiempo">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario con categorías -->
         <form
           id="formularioPartida"
           th:action="@{/partida/{id}/enviar-respuestas(id=${partida.id})}"
           method="POST"
+          class="form-categorias"
         >
           <input type="hidden" name="letra" th:value="${partida.letra}" />
           <input type="hidden" name="partidaId" th:value="${partida.id}" />
 
-          <div th:each="categoria : ${partida.categorias}">
-            <label th:text="${categoria} + ':'"></label>
-            <input
-              type="text"
-              th:name="${categoria}"
-              th:placeholder="${partida.letra}"
-              class="input-categoria"
-            />
-            <br /><br />
+          <div class="categorias-grid">
+            <div th:each="categoria : ${partida.categorias}" class="categoria-item">
+              <div class="neo-input-contenedor">
+                <label class="neo-input-etiqueta" th:text="${categoria}"></label>
+                <input
+                  type="text"
+                  th:name="${categoria}"
+                  th:placeholder="${partida.letra}"
+                  class="neo-input-escribir input-categoria"
+                />
+              </div>
+            </div>
           </div>
-
-          <button type="button" id="btnTuttiFrutti">TUTTI FRUTTI</button>
         </form>
+
+        <!-- Botón TUTTI FRUTTI en esquina inferior derecha -->
+        <div class="boton-tuttifrutti-esquina">
+          <button type="button" id="btnTuttiFrutti" class="neo-boton-tuttifrutti">TUTTI<br>FRUTTI</button>
+        </div>
+
+        <!-- Botón Salir en esquina inferior izquierda -->
+        <button type="button" id="btnSalir" class="neo-boton-universal btn-salir" onclick="confirmarSalida()">Salir al Menú</button>
       </div>
 
-      <div th:if="${partida == null}">
+      <div th:if="${partida == null}" class="error-partida">
         <p>
           No se pudo cargar la partida.
           <a href="/lobby">Volver al lobby</a>
@@ -67,10 +99,18 @@
       const contenidoJuego = document.getElementById("contenido-juego");
       const btnTuttiFrutti = document.getElementById("btnTuttiFrutti");
       const inputsCategorias = document.querySelectorAll(".input-categoria");
+      const cronometroCirculo = document.getElementById("cronometro-circulo");
+      const cronometroProgreso = document.getElementById("cronometro-progreso");
 
       let intervaloPartida = null;
       let stompClient = null;
       let juegoTerminado = false;
+      const tiempoInicial = tiempoRestante;
+      const circunferencia = 2 * Math.PI * (cronometroProgreso.r.baseVal.value);
+
+      // Configurar el progreso inicial
+      cronometroProgreso.style.strokeDasharray = circunferencia;
+      cronometroProgreso.style.strokeDashoffset = 0;
 
       // Función para verificar si todos los campos tienen valor
       function verificarCamposCompletos() {
@@ -127,16 +167,31 @@
       function iniciarCuentaRegresiva() {
         return new Promise((resuelve) => {
           let contador = 3;
-          const intervaloCuentaInicial = setInterval(() => {
+
+          function mostrarNumero() {
             if (contador > 0) {
+              // Remover la clase para reiniciar la animación
+              numeroCuenta.className = "";
+              void numeroCuenta.offsetWidth; // Forzar reflow para reiniciar animación
+
               numeroCuenta.textContent = contador;
+              numeroCuenta.className = "neo-cuenta-numero";
               contador--;
+
+              setTimeout(mostrarNumero, 1000);
             } else {
+              // Mostrar "¡YA!"
+              numeroCuenta.className = "";
+              void numeroCuenta.offsetWidth;
+
               numeroCuenta.textContent = "¡YA!";
-              clearInterval(intervaloCuentaInicial);
-              resuelve();
+              numeroCuenta.className = "neo-cuenta-inicio";
+
+              setTimeout(() => resuelve(), 1000);
             }
-          }, 1000);
+          }
+
+          mostrarNumero();
         });
       }
 
@@ -145,7 +200,7 @@
       }
 
       function mostrarJuego() {
-        contenidoJuego.style.display = "block";
+        contenidoJuego.style.display = "flex";
 
         // Deshabilitar el botón al inicio
         btnTuttiFrutti.disabled = true;
@@ -162,6 +217,20 @@
 
       function actualizarTemporizador() {
         temporizadorElemento.textContent = tiempoRestante;
+
+        // Actualizar barra de progreso
+        const porcentaje = tiempoRestante / tiempoInicial;
+        const offset = circunferencia * (1 - porcentaje);
+        cronometroProgreso.style.strokeDashoffset = offset;
+
+        // Cambiar color del cronómetro según el tiempo
+        if (tiempoRestante > 30) {
+          cronometroCirculo.className = "neo-cronometro-circulo cronometro-inicio";
+        } else if (tiempoRestante > 10) {
+          cronometroCirculo.className = "neo-cronometro-circulo cronometro-medio";
+        } else {
+          cronometroCirculo.className = "neo-cronometro-circulo cronometro-final";
+        }
 
         if (tiempoRestante <= 0) {
           terminarPartida();

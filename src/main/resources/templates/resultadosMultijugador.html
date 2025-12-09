@@ -4,168 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultados - Tutti Frutti Multijugador</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        .ranking {
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .jugador {
-            background: #f0f0f0;
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 5px solid #333;
-        }
-        .jugador.posicion-1 {
-            border-left-color: gold;
-            background: #fff8dc;
-        }
-        .jugador.posicion-2 {
-            border-left-color: silver;
-            background: #f5f5f5;
-        }
-        .jugador.posicion-3 {
-            border-left-color: #cd7f32;
-            background: #fff5ee;
-        }
-        .jugador-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .jugador-nombre {
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        .jugador-puntos {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .respuestas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .respuesta-item {
-            padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #ddd;
-        }
-        .respuesta-item.valida {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-        }
-        .respuesta-item.invalida {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-        }
-        .categoria {
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-        .respuesta-texto {
-            font-style: italic;
-            color: #555;
-        }
-        .razon {
-            font-size: 0.85em;
-            color: #666;
-            margin-top: 3px;
-        }
-        .botones {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .botones a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 0 10px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .botones a:hover {
-            background: #0056b3;
-        }
-    </style>
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/tarjeta-jugador.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/resultadosMultijugador.css}" />
 </head>
 <body>
-    <h1>🏆 RESULTADOS - TUTTI FRUTTI MULTIJUGADOR 🏆</h1>
 
-    <div th:if="${partida != null}">
-        <p style="text-align: center;">
-            <strong>Letra:</strong> <span th:text="${partida.letra}"></span>
-        </p>
+    <div th:if="${partida != null}" class="resultados-container">
 
-        <div class="ranking">
-            <div th:each="respuesta, iterStat : ${respuestas}"
-                 th:class="'jugador posicion-' + ${iterStat.index + 1}">
+        <!-- Título Resultados -->
+        <h1 class="neo-titulo-simple titulo-resultados">RESULTADOS</h1>
 
-                <div class="jugador-header">
-                    <div>
-                        <span style="font-size: 1.5em; margin-right: 10px;" th:text="'#' + ${iterStat.index + 1}"></span>
-                        <span class="jugador-nombre" th:text="${respuesta.jugador.nombre}"></span>
-                        <span th:if="${respuesta.jugador.nombre == nombreJugador}" style="color: #007bff;"> (TÚ)</span>
-                    </div>
-                    <div class="jugador-puntos" th:text="${respuesta.puntajeTotal} + ' pts'"></div>
-                </div>
+        <!-- Letra usada -->
+        <h2 class="neo-titulo-simple letra-usada" th:text="${partida.letra}">A</h2>
 
-                <div class="respuestas-grid">
-                    <div th:each="respuestaInd : ${respuesta.respuestasIndividuales}"
-                         th:class="${respuestaInd.esValida ? 'respuesta-item valida' : 'respuesta-item invalida'}">
+        <!-- Ranking de jugadores -->
+        <div class="ranking-container">
+            <div th:each="respuesta, iterStat : ${respuestas}">
 
-                        <div class="categoria" th:text="${respuestaInd.categoria}"></div>
-                        <div class="respuesta-texto" th:text="${respuestaInd.respuesta != null and !respuestaInd.respuesta.isEmpty() ? respuestaInd.respuesta : '[vacío]'}"></div>
+                <!-- Tarjeta de jugador con componente CSS -->
+                <div th:class="${'neo-jugador-tarjeta ' +
+                    (iterStat.index == 0 ? 'posicion-1' :
+                     iterStat.index == 1 ? 'posicion-2' :
+                     iterStat.index == 2 ? 'posicion-3' : 'posicion-default')}">
 
-                        <div th:if="${respuestaInd.esValida}">
-                            <span>✓ Correcta (+<span th:text="${respuestaInd.puntos}"></span> pts)</span>
+                    <!-- Badge de posición -->
+                    <div th:class="${'neo-jugador-posicion ' +
+                        (iterStat.index == 0 ? 'neo-jugador-posicion-1' :
+                         iterStat.index == 1 ? 'neo-jugador-posicion-2' :
+                         iterStat.index == 2 ? 'neo-jugador-posicion-3' : '')}"
+                         th:text="${iterStat.index + 1}">1</div>
+
+                    <!-- Header con avatar y nombre -->
+                    <div class="neo-jugador-header">
+                        <div class="neo-jugador-avatar"
+                             th:text="${respuesta.jugador.nombre != null && respuesta.jugador.nombre != '' ? respuesta.jugador.nombre.substring(0,1).toUpperCase() : 'J'}">J</div>
+                        <div>
+                            <div class="neo-jugador-nombre" th:text="${respuesta.jugador.nombre}">Jugador</div>
+                            <span th:if="${respuesta.jugador.nombre == nombreJugador}"
+                                  style="color: var(--paleta-secundario); font-weight: 900; font-size: 0.9rem;"> (TÚ)</span>
                         </div>
-                        <div th:unless="${respuestaInd.esValida}">
-                            <span>✗ Incorrecta</span>
-                            <div class="razon" th:if="${respuestaInd.razon != null and !respuestaInd.razon.isEmpty()}"
-                                 th:text="${respuestaInd.razon}"></div>
+                    </div>
+
+                    <!-- Respuestas del jugador -->
+                    <div class="neo-jugador-respuestas">
+                        <div th:each="respuestaInd : ${respuesta.respuestasIndividuales}">
+
+                            <!-- Fila con o sin icono de información -->
+                            <div th:if="${!respuestaInd.esValida and respuestaInd.razon != null and !respuestaInd.razon.isEmpty()}"
+                                 class="neo-jugador-fila-con-info">
+                                <div class="neo-jugador-etiqueta" th:text="${respuestaInd.categoria}">Categoría</div>
+                                <input type="text"
+                                       th:value="${respuestaInd.respuesta != null and !respuestaInd.respuesta.isEmpty() ? respuestaInd.respuesta : '[vacío]'}"
+                                       th:class="${'neo-jugador-input ' +
+                                           (respuestaInd.respuesta == null || respuestaInd.respuesta.isEmpty() ? 'neo-jugador-input-vacio' :
+                                            respuestaInd.esValida ? 'neo-jugador-input-correcto' : 'neo-jugador-input-incorrecto')}"
+                                       readonly>
+
+                                <!-- Icono de información solo para respuestas incorrectas con razón -->
+                                <div class="neo-jugador-info">
+                                    <div class="neo-jugador-info-icono">i</div>
+                                    <div class="neo-jugador-info-tooltip" th:text="${respuestaInd.razon}">Razón</div>
+                                </div>
+                            </div>
+
+                            <!-- Fila normal sin icono de información -->
+                            <div th:unless="${!respuestaInd.esValida and respuestaInd.razon != null and !respuestaInd.razon.isEmpty()}"
+                                 class="neo-jugador-fila">
+                                <div class="neo-jugador-etiqueta" th:text="${respuestaInd.categoria}">Categoría</div>
+                                <input type="text"
+                                       th:value="${respuestaInd.respuesta != null and !respuestaInd.respuesta.isEmpty() ? respuestaInd.respuesta : '[vacío]'}"
+                                       th:class="${'neo-jugador-input ' +
+                                           (respuestaInd.respuesta == null || respuestaInd.respuesta.isEmpty() ? 'neo-jugador-input-vacio' :
+                                            respuestaInd.esValida ? 'neo-jugador-input-correcto' : 'neo-jugador-input-incorrecto')}"
+                                       readonly>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Footer con puntuación -->
+                    <div class="neo-jugador-footer">
+                        <div class="neo-jugador-puntaje">
+                            Puntuación: <span class="neo-jugador-puntaje-valor" th:text="${respuesta.puntajeTotal}">0</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="botones">
-            <form th:action="@{/partida/{id}/volver-sala(id=${partida.id})}" method="POST" style="display: inline;">
-                <button type="submit" style="padding: 10px 20px; margin: 0 10px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">
+        <!-- Botones -->
+        <div class="botones-container">
+            <form th:action="@{/partida/{id}/volver-sala(id=${partida.id})}" method="POST">
+                <button type="submit" class="neo-boton-universal btn-volver-sala">
                     VOLVER A LA SALA
                 </button>
             </form>
-            <form action="/sala/salir-sala" method="POST" style="display: inline;">
+            <form action="/sala/salir-sala" method="POST">
                 <input type="hidden" name="codigoSala" th:value="${partida.sala.codigo}">
-                <button type="submit" style="padding: 10px 20px; margin: 0 10px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">
+                <button type="submit" class="neo-boton-universal btn-volver-lobby">
                     VOLVER AL LOBBY
                 </button>
             </form>
-            <form th:action="@{/partida/{id}/ir-menu(id=${partida.id})}" method="POST" style="display: inline;">
-                <button type="submit" style="padding: 10px 20px; margin: 0 10px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;">
+            <form th:action="@{/partida/{id}/ir-menu(id=${partida.id})}" method="POST">
+                <button type="submit" class="neo-boton-universal btn-menu">
                     IR AL MENÚ PRINCIPAL
                 </button>
             </form>
         </div>
     </div>
 
-    <div th:if="${partida == null}">
-        <p style="text-align: center;">
+    <div th:if="${partida == null}" class="resultados-container">
+        <h1 class="neo-titulo-simple titulo-resultados">ERROR</h1>
+        <p style="text-align: center; font-size: 1.2rem; font-weight: 700; color: var(--paleta-negro);">
           No se pudieron cargar los resultados.
-          <a href="/lobby">Volver al lobby</a>
         </p>
+        <a href="/lobby" class="neo-boton-universal btn-volver-lobby" style="text-decoration: none;">Volver al lobby</a>
     </div>
 </body>
 </html>

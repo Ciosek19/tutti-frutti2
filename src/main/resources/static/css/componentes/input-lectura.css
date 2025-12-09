@@ -1,0 +1,87 @@
+/* =============================================================================
+   COMPONENTE: Input Lectura
+   DESCRIPCIÓN: Input de solo lectura con label
+   DEPENDENCIAS: colores.css
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN ==================== */
+:root {
+  /* Dimensiones */
+  --input-lectura-ancho: 300px;
+  --input-lectura-alto: auto;
+  --input-lectura-padding: 15px;
+
+  /* Colores */
+  --input-lectura-fondo: var(--paleta-exito);
+  --input-lectura-texto: var(--paleta-blanco);
+  --input-lectura-borde: var(--paleta-negro);
+
+  /* Label */
+  --input-lectura-etiqueta-fondo: var(--paleta-negro);
+  --input-lectura-etiqueta-texto: var(--paleta-blanco);
+  --input-lectura-etiqueta-tamano: 14px;
+
+  /* Tamaños */
+  --input-lectura-tamano-texto: 18px;
+  --input-lectura-grosor-borde: 4px;
+
+  /* Sombra */
+  --input-lectura-sombra: 5px;
+}
+
+/* ==================== CONTENEDOR ==================== */
+.neo-input-lectura-contenedor {
+  position: relative;
+  font-family: monospace;
+  width: var(--input-lectura-ancho);
+  height: var(--input-lectura-alto);
+}
+
+/* ==================== INPUT ==================== */
+.neo-input-lectura {
+  width: 100%;
+  padding: var(--input-lectura-padding);
+  font-size: var(--input-lectura-tamano-texto);
+  font-weight: bold;
+  font-family: monospace;
+  border: var(--input-lectura-grosor-borde) solid var(--input-lectura-borde);
+  box-sizing: border-box;
+  background-color: var(--input-lectura-fondo);
+  color: var(--input-lectura-texto);
+  box-shadow: var(--input-lectura-sombra) var(--input-lectura-sombra) 0 var(--input-lectura-borde);
+  cursor: default;
+  user-select: text;
+  text-align: center;
+}
+
+/* ==================== LABEL ==================== */
+.neo-input-lectura-etiqueta {
+  position: absolute;
+  left: -3px;
+  top: -35px;
+  font-size: var(--input-lectura-etiqueta-tamano);
+  font-weight: bold;
+  color: var(--input-lectura-etiqueta-texto);
+  background-color: var(--input-lectura-etiqueta-fondo);
+  padding: 5px 10px;
+  transform: rotate(-1deg);
+  z-index: 1;
+  border: 3px solid var(--input-lectura-borde);
+  white-space: nowrap;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --input-lectura-padding: 12px;
+    --input-lectura-tamano-texto: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --input-lectura-padding: 10px;
+    --input-lectura-tamano-texto: 14px;
+    --input-lectura-etiqueta-tamano: 12px;
+  }
+}

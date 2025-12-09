@@ -1,0 +1,132 @@
+/* =============================================================================
+   PÁGINA: Dificultad
+   DESCRIPCIÓN: Estilos específicos para la página de selección de dificultad
+   ============================================================================= */
+
+/* ==================== CONFIGURACIÓN DE PÁGINA ==================== */
+:root {
+  /* Color de fondo de página */
+  --dificultad-fondo-pagina: var(--paleta-acento);
+
+  /* Variables de componentes */
+  --titulo-color: var(--paleta-secundario);
+  --titulo-tamano: 4rem;
+
+  --boton-ancho: 250px;
+  --boton-padding: 18px 35px;
+}
+
+/* ==================== ESTILOS DE PÁGINA ==================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--fuente-principal);
+}
+
+body {
+  background: var(--dificultad-fondo-pagina);
+  min-height: 100vh;
+}
+
+.dificultad-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 50px;
+  position: relative;
+}
+
+.btn-volver-form {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.btn-volver {
+  --boton-ancho: auto;
+  --boton-fondo: var(--paleta-blanco);
+  --boton-fondo-hover: var(--paleta-gris);
+}
+
+.usuario-info {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--paleta-secundario);
+  background: var(--paleta-blanco);
+  padding: 15px 30px;
+  border: 4px solid var(--paleta-negro);
+  box-shadow: 5px 5px 0 var(--paleta-negro);
+  text-transform: uppercase;
+}
+
+.botones-dificultad {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+}
+
+/* Colores específicos para cada dificultad */
+.btn-facil {
+  --boton-fondo: var(--paleta-exito);
+  --boton-fondo-hover: var(--paleta-blanco);
+}
+
+.btn-medio {
+  --boton-fondo: var(--paleta-advertencia);
+  --boton-fondo-hover: var(--paleta-blanco);
+}
+
+.btn-dificil {
+  --boton-fondo: var(--paleta-primario);
+  --boton-fondo-hover: var(--paleta-blanco);
+  --boton-texto: var(--paleta-blanco);
+  --boton-texto-hover: var(--paleta-negro);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  :root {
+    --titulo-tamano: 3rem;
+    --boton-ancho: 220px;
+  }
+
+  .dificultad-container {
+    gap: 35px;
+  }
+
+  .usuario-info {
+    font-size: 1.2rem;
+    padding: 12px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --titulo-tamano: 2.2rem;
+    --boton-ancho: 180px;
+  }
+
+  .dificultad-container {
+    padding: 20px 10px;
+    gap: 25px;
+  }
+
+  .btn-volver-form {
+    top: 10px;
+    left: 10px;
+  }
+
+  .usuario-info {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .botones-dificultad {
+    gap: 20px;
+  }
+}

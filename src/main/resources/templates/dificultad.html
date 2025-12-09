@@ -1,21 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Dificultad - Tutti Frutti</title>
+
+    <!-- Componentes CSS -->
+    <link rel="stylesheet" th:href="@{/css/componentes/colores.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/titulo-simple.css}" />
+    <link rel="stylesheet" th:href="@{/css/componentes/boton-universal.css}" />
+
+    <!-- CSS específico de esta página -->
+    <link rel="stylesheet" th:href="@{/css/dificultad.css}" />
   </head>
   <body>
-    <form th:action="@{/menu}" method="get" style="display: inline;">
-      <button type="submit">Volver al Menú</button>
-    </form>
+    <div class="dificultad-container">
+      <form th:action="@{/menu}" method="get" class="btn-volver-form">
+        <button type="submit" class="neo-boton-universal btn-volver">Volver al Menú</button>
+      </form>
 
-    <h1>Seleccione su dificultad</h1>
-    <h2 th:text="${session.usuario}"></h2>
-    <form method="post" action="/solitario/dificultad">
-      <button type="submit" name="dificultad" value="FACIL">Fácil</button>
-      <button type="submit" name="dificultad" value="MEDIO">Medio</button>
-      <button type="submit" name="dificultad" value="DIFICIL">Difícil</button>
-    </form>
+      <h1 class="neo-titulo-simple">Seleccione su dificultad</h1>
+
+      <div class="usuario-info" th:if="${session.usuario}">
+        <span th:text="${session.usuario}"></span>
+      </div>
+
+      <form method="post" action="/solitario/dificultad" class="botones-dificultad">
+        <button type="submit" name="dificultad" value="FACIL" class="neo-boton-universal btn-facil">Fácil</button>
+        <button type="submit" name="dificultad" value="MEDIO" class="neo-boton-universal btn-medio">Medio</button>
+        <button type="submit" name="dificultad" value="DIFICIL" class="neo-boton-universal btn-dificil">Difícil</button>
+      </form>
+    </div>
   </body>
 </html>

@@ -36,7 +36,6 @@ function mostrarSalas(salas) {
   if (salas && salas.length > 0) {
     salas.forEach((sala) => {
       const divSala = document.createElement("div");
-      const divContenido = document.createElement("div");
 
       const salaLlena = sala.cantidadJugadores >= sala.maxJugadores;
       const salaJugando = sala.estado === 'JUGANDO';
@@ -45,30 +44,48 @@ function mostrarSalas(salas) {
       if (salaJugando) textoBoton = 'EN PARTIDA';
       else if (salaLlena) textoBoton = 'SALA LLENA';
 
-      divContenido.innerHTML = `
-        <strong>Codigo: ${sala.codigo}</strong><br>
-        <span>${sala.nombre}</span><br>
-        <small>Jugadores: ${sala.cantidadJugadores}/${sala.maxJugadores}</small><br>
-        <small>Creador: ${sala.creador.nombre}</small><br>
-        <small>Estado: ${sala.estado}</small><br>
-        <div>
-          <strong>Lista de jugadores:</strong>
-          <ul>
-            ${sala.jugadores.map((jugador) => `<li>${jugador.nombre}</li>`).join("")}
-          </ul>
+      // Usando componentes neo-sala-tarjeta
+      divSala.className = 'neo-sala-tarjeta';
+
+      const inicialCreador = sala.creador.nombre.charAt(0).toUpperCase();
+
+      divSala.innerHTML = `
+        <div class="neo-sala-titulo">
+          ${sala.nombre}
         </div>
-        <form action="/sala/${sala.codigo}" method="POST">
-          <button type="submit" ${deshabilitado ? 'disabled' : ''}>
-            ${textoBoton}
-          </button>
-        </form>
+        <div class="neo-sala-contenido">
+          <div class="neo-sala-item">
+            <div class="neo-sala-etiqueta">Creador</div>
+            <div class="neo-sala-creador">
+              <div class="neo-sala-avatar">${inicialCreador}</div>
+              <span class="neo-sala-nombre-creador">${sala.creador.nombre}</span>
+            </div>
+          </div>
+          <div class="neo-sala-item">
+            <div class="neo-sala-etiqueta">Categorías</div>
+            <div style="font-size: 1.3rem; font-weight: 700;">${sala.cantidadCategorias}</div>
+          </div>
+          <div class="neo-sala-item">
+            <div class="neo-sala-etiqueta">Duración</div>
+            <div style="font-size: 1.3rem; font-weight: 700;">${sala.duracion}s</div>
+          </div>
+          <div class="neo-sala-item">
+            <div class="neo-sala-etiqueta">Jugadores</div>
+            <div style="font-size: 1.3rem; font-weight: 700;">${sala.cantidadJugadores}/${sala.maxJugadores}</div>
+          </div>
+          <div class="neo-sala-item">
+            <div class="neo-sala-etiqueta">Estado</div>
+            <div style="font-weight: 900;">${sala.estado}</div>
+          </div>
+          <form action="/sala/${sala.codigo}" method="POST" style="margin-top: 1rem;">
+            <button type="submit" class="${deshabilitado ? 'neo-sala-boton-deshabilitado' : 'neo-sala-boton'}" ${deshabilitado ? 'disabled' : ''}>
+              UNIRSE
+            </button>
+          </form>
+        </div>
       `;
 
-      divSala.appendChild(divContenido);
       listaSalas.appendChild(divSala);
     });
-  } else {
-    listaSalas.innerHTML =
-      "<p>No hay salas disponibles. Crea la primera sala!</p>";
   }
 }
