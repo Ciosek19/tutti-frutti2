@@ -8,8 +8,12 @@ import java.util.Random;
 public final class ConfiguracionJuego {
     public static final List<String> CATEGORIAS = List.of(
         "Nombres", "Países", "Ciudades", "Animales", 
-        "Frutas"," Verduras","Colores", "Profesiones", "Marcas",
-        "Películas", "Deportes", "Objetos"
+        "Frutas", "Verduras", "Colores", "Profesiones", "Marcas",
+        "Películas", "Deportes", "Objetos", "Comidas", "Bebidas",
+        "Instrumentos", "Flores", "Programas de TV", "Cantantes",
+        "Villanos", "Superhéroes", "Videojuegos", "Ropa", 
+        "Muebles", "Partes del cuerpo", "Herramientas", "Juguetes",
+        "Electrodomésticos", "Transportes", "Idiomas", "Planetas"
     );
     
     public static final List<Character> LETRAS = List.of(
